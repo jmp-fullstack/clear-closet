@@ -5,6 +5,7 @@
 # custom
 venv/
 .env
+__pycache__
 
 ### back-end ###
 # User-specific stuff
