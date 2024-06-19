@@ -6,6 +6,7 @@
 venv/
 .env
 __pycache__
+db.sqlite3
 
 ### back-end ###
 # User-specific stuff
