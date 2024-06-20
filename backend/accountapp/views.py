@@ -17,6 +17,8 @@ def signup(request):
         return Response({"error": "패스워드는 10자 이상이어야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
     
     if serializer.is_valid():
+
+        
         user = serializer.save()
         user.set_password(password)
         user.save()
