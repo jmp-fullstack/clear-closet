@@ -9,6 +9,43 @@ from accountapp.models import CustomUser
 from accountapp.serializers import UserSerializer
 from django.contrib.auth import get_user_model
 
+#로그인
+@api_view(['POST'])
+def login(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    user = CustomUser.objects.filter(user_id=user_id).first()
+
+    if email is None:
+        return Response(
+            {"message": "존재하지 않는 아이디입니다."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if not user.check_password(password):
+        return Response(
+            {"message": "비밀번호가 틀렸습니다"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    token = RefreshToken.for_user(user)
+    access_token = str(token.access_token)
+    refresh_token = str(token)
+
+    response = Response(
+        {
+            "user": UserSerializer(user).data,
+            "message": "login Success",
+            "jwt_token": {
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            },
+        },
+        status=status.HTTP_200_OK
+    )
+    response.set_cookie("access_token", access_token, httponly=True)
+    response.set_cookie("refresh_token", access_token, httponly=True)
+
+    return response
+
 
 # 회원가입
 @api_view(['POST'])
