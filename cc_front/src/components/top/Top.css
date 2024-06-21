@@ -1,0 +1,13 @@
+.Top {
+  /* 바텀 네비게이션 바 기본 크기 */
+  height: 25px;
+
+  /* 포지션을 하단 가운데로 조정 */
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, 0);
+
+  background-color: #ffffff;
+}

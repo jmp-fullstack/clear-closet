@@ -1,0 +1,14 @@
+.Start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #6C0140; /* 자주색 배경 */
+}
+
+.logo {
+  max-width: 30%;
+  max-height: 30%;
+  width: auto;
+  height: auto;
+}
