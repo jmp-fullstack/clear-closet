@@ -1,0 +1,35 @@
+.bottom-nav {
+  /* 바텀 네비게이션 바 기본 크기 */
+  height: 80px;
+
+  /* 포지션을 하단 가운데로 조정 */
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  /* 바텀 네비게이션의 크기를 조절하고, border radius 설정 */
+  width: 100%;
+  max-width: 480px;
+  padding-bottom: 0.25rem;
+  background-color: #fefefe;
+
+  box-sizing: border-box;
+  border-top: 1px solid #d8d8d8;
+
+   /* 내부 컴포넌트들의 위치를 조정 */
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   padding: 0 0.4rem; /* vertical, horizontal */
+   padding-bottom: 1.2rem;
+
+}
+
+.bottom-nav span {
+  color: #1d1d1d; /* 기본 아이콘 색상 */
+}
+
+.bottom-nav span.active {
+  color: #8f0456; /* 활성화된 아이콘 색상 */
+}
