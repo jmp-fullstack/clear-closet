@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "rest_framework_simplejwt",
+    'rest_framework_simplejwt.token_blacklist',
     'accountapp',
 ]
 
@@ -152,15 +153,23 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
+
 # Logging
+LOG_FILE_PATH = os.path.join(BASE_DIR, 'logs', 'backend.log')
+os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
+
 LOGGING = {
     "version": 1,  # the dictConfig format version
     "disable_existing_loggers": False,  # retain the default loggers
     "handlers": {
         "file": {
             "class": "logging.FileHandler",
-            "filename": "/logs/backend.log",
-            # "level": "DEBUG",
+            "filename": LOG_FILE_PATH,
+            "level": "DEBUG",
+            "formatter": "simple",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
             "formatter": "simple",
         },
     },
@@ -172,7 +181,7 @@ LOGGING = {
     },
     'loggers': {
         'accountapp': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
