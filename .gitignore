@@ -1,7 +1,6 @@
 ### front-end ###
 # dependencies
 *node_modules*
-*.png
 *.ico
 /.pnp
 .pnp.js
