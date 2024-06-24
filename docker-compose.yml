@@ -5,10 +5,8 @@ x-project-settings:
 
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    env_file: .env
+    image: sujeong9662/clear-closet:latest
+    env_file: ../.env
     environment:
       PYTHONUNBUFFERED: 1
 
@@ -18,5 +16,6 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./cc_front/build:/usr/share/nginx/html
     depends_on:
       - backend
