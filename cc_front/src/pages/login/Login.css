@@ -1,0 +1,78 @@
+.login-con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.logo-sec, .find-sec {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 1.5rem;
+  margin: 1rem auto 1rem;
+}
+
+.logo-sec {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-field {
+  margin: 0.2rem 0;
+  padding: 0.5rem;
+  width: 320px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.bar-1::after {
+  content: "";
+  position: absolute;
+  left: 50%; /* 가운데 정렬을 위해 50% */
+  transform: translateX(-50%); /* 가운데 정렬을 위해 -50% 이동 */
+  width: 35px; /* 선의 길이 */
+  height: 1.8px; /* 선의 두께 */
+  background-color: #e4e4e4; /* 선의 색상 */
+}
+
+
+.find-sec {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.find-sec > .info {
+  display: flex;
+  justify-content: space-between;  
+}
+
+.bar-2 {
+  margin-left: 0.8rem;
+  margin-right: 0.8rem;
+}
+
+.info > .left, .right {
+  text-decoration: underline;
+  font-size: 15px;
+}
+
+
+.error {
+  color: #cfcfcf;
+  font-size: 15px;
+}

@@ -1,0 +1,26 @@
+.Wellcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  height: 100vh;
+  background-color: #ffffff;
+  margin-top: 23px;
+}
+
+.Wellcome > .well-sec {
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+
+  text-align: center;
+}
+
+.text-gap {
+  margin-top: 10px; /* 위쪽 간격 */
+  margin-bottom: 10px; /* 아래쪽 간격 */
+  font-size: 22px;
+}
+
+.well_signin-sec {
+  margin-top: 4rem;
+}
