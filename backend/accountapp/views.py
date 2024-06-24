@@ -94,7 +94,7 @@ def find_password(request):
         reset_token = AccessToken.for_user(request.user)
         response = Response(status=status.HTTP_200_OK)
         response.set_cookie(key='reset_token', value=str(reset_token), httponly=True, secure=False)
-        return response
+        return response # 인증되면 http 200 -> 리다이랙트 (auth/password에서 change/password 페이지로)
     
     return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 

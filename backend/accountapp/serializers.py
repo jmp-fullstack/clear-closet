@@ -18,15 +18,15 @@ class LoginSerializer(serializers.Serializer):
 
 
 class FindEmailSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    username = serializers.CharField(max_length=50)
     phone_number = serializers.CharField(max_length=15)
 
     def validate(self, data):
-        email = data.get('email')
+        username = data.get('username')
         phone_number = data.get('phone_number')
         try:
-            user = CustomUser.objects.get(email=email, phone_number=phone_number)
-            data['email'] = user.email  # 이메일을 반환 데이터에 포함
+            user = CustomUser.objects.get(username=username, phone_number=phone_number)
+            data['email'] = user.email
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("해당 유저 이름과 핸드폰 번호로 등록된 사용자가 없습니다.")
         return data
