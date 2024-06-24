@@ -40,7 +40,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_permissions = models.ManyToManyField(Permission, related_name='custom_account_set', blank=True)
 
     # 기본 필드 지정
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
     
     # 필수 필드 지정 ( username 제외한 필수 필드 )
     REQUIRED_FIELDS = ['nickname']

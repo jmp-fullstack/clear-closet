@@ -27,7 +27,7 @@ venv/
 .env
 __pycache__
 db.sqlite3
-logs/
+logs
 
 ### back-end ###
 # User-specific stuff
