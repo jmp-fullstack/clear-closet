@@ -10,7 +10,7 @@ services:
     environment:
       PYTHONUNBUFFERED: 1
     volumes:
-      - ./logs/backend:/logs
+      - ./logs/backend:/logs/backend
 
   nginx:
     image: nginx:latest

@@ -37,7 +37,7 @@ SECRET_KEY = env('django_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','43.203.254.33']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -160,29 +160,22 @@ LOG_FILE_PATH = os.path.join(BASE_DIR, 'logs', 'backend.log')
 os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 
 LOGGING = {
-    "version": 1,  # the dictConfig format version
-    "disable_existing_loggers": False,  # retain the default loggers
-    "handlers": {
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": LOG_FILE_PATH,
-            "level": "DEBUG",
-            "formatter": "simple",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
         },
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "simple",
-        },
-    },
-    "formatters": {
-        "simple": {
-            "format": "{levelname} {message}",
-            "style": "{",
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE_PATH,
         },
     },
     'loggers': {
-        'accountapp': {
-            'handlers': ['file', 'console'],
+        'django': {
+            'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': True,
         },
