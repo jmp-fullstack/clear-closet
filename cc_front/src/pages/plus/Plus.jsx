@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import "./Plus.css";
 import BottomNav from "../../components/BottomNav/BottomNav";
-import AiSellButton from "../../components/Button/plus/AiSellButton";
-import AiBuyButton from "../../components/Button/plus/AiBuyButton";
+// import AiSellButton from "../../components/Button/plus/AiSellButton";
+// import AiBuyButton from "../../components/Button/plus/AiBuyButton";
 import logo from "../../assets/logo/logo_basic.png";
 
 const Plus = () => {
@@ -28,10 +28,10 @@ const Plus = () => {
         <img src={logo} alt="Logo" className="logo" />
       </div>
       <div className="ai-sell" onClick={handleAiSellClick}>
-        <AiSellButton />
+        {/* <AiSellButton onClick={handleAiSellClick} /> */}
       </div>
       <div className="ai-buy" onClick={handleAiBuyClick}>
-        <AiBuyButton />
+        {/* <AiBuyButton onClick={handleAiBuyClick} /> */}
       </div>
       <BottomNav />
     </div>

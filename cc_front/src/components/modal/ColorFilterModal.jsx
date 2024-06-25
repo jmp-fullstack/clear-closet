@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import './ColorFilterModal.css';
+import React, { useState, useEffect } from "react";
+import "./ColorFilterModal.css";
 
 import CheckButton from "../Button/CheckButton";
 
 import { LuPlus } from "react-icons/lu";
 
-const ColorFilterModal = ({ isOpen, onClose, colors, activeFilters, onApply }) => {
+const ColorFilterModal = ({
+  isOpen,
+  onClose,
+  colors,
+  activeFilters,
+  onApply,
+}) => {
   const [selectedColors, setSelectedColors] = useState([]);
 
   useEffect(() => {
@@ -21,7 +27,7 @@ const ColorFilterModal = ({ isOpen, onClose, colors, activeFilters, onApply }) =
   };
 
   const handleApply = () => {
-    onApply('color', selectedColors);
+    onApply("color", selectedColors);
     onClose();
   };
 
@@ -29,16 +35,18 @@ const ColorFilterModal = ({ isOpen, onClose, colors, activeFilters, onApply }) =
     isOpen && (
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className='cancel' onClick={onClose}>
-          <LuPlus size={30}/>
-        </button>
-          <div className='modal-title'>색상을 선택하세요</div>
-          <div className='line'></div>
+          <button className="cancel" onClick={onClose}>
+            <LuPlus size={30} />
+          </button>
+          <div className="modal-title">색상을 선택하세요</div>
+          <div className="line"></div>
           <div className="color-options">
             {colors.map((color) => (
               <button
                 key={color.name}
-                className={`color-button ${selectedColors.includes(color.name) ? 'selected' : ''}`}
+                className={`color-button ${
+                  selectedColors.includes(color.name) ? "selected" : ""
+                }`}
                 onClick={() => handleColorToggle(color)}
                 style={{ backgroundColor: color.color }}
               >
@@ -46,10 +54,9 @@ const ColorFilterModal = ({ isOpen, onClose, colors, activeFilters, onApply }) =
               </button>
             ))}
           </div>
-          <div className='modal-button' onClick={handleApply}>
-            <CheckButton />
+          <div className="modal-button">
+            <CheckButton onClick={handleApply} />
           </div>
-          
         </div>
       </div>
     )

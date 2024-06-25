@@ -13,7 +13,7 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 

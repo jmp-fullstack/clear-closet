@@ -55,7 +55,7 @@ const Login = () => {
             className="input-field"
             autoComplete="current-password"
           />
-          <LoginButton type="submit" />
+          <LoginButton type="submit" onClick={handleLoginSubmit} />
           <p className="bar-1"></p>
           <KakaoButton onClick={handleLoginSubmit} />
           <GoogleButton onClick={handleLoginSubmit} />

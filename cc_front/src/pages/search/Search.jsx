@@ -6,10 +6,7 @@ import CategoryTabs from "../../components/Button/category/CategoryTabs";
 
 import { IoSearchOutline } from "react-icons/io5";
 
-
 const Search = () => {
-
-
   return (
     <div className="Search">
       <div className="search-sec">
