@@ -1,0 +1,44 @@
+.sellCategory-modal .cancel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+
+  transform: rotate(45deg);
+  margin-left: 0.3rem;
+  color: black;
+}
+
+.sellCategory-modal .title {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.sellCategory-modal .line {
+  width: 100%;
+  height: 1px;
+  color: #dadada;
+}
+
+/* .sellCategory-modal .sticky-tabs {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+} */
+
+/* .sellCategory-modal .category-buttons {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 110%;
+} */
