@@ -6,7 +6,7 @@ x-project-settings:
 services:
   backend:
     image: sujeong9662/clear-closet:latest
-    env_file: ../.env
+    env_file: .env
     environment:
       PYTHONUNBUFFERED: 1
     volumes:
