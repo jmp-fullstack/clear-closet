@@ -3,10 +3,10 @@
   flex-direction: column;
   align-items: center;
   /* justify-content: center; */
-  height: 100%;
+  height: 900px;
   background-color: #ffffff;
 
-  margin-top: 23px;
+  margin-top: 0.5rem;
   padding: 0 1rem;
 }
 
@@ -58,5 +58,23 @@
   font-weight: 600;
 }
 .HomeProduct .nickname {
-  color: #d2d2d2;
+  padding: 0.5rem 0;
+  color: #a2a2a2;
+}
+
+.HomeProduct .price {
+  padding: 0.5rem 0;
+
+  font-size: 22px;
+  font-weight: 450;
+  letter-spacing: -0.5px; 
+}
+.HomeProduct .sentence {
+  color: #a2a2a2;
+}
+
+.HomeProduct .write {
+  padding: 0.5rem 0;
+  font-size: 16px;
+  color: #a2a2a2;
 }

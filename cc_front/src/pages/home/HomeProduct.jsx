@@ -1,7 +1,6 @@
 import React from "react";
 
 import "./HomeProduct.css";
-import Top from "../../components/top/Top";
 import BottomNav from "../../components/BottomNav/BottomNav";
 
 import card from "../../assets/card/card_sample.png";
@@ -10,6 +9,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { GoBell } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { BiSolidHeartSquare } from "react-icons/bi";
+import QuestButton from "../../components/Button/QuestButton";
 
 const HomeProduct = () => {
   const navigate = useNavigate();
@@ -18,9 +18,12 @@ const HomeProduct = () => {
     navigate(`/home`);
   };
 
+  const handleQuestClick = () => {
+    navigate(`/chat`);
+  };
+
   return (
     <div className="HomeProduct">
-      <Top />
       <div className="header-sec">
         <div className="back" onClick={handleCardSecClick}>
           <IoIosArrowBack size={26} />
@@ -45,11 +48,13 @@ const HomeProduct = () => {
         </div>
 
         <div className="nickname">@nickname</div>
-        <div className="price">가격</div>
-        <div className="sentence">소개글</div>
+        <div className="price">45,000 원</div>
+        <div className="sentence">거의 새상품이며 택배거래만 가능해요.</div>
       </div>
       <div className="question-sec">
-        <div className="button">버튼</div>
+        <div className="button">
+          <QuestButton onClick={handleQuestClick} />
+        </div>
         <div className="write">설명글</div>
       </div>
       <BottomNav />

@@ -1,0 +1,32 @@
+.filter-button {
+  padding: 8px 9px;
+  font-size: 14px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 4px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center;     /* Center content vertically */
+}
+
+.filter-button.active {
+  background-color: #ccc;
+}
+
+.filter-button:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-button-content {
+  display: flex;
+  align-items: center;
+
+  color: #a0a0a0;
+}
+
+.filter-button-icon {
+  margin-left: 0.3rem; /* Provide some space between the label and the icon */
+}

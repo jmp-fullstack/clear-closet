@@ -24,13 +24,13 @@
   align-items: center;
 }
 
-.form {
+.login-con .form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.input-field {
+.login-con .input-field {
   margin: 0.2rem 0;
   padding: 0.5rem;
   width: 320px;
@@ -39,7 +39,7 @@
   border: 1px solid #e0e0e0;
 }
 
-.bar-1::after {
+.login-con .bar-1::after {
   content: "";
   position: absolute;
   left: 50%; /* 가운데 정렬을 위해 50% */
@@ -50,29 +50,29 @@
 }
 
 
-.find-sec {
+.login-con .find-sec {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.find-sec > .info {
+.login-con .find-sec > .info {
   display: flex;
   justify-content: space-between;  
 }
 
-.bar-2 {
+.login-con .bar-2 {
   margin-left: 0.8rem;
   margin-right: 0.8rem;
 }
 
-.info > .left, .right {
+.login-con .info > .left, .right {
   text-decoration: underline;
   font-size: 15px;
 }
 
 
-.error {
+.login-con .error {
   color: #cfcfcf;
   font-size: 15px;
 }

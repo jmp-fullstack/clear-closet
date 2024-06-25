@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav/BottomNav";
-import Top from "../../components/top/Top";
 
 import { GoBell } from "react-icons/go";
 import { GiLargeDress, GiSkirt } from "react-icons/gi";
@@ -22,7 +21,6 @@ const Home = (cardSec) => {
 
   return (
     <div className="Home">
-      <Top />
       <div className="header">
         <div className="left_1">Category</div>
         <div className="right">

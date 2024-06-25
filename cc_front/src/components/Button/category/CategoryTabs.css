@@ -1,0 +1,92 @@
+.CategoryTabs {
+  height: 100%;
+}
+
+.CategoryTabs .sticky-tabs {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0;
+  background-color: white;
+  /* z-index: 1000; */
+  border-bottom: 1px solid #ddd;
+
+}
+
+.CategoryTabs .category-buttons {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 100%; /* 부모 컨테이너에 맞추기 */
+}
+
+.CategoryTabs .filter-buttons {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.CategoryTabs .line {
+  width: 100%;
+  height: 8px;
+  background-color: #eeeeee;
+}
+
+.CategoryTabs .filter-group {
+  margin-bottom: 16px;
+}
+
+.CategoryTabs .filter-group h4 {
+  margin: 0 0 8px;
+}
+
+.CategoryTabs .content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CategoryTabs .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.CategoryTabs .card-sec {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: calc(50% - 4px); /* 2개씩 나열하기 위해 너비 설정 */
+  margin-bottom: 12px;
+}
+
+.CategoryTabs .card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1; /* 정사각형 이미지 */
+  object-fit: cover;
+  border-radius: 8px;
+
+}
+
+.CategoryTabs .name {
+  font-weight: bold; 
+  margin-top: 8px; 
+}
+
+.CategoryTabs .nickname {
+  color: gray;
+  margin-top: 2px; 
+  font-size: 14px;
+}
+
+
+.CategoryTabs .post {
+  margin: 8px 0;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

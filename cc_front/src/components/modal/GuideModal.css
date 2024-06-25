@@ -1,0 +1,39 @@
+.guide-modal {
+  /* padding: 20px; */
+  text-align: center;
+}
+
+.guide-modal .title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.guide-modal p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.guide-modal .forms {
+  display: flex;
+  flex-direction: column;
+
+  list-style-type: none;
+  padding: 1.5rem;
+  font-size: 14px;
+}
+
+.guide-modal .form {
+  display: flex;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* 
+.guide-modal button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #8f0456;
+  color: white;
+  border: none;
+  cursor: pointer;
+} */
