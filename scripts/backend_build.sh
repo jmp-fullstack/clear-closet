@@ -2,8 +2,7 @@
 
 echo ">>> backend build start"
 echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-echo "Current directory: $(pwd)"
-cd ../backend
+cd ./backend
 echo "Current directory: $(pwd)"
 docker build -t ${repository} .
 docker push ${repository}
