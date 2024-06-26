@@ -1,0 +1,40 @@
+.Deal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* height: 100%; */
+  background-color: #ffffff;
+  margin-top: 0.5rem;
+  margin-bottom: 5rem;
+  padding: 0 1rem;
+}
+
+.Deal .header-sec {
+  position: relative; /* 상대 위치를 기준으로 절대 위치 요소를 배치 */
+  display: flex;
+  align-items: center;
+  width: 100%; /* 헤더가 전체 너비를 차지하도록 설정 */
+  padding: 0 1rem; 
+  margin: 0.5rem 0;
+}
+
+.Deal .title {
+  position: absolute; /* 절대 위치를 사용하여 중앙 정렬 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.Deal .alarm-icon {
+  margin-left: auto; /* 오른쪽 끝으로 이동 */
+}
+
+.Deal .tab-sec {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%; /* 전체 너비 사용 */
+  margin: 1rem 0;
+}

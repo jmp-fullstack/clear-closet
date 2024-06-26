@@ -1,0 +1,88 @@
+.SignUp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: 100%;
+  background-color: #ffffff;
+  margin-top: 5px;
+  padding: 0 1rem;
+}
+
+.SignUp .header-sec {
+  position: relative; /* 상대 위치를 기준으로 절대 위치 요소를 배치 */
+  display: flex;
+  align-items: center;
+  width: 100%; /* 헤더가 전체 너비를 차지하도록 설정 */
+  padding: 0 1rem; 
+  margin: 0.5rem 0;
+  margin-bottom: 2rem;
+}
+
+.SignUp .right {
+  position: absolute; /* 절대 위치를 사용하여 중앙 정렬 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.SignUp .putin-sec {
+  padding-top: 2rem;
+}
+
+.SignUp .sign-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0px;
+
+  width: 320px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  font-size: 15px;
+}
+
+.SignUp .line {
+  width: 100%;
+  height: 1px;
+  background-color: rgb(165, 165, 165);
+  margin-bottom: 1.2rem;
+}
+
+.SignUp .marketing-sec {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  color: #cbcbcb;
+}
+
+.SignUp .text {
+  padding-left: 0.3rem;
+  font-size: 13px;
+}
+
+
+.SignUp .terms-sec {
+  margin-top: 5rem;
+}
+
+.SignUp .term {
+  display: flex;
+  justify-content: space-between;
+  width: 320px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.SignUp .content {
+  margin: 0.5rem 0;
+  font-size: 14px;
+  color: #929292;
+}
+
+.SignUp .signup-sec {
+  margin: 1rem;
+}
