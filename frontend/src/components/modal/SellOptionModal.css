@@ -1,0 +1,50 @@
+.sellOption-modal .cancel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+
+  transform: rotate(45deg);
+  margin-left: 0.3rem;
+  color: black;
+}
+
+.sellOption-modal .modal-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.sellOption-modal .line {
+  width: 100%;
+  height: 1px;
+  background-color: #c0c0c0;
+}
+
+.sellOption-modal .color-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+.sellOption-modal .color-button {
+  padding: 10px;
+  margin: 0.7rem;
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  color: white;
+}
+
+.sellOption-modal .color-button.selected {
+  border: 2px solid #545454;
+}
+
+.sellOption-modal .confirm {
+  margin-top: 2rem;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+}
+
+

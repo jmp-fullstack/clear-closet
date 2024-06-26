@@ -1,0 +1,23 @@
+.ChatNone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 500px;
+
+}
+
+.ChatNone .icon {
+  color: #dadada;
+}
+
+.ChatNone .info {
+  text-align: center;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 0.5;
+  color: #a3a3a3;
+  
+}
+ 

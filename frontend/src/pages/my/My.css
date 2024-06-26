@@ -1,0 +1,78 @@
+.My {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* height: 100%; */
+  background-color: #ffffff;
+  margin-top: 0.5rem;
+  margin-bottom: 5rem;
+  padding: 0 1rem;
+}
+
+.My .header-sec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  padding: 0 1rem; 
+  margin: 0.5rem 0;
+}
+
+.My .header-sec .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.My .header-sec .line {
+  width: 108%;
+  height: 1px;
+  background-color: #eaeaea;
+}
+
+.My .info-sec {
+  width: 100%;
+}
+
+.My .photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+}
+
+.My .card {
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+}
+
+.My .photo-text {
+  color: #00bbff;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 0.8rem;
+}
+
+.My .info-modal {
+  margin: 2rem 0;
+}
+
+.My .name {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.My .input {
+  color: #dadada;
+}
+
+.My .name .arrow {
+  color: #dadada;
+}
+
