@@ -52,8 +52,35 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework_simplejwt",
     'rest_framework_simplejwt.token_blacklist',
-    'accountapp',
+    'storages',
+    'apps.accountapp',
+    'apps.articleapp',
+    'apps.commentapp',
+    'apps.favoriteapp',
+    'apps.imageapp',
+    'apps.product_categoryapp',
+    'apps.product_optionapp',
+    'apps.productapp',
+    'apps.reviewapp',
 ]
+
+# AWS Setting
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+
+# Static Setting
+STATIC_URL = "http://%s/static/" % AWS_S3_CUSTOM_DOMAIN
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# default image url
+DEFAULT_PROFILE_IMAGE_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/user_profile/start_profile.jpg'
+
 
 # JWT Token
 REST_FRAMEWORK = {
