@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ./cc_front
+cd ./frontend
 echo '>>> frontend build start'
 
 npm install -g npm@10.7.0
