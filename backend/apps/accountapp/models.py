@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
 from django.db import models
 
+from backend.backend import settings
+
 class CustomUserManager(BaseUserManager):
     # 일반 유저 생성 : password hash화, 필수 값(username, password), 그 외 필드 {extra_fields}
     def create_user(self, username, password=None, **extra_fields):
@@ -22,13 +24,12 @@ class CustomUserManager(BaseUserManager):
 # PermissionsMixin : 그룹 관리를 위한 기본 기능만 ( 사용자 권한과 그룹 관리를 하기 위함. )
 # 커스텀 유저
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=50, unique=True)
+    email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
     nickname = models.CharField(max_length=50, unique=True)
-    # upload_to :이미지 저장할 곳 -> 현재는 media/profile_image/
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    username = models.CharField(max_length=50)
+    profile_image = models.ImageField(upload_to='user_profile/', blank=True, null=True, default=settings.DEFAULT_PROFILE_IMAGE_URL)
     phone_number = models.CharField(max_length=15, unique=True)
-    email = models.EmailField(unique=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
