@@ -8,4 +8,4 @@ from apps.accountapp.models import CustomUser
 class TotalImage(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile_images')
     product = models.ManyToManyField(Product, related_name='profile_images')
-    image_url = models.FileField()
+    image_url = models.TextField(null=True, blank=True)

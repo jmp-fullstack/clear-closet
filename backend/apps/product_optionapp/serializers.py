@@ -1,6 +1,6 @@
 # 옵션
-from backend.apps.accountapp import serializers
-from backend.apps.product_optionapp.models import ProductOption
+from rest_framework import serializers
+from apps.product_optionapp.models import ProductOption
 
 
 class ProductOptionSerializer(serializers.ModelSerializer):

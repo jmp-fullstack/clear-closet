@@ -1,14 +1,18 @@
 # 제품
-from backend.apps.accountapp import serializers
-from backend.apps.product_categoryapp.serializers import ProductCategorySerializer
-from backend.apps.product_optionapp.serializers import ProductOptionSerializer
-from backend.apps.productapp.models import Product
+from rest_framework import serializers
+from apps.product_categoryapp.serializers import ProductCategorySerializer
+from apps.product_optionapp.serializers import ProductOptionSerializer
+from apps.productapp.models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    product_category = ProductCategorySerializer()
-    product_option = ProductOptionSerializer()
+    # product_category = ProductCategorySerializer()
+    # product_option = ProductOptionSerializer()
+    # product_images = serializers.ListField(
+    #     child=serializers.URLField(),
+    #     required=False
+    # )
 
     class Meta:
         model = Product
-        field = '__all__'
+        fields = '__all__'

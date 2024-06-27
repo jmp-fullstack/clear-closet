@@ -198,20 +198,24 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': LOG_FILE_PATH,
-        },
+    #     'file': {
+    #         'level': 'ERROR',
+    #         'class': 'logging.FileHandler',
+    #         'filename': LOG_FILE_PATH,
+    #     },
+    # },
+    # 'loggers': {
+    #     'django': {
+    #         'handlers': ['console', 'file'],
+    #         'level': 'INFO',
+    #         'propagate': True,
+    #     },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
+    'root' : {
+        'handlers': ['console'],
+        'level': 'DEBUG'
+    }
 }

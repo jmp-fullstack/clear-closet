@@ -1,5 +1,5 @@
-from backend.apps.accountapp import serializers
-from backend.apps.product_categoryapp.models import ProductCategory
+from rest_framework import serializers
+from apps.product_categoryapp.models import ProductCategory
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):

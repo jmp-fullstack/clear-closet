@@ -6,8 +6,8 @@ from apps.product_optionapp.models import ProductOption
 # Create your models here.
 
 class Product(models.Model):
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    option = models.ForeignKey(ProductOption, on_delete=models.CASCADE)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True, blank=True)
+    option = models.ForeignKey(ProductOption, on_delete=models.CASCADE, null=True, blank=True)
     price = models.IntegerField()
     connect_url = models.TextField()
     product_type = models.BooleanField(default=0) # 중고인지(0) 새상품인지(1) 식별
