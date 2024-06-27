@@ -6,6 +6,6 @@ from apps.accountapp.models import CustomUser
 # Create your models here.
 
 class TotalImage(models.Model):
-    user_id = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile_images')
-    product_id = models.ManyToManyField(Product, related_name='profile_images')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile_images')
+    product = models.ManyToManyField(Product, related_name='profile_images')
     image_url = models.FileField()

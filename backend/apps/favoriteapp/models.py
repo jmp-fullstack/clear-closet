@@ -7,6 +7,6 @@ from apps.articleapp.models import Article
 
 
 class Favorite(models.Model):
-    article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     create_at = models.DateField(auto_now_add=True)

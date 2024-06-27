@@ -7,7 +7,7 @@ from apps.articleapp.models import Article
 class UesrSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        field = ('id', 'nickname')
+        fields = ('id', 'nickname')
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
@@ -15,4 +15,10 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        field = '__all__'
+        fields = '__all__'
+
+class ArticleSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Article
+        fields = ['article_title','article_content']

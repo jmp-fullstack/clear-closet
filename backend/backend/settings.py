@@ -70,16 +70,23 @@ AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'clear-closet'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
+AWS_LOCATION = 'static'
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (
+#     (os.path.join(BASE_DIR, 'static')),
+# )
 
-# Static Setting
-STATIC_URL = "http://%s/static/" % AWS_S3_CUSTOM_DOMAIN
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/user_profile/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # default image url
-DEFAULT_PROFILE_IMAGE_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/user_profile/start_profile.jpg'
+# DEFAULT_PROFILE_IMAGE_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/user_profile/start_profile.jpg'
 
 
 # JWT Token
@@ -191,7 +198,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
         },
         'file': {
@@ -203,7 +210,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     },
