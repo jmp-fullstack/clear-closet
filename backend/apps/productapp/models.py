@@ -1,13 +1,11 @@
 from django.db import models
 
-from backend.apps.articleapp.models import Article
-from backend.apps.product_categoryapp.models import ProductCategory
-from backend.apps.product_optionapp.models import ProductOption
+from apps.product_categoryapp.models import ProductCategory
+from apps.product_optionapp.models import ProductOption
 
 # Create your models here.
 
 class Product(models.Model):
-    article_id = models.OneToOneField(Article, on_delete=models.CASCADE)
     category_id = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     option_id = models.ForeignKey(ProductOption, on_delete=models.CASCADE)
     price = models.IntegerField()

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
 from django.db import models
 
-from backend.backend import settings
 
 class CustomUserManager(BaseUserManager):
     # 일반 유저 생성 : password hash화, 필수 값(username, password), 그 외 필드 {extra_fields}
@@ -28,7 +27,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=255)
     nickname = models.CharField(max_length=50, unique=True)
     username = models.CharField(max_length=50)
-    profile_image = models.ImageField(upload_to='user_profile/', blank=True, null=True, default=settings.DEFAULT_PROFILE_IMAGE_URL)
     phone_number = models.CharField(max_length=15, unique=True)
 
     is_active = models.BooleanField(default=True)

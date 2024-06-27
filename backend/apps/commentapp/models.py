@@ -1,7 +1,7 @@
 from django.db import models
 
-from backend.apps.accountapp.models import CustomUser
-from backend.apps.articleapp.models import Article
+from apps.accountapp.models import CustomUser
+from apps.articleapp.models import Article
 
 # Create your models here.
 
