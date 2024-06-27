@@ -1,0 +1,58 @@
+.review-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.review-modal .topline {
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  width: 18%;
+  height: 5px;
+
+  background-color: #dadada;
+  border-radius: 2px;
+}
+
+
+.review-modal .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.review-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review-modal .line {
+  width: 100%;
+  height: 1px;
+  background-color: #dadada;
+}
+
+.review-modal .text {
+  padding-left: 0.5rem;
+  margin: 1rem 0;
+  text-align: left;
+  color: #dadada;
+}
+
+.review-modal .button {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* .review-modal .receive-sec {
+  padding: 1rem 0;
+} */
+
+.review-modal .receive-sec .manner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 1rem 0;
+}

@@ -1,34 +1,40 @@
-.name-modal {
+.out-modal {
   /* padding: 20px; */
   text-align: center;
   width: 100%;
 }
 
-.name-modal .title {
+.out-modal .title {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 1rem;
 }
 
-.name-modal .cancel {
+.out-modal .cancel {
   display: flex;
   justify-content: flex-end;
 }
 
-.name-modal .line {
+.out-modal .line {
   width: 100%;
   height: 1px;
   background-color: #dadada;
 }
 
-.name-modal .text {
-  padding-left: 0.5rem;
-  margin: 1rem 0;
-  text-align: left;
+.out-modal .text-1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 2rem 0;
+}
+
+.out-modal .text-2 {
+  font-size: 20px;
+  margin: 2rem 0;
+
   color: #dadada;
 }
 
-.name-modal .button {
+.out-modal .button {
   display: flex;
   justify-content: center;
   cursor: pointer;

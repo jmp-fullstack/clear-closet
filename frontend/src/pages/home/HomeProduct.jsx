@@ -22,6 +22,10 @@ const HomeProduct = () => {
     navigate(`/chat`);
   };
 
+  const handleAlarmClick = () => {
+    navigate(`/alarm`);
+  };
+
   return (
     <div className="HomeProduct">
       <div className="header-sec">
@@ -30,7 +34,7 @@ const HomeProduct = () => {
         </div>
         <div className="title">Girls Best</div>
         <div className="alarm">
-          <GoBell size={26} />
+          <GoBell size={26} onClick={handleAlarmClick} />
         </div>
       </div>
       <div className="line"></div>

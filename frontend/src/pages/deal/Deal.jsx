@@ -4,14 +4,20 @@ import BottomNav from "../../components/BottomNav/BottomNav";
 import DealTabs from "../../components/tabs/DealTabs";
 import { GoBell } from "react-icons/go";
 import ChatNone from "./ChatNone";
+import { useNavigate } from "react-router-dom";
 
 const tabs = ["채팅", "구매", "판매"];
 
 const Deal = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const navigate = useNavigate();
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
+  };
+
+  const handleAlarmClick = () => {
+    navigate("/alarm");
   };
 
   const renderContent = () => {
@@ -36,7 +42,7 @@ const Deal = () => {
       <div className="header-sec">
         <div className="title">거래</div>
         <div className="alarm-icon">
-          <GoBell size={26} />
+          <GoBell size={26} onClick={handleAlarmClick} />
         </div>
       </div>
       <div className="tab-sec">

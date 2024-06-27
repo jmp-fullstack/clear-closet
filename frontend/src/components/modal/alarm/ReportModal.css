@@ -1,0 +1,38 @@
+.report-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.report-modal .topline {
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  width: 18%;
+  height: 5px;
+
+  background-color: #dadada;
+  border-radius: 2px;
+}
+
+.report-modal .line {
+  width: 100%;
+  height: 1px;
+  background-color: #dadada;
+
+}
+
+.report-modal .report-sec {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  padding: 0.9rem 0;
+
+
+}
+
+.report-modal .report-sec .text {
+  font-size: 18px;
+  text-align: left;
+  padding: 1rem 0;
+}
+

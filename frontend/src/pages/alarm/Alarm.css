@@ -1,0 +1,105 @@
+.Alarm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  margin-top: 0.5rem;
+  margin-bottom: 5rem;
+  padding: 0 1rem;
+}
+
+.Alarm .header-sec {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; 
+  margin: 0.5rem 0;
+}
+
+.Alarm .alarm-sec {
+  width: 100%;
+}
+
+.Alarm .content {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.Alarm .content .photo {
+  display: flex;
+  align-items: center;
+}
+
+.Alarm .content .card {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.Alarm .content .info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.Alarm .content .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  font-size: 14px;
+}
+
+.Alarm .content .text {
+  flex-grow: 1; /* 텍스트가 남은 공간을 채우도록 설정 */
+  text-align: left; 
+}
+
+.Alarm .content .dot {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.Alarm .content .time {
+  color: #dadada;
+  font-size: 12px;
+  margin-top: 0.3rem;
+}
+
+.Alarm .content .product {
+  margin-top: 0.3rem;
+  border-radius: 5px;
+}
+
+.Alarm .content .product-name {
+  font-size: 14px;
+}
+
+.Alarm .content .con {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.Alarm .content .icons {
+  padding-right: 0.5rem;
+}
+
+.Alarm .content .likes {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.Alarm .content .comments {
+  display: flex;
+  align-items: center;
+}
+
+.Alarm .content .button {
+  margin: 0.5rem 0;
+}

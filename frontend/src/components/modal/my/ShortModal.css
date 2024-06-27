@@ -1,4 +1,4 @@
-.wideModal {
+.shortModal {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,17 +11,18 @@
   align-items: end;
 }
 
-.wideModal .wideModal-content {
+.shortModal .shortModal-content {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
 
   background: white;
-  padding: 20px;
+  padding: 0 20px;
+  padding-top: 0.6rem;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 500px;
   width: 90%;
-  height: 44%;
+  height: 40%;
   position: relative;
 }

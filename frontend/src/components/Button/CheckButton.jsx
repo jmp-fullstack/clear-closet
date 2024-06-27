@@ -5,7 +5,7 @@ import Button from "./Button";
 const CheckButton = ({ onClick }) => {
   //   console.log("LoginButton onClick:", onClick); // 디버깅 추가
   return (
-    <Button text="확인" color="#8f0456" textcolor="#ffffff" onClick={onClick} />
+    <Button text="확인" color="#dadada" textcolor="#ffffff" onClick={onClick} />
   );
 };
 
