@@ -52,8 +52,42 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework_simplejwt",
     'rest_framework_simplejwt.token_blacklist',
-    'accountapp',
+    'storages',
+    'apps.accountapp',
+    'apps.articleapp',
+    'apps.commentapp',
+    'apps.favoriteapp',
+    'apps.imageapp',
+    'apps.product_categoryapp',
+    'apps.product_optionapp',
+    'apps.productapp',
+    'apps.reviewapp',
 ]
+
+# AWS Setting
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'clear-closet'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+AWS_LOCATION = 'static'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (
+#     (os.path.join(BASE_DIR, 'static')),
+# )
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/user_profile/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# default image url
+# DEFAULT_PROFILE_IMAGE_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/user_profile/start_profile.jpg'
+
 
 # JWT Token
 REST_FRAMEWORK = {
@@ -167,17 +201,21 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': LOG_FILE_PATH,
-        },
+    #     'file': {
+    #         'level': 'ERROR',
+    #         'class': 'logging.FileHandler',
+    #         'filename': LOG_FILE_PATH,
+    #     },
+    # },
+    # 'loggers': {
+    #     'django': {
+    #         'handlers': ['console', 'file'],
+    #         'level': 'INFO',
+    #         'propagate': True,
+    #     },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
+    'root' : {
+        'handlers': ['console'],
+        'level': 'DEBUG'
+    }
 }
