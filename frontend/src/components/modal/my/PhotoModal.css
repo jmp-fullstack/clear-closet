@@ -1,0 +1,49 @@
+.photo-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.photo-modal .topline {
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  width: 18%;
+  height: 5px;
+
+  background-color: #dadada;
+  border-radius: 2px;
+}
+
+
+.photo-modal .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.photo-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.photo-modal .line {
+  width: 100%;
+  height: 1px;
+  background-color: #dadada;
+}
+
+.photo-modal .photo-sec {
+  padding: 1rem;
+}
+
+.photo-modal .photo-sec .content {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 0;
+
+  font-size: 18px;
+}
+
+.photo-modal .photo-sec .icon {
+  padding-right: 1rem;
+}

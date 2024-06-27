@@ -1,32 +1,37 @@
 .Search {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-
   height: 100%;
   background-color: #ffffff;
   margin-top: 5px;
   padding: 0 1rem;
 }
-
-.Search .search-sec {
+.Search .search-input-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  margin: 0.5rem 0;
 
-  padding: 0 0.8rem;
-  margin-top : 0.5rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
 
-  height: 42px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
+.Search .search-icon {
+  position: absolute;
+  left: 10px;
   color: #a6a6a6;
 }
 
+.Search .search-input {
+  width: 100%;
+  padding: 10px 10px 10px 40px; /* 왼쪽 패딩을 아이콘 크기만큼 추가 */
+  border: none;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  color: #333333;
+}
 
-.Search .second {
-  display: flex;
-  justify-content: space-around;
-  
+.Search .category-sec {
   padding: 0.8rem 0;
 }

@@ -41,21 +41,21 @@
   margin: 0 0 8px;
 }
 
-.CategoryTabs .content {
+.CategoryTabs .category-content {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.CategoryTabs .cards {
+.CategoryTabs .category-content .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
 }
 
-.CategoryTabs .card-sec {
+.CategoryTabs .category-content .card-sec {
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -63,7 +63,7 @@
   margin-bottom: 12px;
 }
 
-.CategoryTabs .card {
+.CategoryTabs .category-content .card {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1; /* 정사각형 이미지 */
@@ -72,12 +72,12 @@
 
 }
 
-.CategoryTabs .name {
+.CategoryTabs .category-content .name {
   font-weight: bold; 
   margin-top: 8px; 
 }
 
-.CategoryTabs .nickname {
+.CategoryTabs .category-content .nickname {
   color: gray;
   margin-top: 2px; 
   font-size: 14px;

@@ -19,6 +19,7 @@ import Deal from "../pages/deal/Deal";
 import Chat from "../pages/deal/Chat";
 
 import My from "../pages/my/My";
+import Alarm from "../pages/alarm/Alarm";
 
 const AllRoutes = () => {
   return (
@@ -42,6 +43,8 @@ const AllRoutes = () => {
       <Route path="/chat" element={<Chat />} />
 
       <Route path="/my" element={<My />} />
+
+      <Route path="/alarm" element={<Alarm />} />
     </Routes>
   );
 };

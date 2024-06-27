@@ -22,12 +22,16 @@ const Home = (cardSec) => {
     navigate(`/search`);
   };
 
+  const handleSAlarmClick = () => {
+    navigate(`/alarm`);
+  };
+
   return (
     <div className="Home">
       <div className="header">
         <div className="left_1">Category</div>
         <div className="right">
-          <GoBell size={26} />
+          <GoBell size={26} onClick={handleSAlarmClick} />
         </div>
       </div>
 
@@ -67,7 +71,7 @@ const Home = (cardSec) => {
 
       <div className="left_2">Best</div>
 
-      <div className="cards-container">
+      <div className="Home-cards">
         <div className="cards">
           <div className="card-sec" onClick={handleCardSecClick}>
             <img src={card} alt="Card" className="card" />

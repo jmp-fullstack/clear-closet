@@ -210,7 +210,7 @@ const CategoryTabs = (cardSec) => {
           onClick={() => handleFilterClick("availability", "In Stock")}
         />
       </div>
-      <div className="content">
+      <div className="category-content">
         <div className="cards">
           <div className="card-sec" onClick={handleCardSecClick}>
             <img src={card} alt="Card" className="card" />

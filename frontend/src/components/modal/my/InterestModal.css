@@ -1,0 +1,89 @@
+.interest-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.interest-modal .topline {
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  width: 18%;
+  height: 5px;
+
+  background-color: #dadada;
+  border-radius: 2px;
+}
+
+
+.interest-modal .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.interest-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.interest-modal .line {
+  width: 100%;
+  height: 1px;
+  background-color: #dadada;
+}
+
+.interest-modal .text {
+  padding-left: 0.5rem;
+  margin: 1rem 0;
+  text-align: left;
+  color: #dadada;
+}
+
+.interest-modal .button {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.interest-modal .interest-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+
+  margin-top: 1rem;
+}
+
+.interest-modal .interest-cards .card-sec {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: calc(50% - 4px); /* 2개씩 나열하기 위해 너비 설정 */
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.interest-modal .interest-cards .card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1; /* 정사각형 이미지 */
+  object-fit: cover;
+  border-radius: 8px;
+
+}
+
+.interest-modal .interest-cards .name {
+  font-weight: 500; 
+  padding-top: 0.3rem;
+}
+
+.interest-modal .interest-cards .category {
+  color: #afafaf;
+  font-size: 13px;
+}
+
+.interest-modal .interest-cards .price {
+  font-weight: bold;
+  font-size: 14px;
+  padding-top: 0.4rem;
+}

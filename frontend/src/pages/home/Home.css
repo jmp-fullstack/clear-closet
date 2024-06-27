@@ -73,21 +73,21 @@
   font-weight: 600;
 }
 
-.Home .cards-container {
+.Home .Home-cards {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.Home .cards {
+.Home .Home-cards .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
 }
 
-.Home .card-sec {
+.Home .Home-cards .card-sec {
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -95,7 +95,7 @@
   margin-bottom: 12px;
 }
 
-.Home .card {
+.Home .Home-cards .card {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1; /* 정사각형 이미지 */
@@ -104,12 +104,12 @@
 
 }
 
-.Home .name {
+.Home .Home-cards .name {
   font-weight: bold; 
   margin-top: 8px; 
 }
 
-.Home .nickname {
+.Home .Home-cards .nickname {
   color: gray;
   margin-top: 2px; 
   font-size: 14px;
