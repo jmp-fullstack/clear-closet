@@ -7,4 +7,4 @@ class ProductOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductOption
-        field = '__all__'
+        fields = '__all__'

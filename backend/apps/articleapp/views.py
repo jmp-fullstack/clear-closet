@@ -24,8 +24,10 @@ def article_list(request):
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def article_detail(request):
+    print(request)
     
     product_serializer = ProductSerializer(data=request.data.get('product'))
+    print(product_serializer)
     if product_serializer.is_valid():
         product = product_serializer.save()
     else:
