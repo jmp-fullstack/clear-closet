@@ -1,0 +1,33 @@
+.findId-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.findId-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.findId-modal .text {
+  font-size: 20px;
+  margin: 1rem;
+
+  color: black;
+}
+
+.findId-modal .user-email {
+  color: black;
+  /* text-decoration: underline; */
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.findId-modal .find-button {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 2rem;
+
+  cursor: pointer;
+}

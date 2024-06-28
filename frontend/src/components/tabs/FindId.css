@@ -1,0 +1,29 @@
+.FindId {
+  padding-top: 3rem;
+}
+
+.FindId .find-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0px;
+
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  font-size: 15px;
+}
+
+.FindId .line {
+  width: 100%;
+  height: 1px;
+  background-color: rgb(165, 165, 165);
+  margin-bottom: 1.2rem;
+}
+
+.FindId .id-button {
+  margin-top: 5rem;
+
+  cursor: pointer;
+}

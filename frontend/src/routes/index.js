@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Start from "../pages/login/Start";
 import Login from "../pages/login/Login";
 import SignUp from "../pages/login/SignUp";
+import Find from "../pages/login/Find";
 import Wellcome from "../pages/login/Wellcome";
 
 import Home from "../pages/home/Home";
@@ -27,6 +28,7 @@ const AllRoutes = () => {
       <Route path="/" element={<Start />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/find" element={<Find />} />
       <Route path="/wellcome" element={<Wellcome />} />
 
       <Route path="/home" element={<Home />} />

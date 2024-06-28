@@ -1,0 +1,32 @@
+.find-tabs {
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  
+
+  position: relative;
+  border-bottom: 0.5px solid #ddd;
+  overflow: hidden;
+
+  width: 100%;
+}
+
+.find-tabs .find-tab {
+  flex: 1;
+  padding: 16px 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.find-tabs .active {
+  font-weight: bold;
+  color: #8f0456;
+}
+
+.find-tabs .line-bar {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background-color: #8f0456;
+  transition: left 0.3s ease, width 0.3s ease;
+}
