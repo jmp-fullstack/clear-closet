@@ -9,7 +9,6 @@ import GoogleButton from "../../components/Button/GoogleButton";
 import { login } from "../../api/auth";
 
 const Login = () => {
-  // const [email, setEmail] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -29,6 +28,11 @@ const Login = () => {
   const handleSignupClick = () => {
     navigate("/signup");
   };
+
+  const handleFindClick = () => {
+    navigate("/find");
+  };
+
   const handleNoneClick = () => {
     navigate("/login");
   };
@@ -70,7 +74,9 @@ const Login = () => {
             회원 가입
           </div>
           <div className="bar-2">|</div>
-          <div className="right">아이디 / 비밀번호 찾기</div>
+          <div className="right" onClick={handleFindClick}>
+            아이디 찾기 / 비밀번호 재설정
+          </div>
         </div>
         <div className="error">로그인에 문제가 있으신가요?</div>
       </div>
