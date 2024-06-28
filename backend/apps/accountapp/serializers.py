@@ -2,7 +2,7 @@ from rest_framework import serializers
 from apps.accountapp.models import CustomUser 
 
 
-class SignupSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'password', 'nickname', 'email', 'phone_number']

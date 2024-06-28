@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
-from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, SignupSerializer
+from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, CustomUserSerializer
 from django.contrib.auth import get_user_model, authenticate
 
 #로그인
@@ -38,7 +38,7 @@ def login(request):
 @api_view(['POST'])
 def signup(request):
     password = request.data.get('password')
-    serializer = SignupSerializer(data=request.data)
+    serializer = CustomUserSerializer(data=request.data)
 
     # prod 단계에선 로직 추가 해야함
     if len(password) < 10:
