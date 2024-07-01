@@ -3,9 +3,9 @@ from apps.product_categoryapp.models import ProductCategory
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ProductCategory
-        field = '__all__'
+        fields = '__all__'
+
 
 

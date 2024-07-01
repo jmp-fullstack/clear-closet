@@ -1,31 +1,22 @@
 from rest_framework import serializers
 
-from apps.accountapp.models import CustomUser
+# from apps.accountapp.serializers import CustomUserSerializer
 from apps.articleapp.models import Article
-from apps.productapp.models import Product
-from apps.productapp.serializers import ProductSerializer
+from apps.productapp.serializers import ProductArticleSerializer, ProductSerializer
 
 
-class UesrSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['id', 'nickname']
-
-
-#  ----------------------------------------------------------------------
-
-class ArticleListSerializer(serializers.ModelSerializer):
-    user = UesrSerializer(read_only = True)
-
-    class Meta:
-        model = Article
-        fields = '__all__'
-
-
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleSaveSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
 
     class Meta:
         model = Article
         fields = '__all__'
-        read_only_fields = ('product', 'user',)
+        read_only_fields = ('user',)
+
+
+class ArticleReadSerializer(serializers.ModelSerializer): # 변수명 바꿔야함
+    product = ProductArticleSerializer(read_only=True)
+
+    class Meta:
+        model = Article
+        fields = ["id", "article_title", "article_content", "product"]

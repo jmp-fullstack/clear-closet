@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
-from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, SignupSerializer
+from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, CustomUserSerializer
 from django.contrib.auth import get_user_model, authenticate
 
 #로그인
@@ -21,13 +21,14 @@ def login(request):
             return Response({"message": "존재하지 않는 아이디이거나 비밀번호가 틀렸습니다."}, status=status.HTTP_400_BAD_REQUEST)
         
         refresh = RefreshToken.for_user(user)
-        access_token = refresh.access_token
+        access_token = f'Bearer {refresh.access_token}'
         
         response = Response(
-            {"user": LoginSerializer(user).data, "message": "login Success"},
+            {"user": LoginSerializer(user).data, "message": "login Success",
+            "accessToken": access_token},
             status=status.HTTP_200_OK
         )
-        response['Authorization'] = f'Bearer {access_token}'
+
         response.set_cookie(key='refresh_token', value=str(refresh), httponly=True, secure=False)
         return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -37,7 +38,7 @@ def login(request):
 @api_view(['POST'])
 def signup(request):
     password = request.data.get('password')
-    serializer = SignupSerializer(data=request.data)
+    serializer = CustomUserSerializer(data=request.data)
 
     # prod 단계에선 로직 추가 해야함
     if len(password) < 10:
@@ -71,8 +72,6 @@ def logout(request):
 
 
 # 아이디(이메일) 찾기
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 @api_view(["POST"])
 def find_user(request):
 
@@ -86,8 +85,6 @@ def find_user(request):
 
 # 비밀번호 재설정 인증
 @api_view(['POST'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 def find_password(request):
     serializer = FindPasswordSerializer(data=request.data)
     if serializer.is_valid():
@@ -101,8 +98,6 @@ def find_password(request):
 
 # 비밀번호 재설정
 @api_view(['POST'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 def change_password(request):
     new_password = request.data.get('new_password')
 
