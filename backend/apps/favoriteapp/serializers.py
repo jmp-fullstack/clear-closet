@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from apps.articleapp.serializers import ArticleReadSerializer
+from apps.articleapp.serializers import ArticleListSerializer
 from apps.favoriteapp.models import Favorite
 
 class FavoriteSerializer(serializers.ModelSerializer):
-    article = ArticleReadSerializer(read_only=True)
+    article = ArticleListSerializer(read_only=True)
 
     class Meta:
         model = Favorite

@@ -7,33 +7,30 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from apps.articleapp.models import Article
-from apps.articleapp.serializers import ArticleReadSerializer, ArticleSaveSerializer
+from apps.articleapp.serializers import ArticleDetailSerializer, ArticleListSerializer, ArticleSaveSerializer
 from apps.imageapp.models import TotalImage
 from apps.product_categoryapp.models import ProductCategory
 from apps.product_optionapp.models import ProductOption
-from apps.productapp.serializers import ProductSerializer
+from apps.productapp.serializers import ProductMatchSerializer
 
 # Create your views here.
 
-
+# 게시글 전체 보기
 @api_view(['GET'])
 def article_list(request):
     articles = get_list_or_404(Article)
-    serializer = ArticleReadSerializer(articles, many=True)
+    serializer = ArticleListSerializer(articles, many=True)
     return Response(serializer.data)
 
-
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
+# 게시글 하나 보기
 @api_view(['GET'])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    serializer = ArticleReadSerializer(article)
+    serializer = ArticleDetailSerializer(article)
     print(serializer.data)
     return Response(serializer.data)
 
-
-
+# 게시글 만들기
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
@@ -55,7 +52,7 @@ def article_create(request):
     product_data['option'] = option.id
 
     # 제품 먼저 검사
-    product_serializer = ProductSerializer(data=product_data)
+    product_serializer = ProductMatchSerializer(data=product_data)
 
     if product_serializer.is_valid():
         product = product_serializer.save()
@@ -79,7 +76,7 @@ def article_create(request):
     return Response(article_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
+# 게시글 삭제하기
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['DELETE'])
@@ -94,16 +91,14 @@ def article_delete(request, article_pk):
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
-@api_view(['PUT'])
+@api_view(['PATCH'])
 def article_update(request, article_pk):
     article = get_object_or_404(Article, id=article_pk)
-    if request.user == article.user:
-        serializer = ArticleSaveSerializer(article, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response({"message":"권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+    if request.user != article.user:
+        return Response({"message": "권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
 
+    serializer = ArticleSaveSerializer(article, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

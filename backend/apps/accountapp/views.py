@@ -102,10 +102,9 @@ def change_password(request):
     new_password = request.data.get('new_password')
 
     reset_token = AccessToken(request.COOKIES.get('reset_token'))
-    access_token = AccessToken(request.META.get('HTTP_AUTHORIZATION').split(' ')[1])
 
     # 토큰 검증
-    if reset_token['user_id'] != access_token['user_id']:
+    if not reset_token['user_id']:
         return Response({"message": "잘못 된 경로로 들어온 사용자들"}, status=status.HTTP_400_BAD_REQUEST)
 
     user = get_user_model().objects.get(id=reset_token['user_id'])
