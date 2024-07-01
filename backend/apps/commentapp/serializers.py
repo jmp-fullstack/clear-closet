@@ -1,15 +1,10 @@
-# from apps.commentapp.models import Comment
-# from rest_framework import serializers
+from rest_framework import serializers
 
-# from backend.apps.accountapp.serializers import CustomUserSerializer
-# from backend.apps.articleapp.serializers import ArticleSerializer
+from apps.commentapp.models import Comment
 
-
-# class CommentSerializer(serializers.ModelSerializer):
-#     article_serializer = ArticleSerializer(read_only=True)
-#     user_serializer = CustomUserSerializer(read_only=True)
-
-#     class Meta :
-#         model = Comment
-#         fields = "__all__"
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'article', 'comment', 'created_at', 'update_at']
+        read_only_fields = ['id', 'user', 'created_at', 'update_at', 'article']
         
