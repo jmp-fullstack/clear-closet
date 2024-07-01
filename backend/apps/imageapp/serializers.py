@@ -7,4 +7,4 @@ from apps.productapp.models import Product
 class TotalImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = TotalImage
-        fields = '__all__'
+        fields = ['id','image_url']

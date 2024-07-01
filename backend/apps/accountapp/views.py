@@ -72,8 +72,6 @@ def logout(request):
 
 
 # 아이디(이메일) 찾기
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 @api_view(["POST"])
 def find_user(request):
 
@@ -87,8 +85,6 @@ def find_user(request):
 
 # 비밀번호 재설정 인증
 @api_view(['POST'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 def find_password(request):
     serializer = FindPasswordSerializer(data=request.data)
     if serializer.is_valid():
@@ -102,8 +98,6 @@ def find_password(request):
 
 # 비밀번호 재설정
 @api_view(['POST'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 def change_password(request):
     new_password = request.data.get('new_password')
 

@@ -1,4 +1,4 @@
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -7,12 +7,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from apps.articleapp.models import Article
-from apps.articleapp.serializers import ArticleListSerializer, ArticleSerializer
+from apps.articleapp.serializers import ArticleReadSerializer, ArticleSaveSerializer
 from apps.imageapp.models import TotalImage
 from apps.product_categoryapp.models import ProductCategory
-from apps.product_categoryapp.serializers import ProductCategorySerializer
 from apps.product_optionapp.models import ProductOption
-from apps.product_optionapp.serializers import ProductOptionSerializer
 from apps.productapp.serializers import ProductSerializer
 
 # Create your views here.
@@ -21,14 +19,25 @@ from apps.productapp.serializers import ProductSerializer
 @api_view(['GET'])
 def article_list(request):
     articles = get_list_or_404(Article)
-    serializer = ArticleListSerializer(articles, many=True)
+    serializer = ArticleReadSerializer(articles, many=True)
     return Response(serializer.data)
+
+
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def article_detail(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    serializer = ArticleReadSerializer(article)
+    print(serializer.data)
+    return Response(serializer.data)
+
 
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def article_detail(request):
+def article_create(request):
     product_data = request.data.get('product')
     
     # 카테고리 및 옵션 키 발급
@@ -53,18 +62,48 @@ def article_detail(request):
     else:
         return Response(product_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    article_serializer = ArticleSerializer(data=request.data)
+    article_serializer = ArticleSaveSerializer(data=request.data)
     
     # 이미지 검사
     image_urls = product_data.get('product_image', [])
     for image_url in image_urls:
-        image_instance = TotalImage.objects.get_or_create(image_url=image_url)
+        image_instance = TotalImage.objects.create(image_url=image_url)
         product.product_images.add(image_instance)
 
-    article_serializer = ArticleSerializer(data=request.data)
+    article_serializer = ArticleSaveSerializer(data=request.data)
 
     # 아티클 검사
     if article_serializer.is_valid():
         article_serializer.save(user=request.user, product=product)
         return Response(article_serializer.data, status=status.HTTP_201_CREATED)
     return Response(article_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['DELETE'])
+def article_delete(request, article_pk):
+    article = get_object_or_404(Article, id=article_pk)
+    if request.user == article.user:
+        article.delete()
+        return Response({"message":"삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+    else: 
+        return Response({"message":"권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['PUT'])
+def article_update(request, article_pk):
+    article = get_object_or_404(Article, id=article_pk)
+    if request.user == article.user:
+        serializer = ArticleSaveSerializer(article, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({"message":"권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+
