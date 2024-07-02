@@ -23,10 +23,7 @@ def login(request):
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
         
-        response = Response(
-            {"user": LoginSerializer(user).data, "message": "login Success"},
-            status=status.HTTP_200_OK
-        )
+        response = Response({"message": "login Success"},status=status.HTTP_200_OK)
 
         response.set_cookie(key='refresh_token', value=str(refresh), httponly=True, secure=False)
         response['Authorization'] = f'Bearer {access_token}'
