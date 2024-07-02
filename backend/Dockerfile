@@ -5,7 +5,10 @@ WORKDIR /clear-closet
 
 COPY requirements.txt /clear-closet
 
-RUN apt-get -y update
+RUN apt-get -y update && apt-get install -y \
+    pkg-config \
+    default-libmysqlclient-dev
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 ADD . /clear-closet
