@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'apps.product_optionapp',
     'apps.productapp',
     'apps.reviewapp',
+    'apps.profileapp',
 ]
 
 # AWS Setting

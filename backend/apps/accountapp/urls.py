@@ -9,8 +9,8 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('logout/', logout, name='logout'),
-    path('auth/user/', find_user, name='auth_user'),
-    path('auth/password/', find_password, name='auth_password'),
+    path('find/user/', find_user, name='find_user'),
+    path('find/password/', find_password, name='find_password'),
     path('change/password/', change_password, name='change_password'),
     path('<int:user_pk>/', delete_user, name='delete_user'),
 ]

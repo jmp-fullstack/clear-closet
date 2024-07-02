@@ -1,12 +1,18 @@
 from django.shortcuts import get_object_or_404
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from apps.accountapp.models import CustomUser
 from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, CustomUserSerializer
-from django.contrib.auth import get_user_model, authenticate
 
 #로그인
 @api_view(['POST'])
@@ -34,19 +40,34 @@ def login(request):
 # 회원가입
 @api_view(['POST'])
 def signup(request):
-    password = request.data.get('password')
-    serializer = CustomUserSerializer(data=request.data)
+    data = request.data
+    password = data.get('password')
 
-    # prod 단계에선 로직 추가 해야함
-    if len(password) < 10:
+    # 비밀번호 길이 검증
+    if not password or len(password) < 10:
         return Response({"error": "패스워드는 10자 이상이어야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
-    
+
+    # 이메일 중복 검증
+    if CustomUser.objects.filter(email=data.get('email')).exists():
+        return Response({"error": "이미 존재하는 이메일입니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # 닉네임 중복 검증
+    if CustomUser.objects.filter(nickname=data.get('nickname')).exists():
+        return Response({"error": "이미 존재하는 닉네임입니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # 전화번호 중복 검증
+    if CustomUser.objects.filter(phone_number=data.get('phone_number')).exists():
+        return Response({"error": "이미 존재하는 전화번호입니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # 유효성 검사 통과 후 사용자 생성
+    serializer = CustomUserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
         user.set_password(password)
         user.save()
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({"message": "회원가입이 완료되었습니다."}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # 로그아웃
 @api_view(['POST'])
@@ -85,34 +106,52 @@ def find_user(request):
 def find_password(request):
     serializer = FindPasswordSerializer(data=request.data)
     if serializer.is_valid():
-        reset_token = AccessToken.for_user(request.user)
-        response = Response(status=status.HTTP_200_OK)
-        response.set_cookie(key='reset_token', value=str(reset_token), httponly=True, secure=False)
-        return response # 인증되면 http 200 -> 리다이랙트 (auth/password에서 change/password 페이지로)
+        username = serializer.validated_data['username']
+        email = serializer.validated_data['email']
+        phone_number = serializer.validated_data['phone_number']
+        try:
+            user = CustomUser.objects.get(username=username, email=email, phone_number=phone_number)
+        except CustomUser.DoesNotExist:
+            return Response({"message": "존재하지 않는 사용자입니다."}, status=status.HTTP_404_NOT_FOUND)
+        
+        reset_token = PasswordResetTokenGenerator().make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        response = Response({"message": "비밀번호 재설정 토큰 발급"}, status=status.HTTP_200_OK)
+        response.set_cookie('reset_uid', uid, httponly=True, secure=False)
+        response['reset_token'] = reset_token
+        return response
     
-    return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # 비밀번호 재설정
 @api_view(['POST'])
 def change_password(request):
-    new_password = request.data.get('new_password')
-
-    reset_token = AccessToken(request.COOKIES.get('reset_token'))
-
-    # 토큰 검증
-    if not reset_token['user_id']:
-        return Response({"message": "잘못 된 경로로 들어온 사용자들"}, status=status.HTTP_400_BAD_REQUEST)
-
-    user = get_user_model().objects.get(id=reset_token['user_id'])
-
-    # 비밀번호 변경
+    reset_token = request.headers.get('reset_token')
+    uidb64 = request.COOKIES.get('reset_uid')
+    
+    if not reset_token or not uidb64:
+        return Response({"message": "토큰이 유효하지 않거나 만료되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
+    
     serializer = ChangePasswordSerializer(data=request.data)
     if serializer.is_valid():
+        new_password = serializer.validated_data['new_password']
+        
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = CustomUser.objects.get(pk=uid)
+        except (CustomUser.DoesNotExist, ValueError, TypeError, OverflowError):
+            return Response({"message": "잘못된 토큰입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not PasswordResetTokenGenerator().check_token(user, reset_token):
+            return Response({"message": "유효하지 않은 토큰입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        
         user.set_password(new_password)
         user.save()
-        response = Response({"message": "비밀번호 변경 완료"}, status=status.HTTP_200_OK)
-        response.delete_cookie('reset_token')
+        
+        response = Response({"message": "비밀번호가 성공적으로 변경되었습니다."}, status=status.HTTP_200_OK)
+        response.delete_cookie('reset_uid')
         return response
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -128,3 +167,4 @@ def delete_user(request, user_pk):
         user.delete()
         return Response({"message": "회원 탈퇴 되었습니다"}, status=status.HTTP_200_OK)
     return Response({"message": "자기 자신의 계정만 삭제 가능합니다."}, status=status.HTTP_400_BAD_REQUEST)
+
