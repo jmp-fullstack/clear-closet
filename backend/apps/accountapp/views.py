@@ -21,15 +21,12 @@ def login(request):
             return Response({"message": "존재하지 않는 아이디이거나 비밀번호가 틀렸습니다."}, status=status.HTTP_400_BAD_REQUEST)
         
         refresh = RefreshToken.for_user(user)
-        access_token = f'Bearer {refresh.access_token}'
+        access_token = str(refresh.access_token)
         
-        response = Response(
-            {"user": LoginSerializer(user).data, "message": "login Success",
-            "accessToken": access_token},
-            status=status.HTTP_200_OK
-        )
+        response = Response({"message": "login Success"},status=status.HTTP_200_OK)
 
         response.set_cookie(key='refresh_token', value=str(refresh), httponly=True, secure=False)
+        response['Authorization'] = f'Bearer {access_token}'
         return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -102,10 +99,9 @@ def change_password(request):
     new_password = request.data.get('new_password')
 
     reset_token = AccessToken(request.COOKIES.get('reset_token'))
-    access_token = AccessToken(request.META.get('HTTP_AUTHORIZATION').split(' ')[1])
 
     # 토큰 검증
-    if reset_token['user_id'] != access_token['user_id']:
+    if not reset_token['user_id']:
         return Response({"message": "잘못 된 경로로 들어온 사용자들"}, status=status.HTTP_400_BAD_REQUEST)
 
     user = get_user_model().objects.get(id=reset_token['user_id'])

@@ -22,7 +22,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/accounts/', include('apps.accountapp.urls')),
     path('api/articles/', include('apps.articleapp.urls')),
-    path('api/product-option/', include('apps.product_optionapp.urls')),
-    path('api/product-category/', include('apps.product_categoryapp.urls')),
+    path('api/product-option/', include('apps.product_optionapp.urls')), # 삭제 예정
+    path('api/product-category/', include('apps.product_categoryapp.urls')), # 삭제 예정
     path('api/favorites/', include('apps.favoriteapp.urls')),
+    path('api/reviews/', include('apps.reviewapp.urls')),
+    path('api/comments/', include('apps.commentapp.urls')),
 ]

@@ -1,7 +1,38 @@
-# from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-# Create your views here.
+from apps.articleapp.models import Article
+from apps.commentapp.models import Comment
+from apps.commentapp.serializers import CommentSerializer
 
-# @api_view(['POST'])
-# def comment(request):
-    
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def create_comment(request, article_id):
+    try:
+        article = Article.objects.get(id=article_id)
+    except Article.DoesNotExist:
+        return Response({"error": "페이지를 찾을 수 없음."}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user, article=article)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def list_comments(request, article_id):
+    try:
+        article = Article.objects.get(id=article_id)
+    except Article.DoesNotExist:
+        return Response({"error": "페이지를 찾을 수 없음."}, status=status.HTTP_404_NOT_FOUND)
+
+    comments = Comment.objects.filter(article=article)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

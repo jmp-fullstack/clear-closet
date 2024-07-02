@@ -8,14 +8,15 @@ from apps.product_optionapp.serializers import ProductOptionSerializer
 from apps.productapp.models import Product
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductMatchSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(queryset=ProductCategory.objects.all())
     option = serializers.PrimaryKeyRelatedField(queryset=ProductOption.objects.all())
     product_images = TotalImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['category','option','product_title','price','product_type','product_status','product_images', 'brand']
+        read_only_fields = ['id','category','option']
 
 
 class ProductArticleSerializer(serializers.ModelSerializer):
