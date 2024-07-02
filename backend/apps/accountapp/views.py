@@ -21,15 +21,15 @@ def login(request):
             return Response({"message": "존재하지 않는 아이디이거나 비밀번호가 틀렸습니다."}, status=status.HTTP_400_BAD_REQUEST)
         
         refresh = RefreshToken.for_user(user)
-        access_token = f'Bearer {refresh.access_token}'
+        access_token = str(refresh.access_token)
         
         response = Response(
-            {"user": LoginSerializer(user).data, "message": "login Success",
-            "accessToken": access_token},
+            {"user": LoginSerializer(user).data, "message": "login Success"},
             status=status.HTTP_200_OK
         )
 
         response.set_cookie(key='refresh_token', value=str(refresh), httponly=True, secure=False)
+        response['Authorization'] = f'Bearer {access_token}'
         return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

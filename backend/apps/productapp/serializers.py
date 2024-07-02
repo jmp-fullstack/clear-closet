@@ -15,7 +15,8 @@ class ProductMatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['category','option','price','product_type','product_status','product_images']
+        fields = ['category','option','product_title','price','product_type','product_status','product_images', 'brand']
+        read_only_fields = ['id','category','option']
 
 
 class ProductArticleSerializer(serializers.ModelSerializer):
