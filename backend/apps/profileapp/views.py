@@ -40,13 +40,15 @@ def user_profile(request, user_pk):
 @permission_classes([IsAuthenticated])
 @api_view(['PATCH'])
 def update_profile_image(request, user_id):
+    print(request)
+    print(user_id)
     try:
         user = CustomUser.objects.get(pk=user_id)
     except CustomUser.DoesNotExist:
         return Response({"message": "오류가 여기인가?"},status=status.HTTP_404_NOT_FOUND)
 
     try:
-        profile_image = user.profile_image
+        profile_image = user.profile_images
     except TotalImage.DoesNotExist:
         profile_image = TotalImage(user=user)
 
