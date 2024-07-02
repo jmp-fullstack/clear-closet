@@ -6,8 +6,10 @@ WORKDIR /clear-closet
 COPY requirements.txt /clear-closet
 
 RUN apt-get -y update && apt-get install -y \
+    build-essential \
     pkg-config \
-    default-libmysqlclient-dev
+    default-libmysqlclient-dev \
+    gcc
 
 RUN pip install --no-cache-dir -r requirements.txt
 
