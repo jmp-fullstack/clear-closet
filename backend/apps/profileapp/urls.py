@@ -7,6 +7,6 @@ app_name = "profileapp"
 
 urlpatterns = [
     path('<int:user_pk>/', user_profile, name='user_profile'),
-    path('<int:user_id>/sales/list', article_sales_list, name="article_sales_list"),
-    path('profile-image/<int:user_id>', update_profile_image, name='update_profile_image'),
+    path('<int:user_id>/sales/list/', article_sales_list, name="article_sales_list"),
+    path('profile-image/<int:user_id>/', update_profile_image, name='update_profile_image'),
 ]

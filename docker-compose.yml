@@ -11,6 +11,8 @@ services:
       PYTHONUNBUFFERED: 1
     volumes:
       - ./logs/backend:/logs/backend
+    depends_on:
+      - db
 
   nginx:
     image: nginx:latest
@@ -21,3 +23,12 @@ services:
       - ./frontend/build:/usr/share/nginx/html
     depends_on:
       - backend
+
+  db:
+    image: mariadb:10.6
+    env_file: .env
+    environment:
+      TZ: Asia/Seoul
+    volumes:
+      - ./database/data:/var/lib/mysql
+    restart: always
