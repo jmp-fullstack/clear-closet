@@ -31,4 +31,5 @@ services:
       TZ: Asia/Seoul
     volumes:
       - ./database/data:/var/lib/mysql
+      - ./database/conf.d:/etc/mysql/conf.d
     restart: always
