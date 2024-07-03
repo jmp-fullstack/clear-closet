@@ -114,9 +114,9 @@ def find_password(request):
             return Response({"message": "존재하지 않는 사용자입니다."}, status=status.HTTP_404_NOT_FOUND)
         
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        response.set_cookie('uid', uid, httponly=True, secure=False)
 
         response = Response({"message": "비밀번호 재설정 토큰 발급"}, status=status.HTTP_200_OK)
+        response.set_cookie('uid', uid, httponly=True, secure=False)
         return response
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
