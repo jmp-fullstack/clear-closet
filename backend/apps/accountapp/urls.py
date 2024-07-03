@@ -5,9 +5,9 @@ from apps.accountapp.views import change_password, delete_user, find_password, f
 app_name = "accountapp"
 
 urlpatterns = [
+    path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('signup/', signup, name='signup'),
     path('login/', login, name='login'),
-    path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('logout/', logout, name='logout'),
     path('find/user/', find_user, name='find_user'),
     path('find/password/', find_password, name='find_password'),

@@ -17,6 +17,8 @@ from apps.productapp.serializers import ProductMatchSerializer
 # Create your views here.
 
 # 게시글 전체 보기
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def article_list(request):
     top_category = request.query_params.get('top_category')
@@ -58,6 +60,8 @@ def article_list(request):
 
 
 # 게시글 하나 보기
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)

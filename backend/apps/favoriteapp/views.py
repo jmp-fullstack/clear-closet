@@ -13,11 +13,9 @@ from apps.favoriteapp.serializers import FavoriteSerializer
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def favorite_article(request, article_id):
-    print(request)
     user = request.user
     try:
         article = Article.objects.get(id=article_id)
-        print(article)
     except Article.DoesNotExist:
         return Response({"error": "페이지을 찾을 수 없음"}, status=status.HTTP_404_NOT_FOUND)
     
