@@ -6,7 +6,7 @@ x-project-settings:
 services:
   backend:
     image: sujeong9662/clear-closet:latest
-    env_file: .env
+    env_file: .env.back
     environment:
       PYTHONUNBUFFERED: 1
     volumes:
@@ -26,7 +26,7 @@ services:
 
   db:
     image: mariadb:10.6
-    env_file: .env
+    env_file: .env.db
     environment:
       TZ: Asia/Seoul
     volumes:
