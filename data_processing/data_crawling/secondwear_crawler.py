@@ -37,18 +37,18 @@ def secondwear_crawler(categories) :
                     try:
                         p_brand = product_info['brand']['korean']
                     except:
-                        p_brand = 'NO BRAND'
+                        p_brand = '노브랜드'
                     # 상위 카테고리
                     p_top = f'{main}'
                     # 하위 카테고리
                     p_bottom = f'{sub}'
                     # 색깔
-                    p_color = 'null'
+                    p_color = '지정안함'
                     # 사이즈
                     try :
                         p_size = product_info['clothesSize']['name']
                     except :
-                        p_size = 'FREE'
+                        p_size = '지정안함'
                     # 상품이미지 url
                     p_product_url = product_info['imageUrl']
                     # 반영

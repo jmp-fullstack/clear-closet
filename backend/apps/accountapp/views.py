@@ -9,10 +9,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accountapp.models import CustomUser
 from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, CustomUserSerializer
+
+
+class CustomTokenRefreshView(TokenRefreshView):
+    def post(self, request, *args, kwargs):
+        refresh_token = request.COOKIES.get('refresh')
+        if not refresh_token:
+            return Response({'detail': 'Refresh token is missing'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        request.data['refresh'] = refresh_token
+        response = super().post(request, *args, kwargs)
+
+        return response
 
 #로그인
 @api_view(['POST'])
@@ -151,8 +164,8 @@ def change_password(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['DELETE'])
-def delete_user(request, user_pk):
-    user = get_object_or_404(get_user_model(), pk=user_pk)
+def delete_user(request):
+    user = get_object_or_404(get_user_model())
     if user == request.user:
         user.delete()
         return Response({"message": "회원 탈퇴 되었습니다"}, status=status.HTTP_200_OK)

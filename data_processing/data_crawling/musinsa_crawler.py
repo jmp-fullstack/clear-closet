@@ -46,7 +46,7 @@ def musinsa_crawler(categories) :
                 df['bottom_category'] = [f'{sub}'] * len(df)
                 df['type'] = [1] * len(df)
                 df['status'] = ['새 상품'] * len(df)
-                df['color'] = ['NaN'] * len(df)
+                df['color'] = ['지정안함'] * len(df)
 
                 dataframes.append(df)
 

@@ -118,11 +118,6 @@ def main_ably(base_url, num_requests) :
 
 
 
-
-
-
-
-
 def ably_crawler(ably_base_urls) :
 
     dataframes = []
@@ -134,7 +129,7 @@ def ably_crawler(ably_base_urls) :
             df['bottom_category'] = [f'{sub_key}'] * len(df)
             df['type'] = [1] * len(df)
             df['status'] = ['새 상품'] * len(df)
-            df['color'] = ['null'] * len(df)
+            df['color'] = ['지정안함'] * len(df)
             dataframes.append(df)
 
     # 리스트에 있는 모든 데이터프레임을 이어 붙이기
