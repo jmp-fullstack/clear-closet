@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   const handleNoneClick = () => {
-    navigate("/login");
+    navigate("/service");
   };
 
   return (

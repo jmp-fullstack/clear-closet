@@ -14,6 +14,12 @@
   border-radius: 2px;
 }
 
+.photo-modal .preview-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
 
 .photo-modal .title {
   font-size: 20px;

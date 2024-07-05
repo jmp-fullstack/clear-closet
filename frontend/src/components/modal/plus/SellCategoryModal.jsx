@@ -1,12 +1,12 @@
 import { React, useState } from "react";
 
-import "./SellCategoryModal.css";
-import Tabs from "../Button/category/Tabs";
-import CategoryButton from "../Button/category/CategoryButton";
+import Tabs from "../../Button/category/Tabs";
+import CategoryButton from "../../Button/category/CategoryButton";
+import WideModal from "../WideModal";
 
-import { LuPlus } from "react-icons/lu";
-import WideModal from "./WideModal";
-import CheckButton from "../Button/CheckButton";
+import { IoCloseOutline } from "react-icons/io5";
+
+import "./SellCategoryModal.css";
 
 const SellCategoryModal = ({ closeModal, setSelectedcategory }) => {
   const categories = {
@@ -75,7 +75,7 @@ const SellCategoryModal = ({ closeModal, setSelectedcategory }) => {
     <WideModal isOpen={true}>
       <div className="sellCategory-modal">
         <div className="cancel" onClick={closeModal}>
-          <LuPlus size={30} />
+          <IoCloseOutline size={30} />
         </div>
         <div className="title">카테고리를 선택해 주세요</div>
         <div className="line"></div>
@@ -95,7 +95,17 @@ const SellCategoryModal = ({ closeModal, setSelectedcategory }) => {
             />
           ))}
           <div className="confirm">
-            <CheckButton type="submit" onClick={handleConfirmClick} />
+            <button
+              className="apply-button"
+              onClick={handleConfirmClick}
+              style={{
+                backgroundColor:
+                  selectedSubcategory.length > 0 ? "#8f0456" : "#dadada",
+                color: "#ffffff",
+              }}
+            >
+              확인
+            </button>
           </div>
         </div>
       </div>

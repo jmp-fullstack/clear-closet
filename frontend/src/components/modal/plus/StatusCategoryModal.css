@@ -1,0 +1,74 @@
+.statusCategory-modal .cancel {
+  height: 100%;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+
+  transform: rotate(45deg);
+  margin-left: 0.3rem;
+  color: black;
+}
+
+.statusCategory-modal .title {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.statusCategory-modal .line {
+  width: 100%;
+  height: 1px;
+  color: #dadada;
+}
+
+/* .statusCategory-modal .sticky-tabs {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+} */
+
+/* 가로 스크롤써서 화면 밖으로 쭉 빼기 */
+.statusCategory-modal .category-buttons {
+  /* display: flex; */
+  /* overflow-x: auto; */
+  /* white-space: nowrap; */
+  margin-top: 8px;
+  margin-bottom: 8px;
+  /* width: 110%; */
+}
+
+.statusCategory-modal .confirm {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%; 
+}
+
+.tatusCategory-modall .confirm {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.confirm .apply-button {
+  width: 80%;
+  padding: 15px 20px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}

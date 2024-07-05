@@ -18,7 +18,7 @@ const Plus = () => {
 
   const handleAiBuyClick = () => {
     setTimeout(() => {
-      navigate("/camera");
+      navigate("/camera-buy");
     }, 200);
   };
 

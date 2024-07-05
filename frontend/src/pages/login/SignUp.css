@@ -31,6 +31,7 @@
 
 .SignUp .putin-sec {
   padding-top: 2rem;
+  width: 80%;
 }
 
 .SignUp .sign-field {
@@ -39,25 +40,32 @@
   align-items: center;
   border: 0px;
 
-  width: 320px;
+  width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 
-  font-size: 15px;
-}
+  margin-bottom: 1rem;
 
+  font-size: 15px;
+  border-bottom: 0.5px solid #ddd; 
+}
+/* 
 .SignUp .line {
   width: 100%;
   height: 1px;
   background-color: rgb(165, 165, 165);
   margin-bottom: 1.2rem;
-}
+} */
 
 .SignUp .marketing-sec {
   display: flex;
   align-items: center;
   margin: 0.5rem 0;
   color: #cbcbcb;
+}
+
+.SignUp .marketing-sec:hover {
+  color: #8f0456;
 }
 
 .SignUp .text {

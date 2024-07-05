@@ -3,19 +3,27 @@
   text-align: center;
 }
 
+.guide-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .guide-modal .title {
   font-size: 22px;
   font-weight: 600;
-  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid #dadada;
 }
+
 .guide-modal p {
   font-size: 16px;
-  font-weight: 500;
+  color: #c8c8c8;
 }
 
 .guide-modal .forms {
   display: flex;
   flex-direction: column;
+
 
   list-style-type: none;
   padding: 1.5rem;
@@ -24,9 +32,22 @@
 
 .guide-modal .form {
   display: flex;
-  text-align: left;
+  justify-content: start;
+
   margin-bottom: 20px;
 }
+
+.guide-modal .icon {
+  padding-right: 0.5rem;
+}
+
+.guide-modal .text {
+  font-size: 16px;
+  text-align: left;
+}
+
+
+
 
 /* 
 .guide-modal button {

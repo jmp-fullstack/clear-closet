@@ -1,0 +1,69 @@
+.buy-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.buy-modal .topline {
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  width: 18%;
+  height: 5px;
+  background-color: #dadada;
+  border-radius: 2px;
+}
+
+.buy-modal .title {
+  font-size: 20px;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid #dadada;
+}
+
+.buy-modal .buy-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.buy-modal .buy-cards .card-sec {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: calc(50% - 10px); /* 간격 조정을 위해 수정됨 */
+  margin-bottom: 12px;
+  text-align: left;
+  cursor: grab; /* 드래그 가능한 항목 표시 */
+}
+
+.buy-modal .buy-cards .card-sec:active {
+  cursor: grabbing; /* 드래그 중임을 표시 */
+}
+
+.buy-modal .buy-cards .card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.buy-modal .buy-cards .name {
+  font-weight: 500;
+  padding-top: 0.3rem;
+}
+
+.buy-modal .buy-cards .category {
+  color: #afafaf;
+  font-size: 13px;
+}
+
+.buy-modal .buy-cards .price {
+  font-weight: bold;
+  font-size: 14px;
+  padding-top: 0.4rem;
+}

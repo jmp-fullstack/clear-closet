@@ -18,6 +18,7 @@
   width: 100%;
   padding: 0 1rem; 
   margin: 0.5rem 0;
+  border-bottom: 0.5px solid #ddd; 
 }
 
 .My .header-sec .title {
@@ -26,14 +27,9 @@
   margin-bottom: 0.5rem;
 }
 
-.My .header-sec .line {
-  width: 108%;
-  height: 1px;
-  background-color: #eaeaea;
-}
-
 .My .info-sec {
   width: 100%;
+  border-bottom: 0.5px solid #ddd; 
 }
 
 .My .info-sec .photo {
@@ -88,7 +84,8 @@
 
 .My .my-sec {
   width: 100%;
-  margin: 1rem 0;
+  padding: 1rem 0;
+  border-bottom: 0.5px solid #ddd; 
 }
 
 .My .interest {

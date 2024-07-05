@@ -27,7 +27,7 @@ const DealTabs = ({ tabs, onTabClick }) => {
   }, [tabs, activeTab]);
 
   return (
-    <div className="deal-tabs">
+    <div className="deal-tabs" ref={tabsRef}>
       {tabs.map((tab, index) => (
         <div
           key={tab.label}

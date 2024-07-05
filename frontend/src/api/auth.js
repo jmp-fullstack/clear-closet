@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "", // 프록시 설정을 사용하여 baseURL을 빈 문자열로 설정
-});
+import api from "./utils/axios";
 
 // 회원가입 API
 export const signUp = async (
@@ -25,6 +21,7 @@ export const signUp = async (
 
   try {
     const response = await api.post("/api/accounts/signup/", requestData);
+    console.log("Sign Up Response Data:", response.data); // 응답 데이터 출력
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -40,17 +37,53 @@ export const login = async (email, password) => {
     email,
     password,
   };
-  console.log("Login Request Data:", requestData); // 요청 데이터 출력
+  console.log("Login Request Data:", requestData);
 
   try {
     const response = await api.post("/api/accounts/login/", requestData);
-    return response.data; // access token이 포함된 응답 데이터 반환
+    console.log("Login Response Data:", response.data); // 로그인 응답 데이터 출력
+
+    const { access, user_id } = response.data;
+
+    // access_token과 user_id를 로컬 스토리지에 저장
+    localStorage.setItem("access", access);
+    localStorage.setItem("user_id", user_id);
+
+    return response.data;
   } catch (error) {
     if (error.response) {
-      console.error("Login Response Data:", error.response.data); // 서버 응답 데이터 출력
+      console.error("Login Response Error:", error.response.data);
     }
     throw error;
   }
+};
+
+// 사용자 이름을 불러오는 API 호출
+export const getUsername = async () => {
+  try {
+    const response = await api.get("/api/accounts/login");
+    console.log("Username Response Data:", response.data);
+    const { username } = response.data;
+
+    // 사용자 이름을 로컬 스토리지에 저장
+    localStorage.setItem("username", username);
+
+    return username;
+  } catch (error) {
+    if (error.response) {
+      console.error("Username Response Error:", error.response.data);
+    }
+    throw error;
+  }
+};
+
+// 로그아웃 API
+export const logout = () => {
+  localStorage.removeItem("access");
+  localStorage.removeItem("user_id");
+
+  // 로컬 스토리지 비우기
+  document.cookie = "refresh=; Max-Age=0; path=/;"; // 쿠키에서 refresh_token 제거
 };
 
 // 아이디 찾기 API
@@ -62,7 +95,7 @@ export const findId = async (username, phone_number) => {
   console.log("FindId Request Data:", requestData); // 요청 데이터 출력
 
   try {
-    const response = await api.post("/api/accounts/auth/user/", requestData);
+    const response = await api.post("/api/accounts/find/user/", requestData);
     return response.data; // access token이 포함된 응답 데이터 반환
   } catch (error) {
     if (error.response) {
@@ -72,29 +105,93 @@ export const findId = async (username, phone_number) => {
   }
 };
 
-// 비밀번호 재설정 인증 API
-export const findPwAuth = async (username, email, phone_number, ac_token) => {
+// 비밀번호 재설정 인증 함수
+export const findPwAuth = async (username, email, phone_number) => {
   const requestData = {
     username,
     email,
     phone_number,
   };
-  console.log("FindPwAuth Request Data:", requestData); // 요청 데이터 출력
-
-  // const headers = {
-  //   Authorization: `Bearer ${ac_token}`, // 접속시 헤더에 ac_token 필요
-  // };
+  console.log("FindPwAuth Request Data:", requestData);
 
   try {
-    const response = await axios.post(
-      "/api/accounts/auth/password/",
-      requestData
-      // { headers } // 헤더 포함
+    const response = await api.post(
+      "/api/accounts/find/password/",
+      requestData,
+      {
+        withCredentials: true,
+      }
     );
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("PasswordAuth Response Data:", error.response.data);
+      if (error.response.status === 401) {
+        console.error("Authentication failed: Unauthorized");
+      }
+    }
+    throw error;
+  }
+};
+
+// 비밀번호 재설정 완료 API (`resetPassword`)
+export const resetPassword = async (newPassword) => {
+  const requestData = {
+    new_password: newPassword,
+  };
+
+  try {
+    const response = await api.post(
+      "/api/accounts/change/password/",
+      requestData,
+      {
+        withCredentials: true, // 쿠키를 함께 보냄
+      }
+    );
+
+    // 쿠키에서 reset 삭제
+    document.cookie = `reset=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+
     return response.data; // 응답 데이터 반환
   } catch (error) {
     if (error.response) {
-      console.error("FindPwAuth Response Data:", error.response.data); // 서버 응답 데이터 출력
+      console.error("Reset Password Response Data:", error.response.data); // 서버 응답 데이터 출력
+    }
+    throw error;
+  }
+};
+
+// 회원 탈퇴 API
+export const deleteAccount = async (username, password) => {
+  const requestData = {
+    username,
+    password,
+  };
+  console.log("Delete Request Data:", requestData);
+
+  const access = localStorage.getItem("access");
+
+  if (!access) {
+    throw new Error("No access token available");
+  }
+
+  const headers = {
+    Authorization: `Bearer ${access}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await api.delete(`/api/accounts/`, {
+      headers: headers,
+      data: requestData,
+    });
+
+    // 응답 데이터 반환
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("Delete Response Data:", error.response.data);
     }
     throw error;
   }

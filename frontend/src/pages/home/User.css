@@ -1,0 +1,72 @@
+.User {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.User .header-sec {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%; 
+  margin: 0.5rem 0;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.5px solid #dadada;
+}
+.User .left {
+    padding: 0 1rem; 
+}
+
+.User .right {
+  position: absolute; 
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.User .profile-sec {
+  display: flex;
+  align-items: center;
+  width: 80%;
+
+}
+
+.User .profile-sec .card {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  margin-right: 1rem;
+}
+
+.User .interest-sec {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 2rem 0;
+}
+
+.User .interest-sec .line {
+  border-radius: 10px;
+  border:  5px solid #c01177;
+  margin: 1rem 0;
+  margin-bottom: 5rem;
+}
+
+
+.User .content-sec {
+  width: 90%;
+
+}
+.User .content-sec .sell-product {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1rem 0;
+}

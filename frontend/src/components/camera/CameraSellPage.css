@@ -1,0 +1,17 @@
+.CameraSell-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.CameraSell-page .input {
+  display: none;
+}
+
+.CameraSell-page .message {
+  margin: 20px 0;
+  color: #888;
+}

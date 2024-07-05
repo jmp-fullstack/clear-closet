@@ -3,11 +3,13 @@
     position: relative;
     border-bottom: 0.5px solid #ddd;
     overflow: hidden;
+
+    font-size: 15px;
   }
   
   .tab {
     flex: 1;
-    padding: 16px 5px;
+    padding: 16px 3px;
     text-align: center;
     cursor: pointer;
   }
