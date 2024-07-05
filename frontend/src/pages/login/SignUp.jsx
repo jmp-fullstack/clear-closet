@@ -20,6 +20,12 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleSignupClick = async () => {
+    // 비밀번호 길이 체크
+    if (password.length < 10) {
+      setError("비밀번호는 10자 이상이어야 합니다.");
+      return;
+    }
+
     try {
       const response = await signUp(
         username,
@@ -30,10 +36,29 @@ const SignUp = () => {
         profileImage
       );
       console.log("SignUp success", response);
-      navigate("/wellcome");
+      navigate("/welcome");
     } catch (error) {
       console.error("SignUp error", error);
-      setError("회원가입에 실패했습니다. 다시 시도해주세요.");
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+
+        if (errorData.error) {
+          if (errorData.error.includes("이메일")) {
+            setError(`이미 존재하는 이메일 입니다.`);
+          } else if (errorData.error.includes("닉네임")) {
+            setError(`이미 존재하는 닉네임 입니다.`);
+          } else if (errorData.error.includes("전화번호")) {
+            setError(`이미 존재하는 전화번호 입니다.`);
+          } else {
+            setError("회원가입에 실패했습니다. 다시 시도해주세요.");
+          }
+        } else {
+          setError("회원가입에 실패했습니다. 다시 시도해주세요.");
+        }
+      } else {
+        setError("회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
     }
   };
 

@@ -13,11 +13,11 @@ const SellOptionModal = ({
 }) => {
   const filters = {
     color: [
-      { name: "노랑", color: "yellow" },
-      { name: "빨강", color: "red" },
-      { name: "파랑", color: "blue" },
+      { name: "옐로우", color: "yellow" },
+      { name: "레드", color: "red" },
+      { name: "블루", color: "blue" },
     ],
-    size: ["XS", "S", "M", "L", "XL", "2XL 이상", "FREE"],
+    size: ["XS", "S", "M", "L", "XL", "2XL 이상", "FREE", "지정안함"],
   };
 
   const [activeFilters, setActiveFilters] = useState({

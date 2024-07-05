@@ -27,13 +27,20 @@
 
 .Product .photo-sec {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+
+  overflow-x: auto;
+  white-space: nowrap;
+
+
+  width: 100%;
   margin-top: 1rem;
 }
 
 .Product .card {
   border-radius: 8px;
   margin-bottom: 1rem;
+  padding: 0 3rem;
 }
 .Product .product-sec {
   margin: 1rem;
@@ -66,12 +73,10 @@
   font-weight: 450;
   letter-spacing: -0.5px; 
 }
-.Product .sentence {
-  color: #a2a2a2;
-}
-
-.Product .write {
-  padding: 0.5rem 0;
-  font-size: 16px;
+.Product .content {
+  margin: 1rem;
+  padding-left: 3rem;
+  width: 100%;
+  text-align: left;
   color: #a2a2a2;
 }

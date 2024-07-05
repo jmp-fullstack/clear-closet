@@ -11,7 +11,7 @@ export const article_create = async (
   bottom_category,
   size,
   color,
-  product_title,
+  title,
   content
 ) => {
   const requestData = {
@@ -30,7 +30,7 @@ export const article_create = async (
         color,
       },
     },
-    title: product_title,
+    title,
     content,
   };
 
@@ -39,6 +39,7 @@ export const article_create = async (
     const response = await api.post("/api/articles/", requestData, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
     });
     return response.data;
@@ -54,7 +55,7 @@ export const article_list = async (articleData, access) => {
     const response = await api.get("/api/articles/list/", {
       headers: {
         "Content-Type": "application/json",
-        access: access, // 헤더에서 가져온 액세스 토큰 사용
+        Authorization: `Bearer ${access}`, // 액세스 토큰을 헤더에 추가
       },
       params: articleData,
     });
@@ -62,6 +63,25 @@ export const article_list = async (articleData, access) => {
   } catch (error) {
     console.error(
       "Get Article List Error Response Data:",
+      error.response?.data
+    );
+    throw error;
+  }
+};
+
+// 게시글 상세 조회 API
+export const article_detail = async (article_pk, access) => {
+  try {
+    const response = await api.get(`/api/articles/detail/${article_pk}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access}`, // 액세스 토큰을 헤더에 추가
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get Article Detail Error Response Data:",
       error.response?.data
     );
     throw error;

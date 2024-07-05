@@ -72,12 +72,12 @@
 
 }
 
-.CategoryTabs .category-content .name {
+.CategoryTabs .category-content .title {
   font-weight: bold; 
   margin-top: 8px; 
 }
 
-.CategoryTabs .category-content .nickname {
+.CategoryTabs .category-content .price {
   color: gray;
   margin-top: 2px; 
   font-size: 14px;

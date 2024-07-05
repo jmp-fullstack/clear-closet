@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Tabs from "./Tabs";
-// import card from "../../../assets/card/card_sample_2.png";
 import CategoryButton from "./CategoryButton";
 import FilterButton from "./FilterButton";
 import ColorFilterModal from "../../modal/search/ColorFilterModal";
@@ -16,7 +15,7 @@ import "./CategoryTabs.css";
 const categories = {
   전체: ["반소매 티셔츠", "숏팬츠", "코튼 팬츠"],
   상의: ["니트", "후드", "맨투맨"],
-  바지: ["데님 팬츠", "슬랙스", "트레이닝/조거팬츠"],
+  하의: ["데님 팬츠", "슬랙스", "트레이닝/조거팬츠"],
   아우터: ["후드 집업", "바람막이", "코트"],
   원피스: ["미니 원피스", "미디 원피스", "롱원피스"],
   스커트: ["미니스커트", "미디스커트", "롱스커트"],
@@ -24,9 +23,9 @@ const categories = {
 
 const filters = {
   color: [
-    { name: "노랑", color: "yellow" },
-    { name: "빨강", color: "red" },
-    { name: "파랑", color: "blue" },
+    { name: "옐로우", color: "yellow" },
+    { name: "레드", color: "red" },
+    { name: "블루", color: "blue" },
   ],
   size: ["XS", "S", "M", "L", "XL", "2XL 이상", "FREE"],
   condition: ["New", "Used"],
@@ -63,11 +62,10 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        // 헤더에서 액세스 토큰 가져오기
-        const access = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("access="))
-          ?.split("=")[1];
+        const access = localStorage.getItem("access");
+        if (!access) {
+          throw new Error("Access token not found");
+        }
 
         const articleData = {
           top_category:
@@ -85,21 +83,18 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
           availability: activeFilters.availability.length
             ? activeFilters.availability.join(",")
             : undefined,
-          sPrice: 9000, // Example value, adjust as needed
-          ePrice: 50000, // Example value, adjust as needed
-          isSort: "asc", // Example value, adjust as needed
-          page: 1, // Example value, adjust as needed
-          limit: 20, // Example value, adjust as needed
+          sPrice: 9000, // 예시 값, 필요에 따라 조정
+          ePrice: 50000, // 예시 값, 필요에 따라 조정
+          isSort: "asc", // 예시 값, 필요에 따라 조정
         };
+
         console.log("Fetching articles with data:", articleData);
 
-        if (access) {
-          const data = await article_list(articleData, access);
-          console.log("Fetched articles:", data.results);
-          setArticles(data.results);
-        }
-      } catch (error) {
-        console.error("Error fetching article list:", error);
+        const data = await article_list(articleData, access);
+        console.log("Fetched articles:", data.results);
+        setArticles(data.results);
+      } catch (err) {
+        console.error("Error fetching article list:", err);
       }
     };
 
@@ -108,7 +103,7 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
 
   const handleTabClick = (category) => {
     setCurrentCategory(category);
-    setCurrentSubcategory(""); // Reset subcategory when main category is clicked
+    setCurrentSubcategory(""); // 메인 카테고리를 클릭할 때 하위 카테고리를 초기화
     navigate(`/search?category=${category}`);
   };
 
@@ -152,8 +147,9 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
     }));
   };
 
-  const handleCardSecClick = (cardSec) => {
-    navigate(`/product?cardsec=${cardSec}`);
+  const handleCardSecClick = (article_pk) => {
+    console.log(`Navigating to /product?detail=${article_pk}`); // 디버깅을 위해 추가
+    navigate(`/product?detail=${article_pk}`);
   };
 
   return (
@@ -218,8 +214,8 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
                   alt={article.title}
                   className="card"
                 />
-                <div className="name">{article.title}</div>
-                <div className="nickname">{article.product.price}원</div>
+                <div className="title">{article.title}</div>
+                <div className="price">{article.product.price}원</div>
               </div>
             ))
           ) : (

@@ -56,8 +56,12 @@
   font-size: 15px;
 }
 
+.Home .welcome {
+  margin-top: 0.5rem;
+}
+
 .Home .left_2 {
-  margin: 0.7rem 0;
+  margin-bottom: 0.7rem;
   width: 100%;
 
   text-align: left;
