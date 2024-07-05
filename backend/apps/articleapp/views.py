@@ -59,15 +59,6 @@ def article_list(request):
     return paginator.get_paginated_response(serializer.data)
 
 
-# 게시글 하나 보기
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-@api_view(['GET'])
-def article_detail(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    serializer = ArticleDetailSerializer(article)
-    return Response(serializer.data)
-
 # 게시글 만들기
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -115,29 +106,33 @@ def article_create(request):
     return Response(article_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# 게시글 삭제하기
+# 게시글 기능
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
-@api_view(['DELETE'])
-def article_delete(request, article_pk):
-    article = get_object_or_404(Article, id=article_pk)
-    if request.user == article.user:
-        article.delete()
-        return Response({"message":"삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
-    else: 
-        return Response({"message":"권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+@api_view(['GET','DELETE', 'PATCH'])
+def article_detail(request, article_pk):
 
+    if request.method == 'GET':
+        article = get_object_or_404(Article, pk=article_pk)
+        serializer = ArticleDetailSerializer(article)
+        return Response(serializer.data)
 
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-@api_view(['PATCH'])
-def article_update(request, article_pk):
-    article = get_object_or_404(Article, id=article_pk)
-    if request.user != article.user:
-        return Response({"message": "권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+    if request.method == 'DELETE':
+        article = get_object_or_404(Article, id=article_pk)
+        if request.user == article.user:
+            article.delete()
+            return Response({"message":"삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+        else: 
+            return Response({"message":"권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+        
+    if request.method == 'PATCH':
+        article = get_object_or_404(Article, id=article_pk)
+        if request.user != article.user:
+            return Response({"message": "권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
 
-    serializer = ArticleDetailSerializer(article, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ArticleDetailSerializer(article, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

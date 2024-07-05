@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
-from django.contrib.auth import get_user_model, authenticate
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
@@ -13,14 +13,14 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accountapp.models import CustomUser
-from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, CustomUserSerializer
+from apps.accountapp.serializers import ChangePasswordSerializer, FindEmailSerializer, FindPasswordSerializer, LoginSerializer, CustomUserSerializer, UserDetailSerializer
 
 
 class CustomTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, kwargs):
         refresh_token = request.COOKIES.get('refresh')
         if not refresh_token:
-            return Response({'detail': 'Refresh token is missing'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'Refresh token is missing'}, status=status.HTTP_401_UNAUTHORIZED)
         
         request.data['refresh'] = refresh_token
         response = super().post(request, *args, kwargs)
@@ -35,19 +35,29 @@ def login(request):
         email = serializer.validated_data.get('email')
         password = serializer.validated_data.get('password')
         
-        user = authenticate(email=email, password=password)
-        if user is None:
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            return Response({"error": "존재하지 않는 아이디이거나 비밀번호가 틀렸습니다."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not check_password(password, user.password):
             return Response({"error": "존재하지 않는 아이디이거나 비밀번호가 틀렸습니다."}, status=status.HTTP_400_BAD_REQUEST)
         
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
         
-        response = Response({"message": "login Success","access": access_token}, status=status.HTTP_200_OK)
+        user_data = UserDetailSerializer(user).data
 
+        response_data = {
+            "message": "login Success",
+            "access": access_token,
+            **user_data
+        }
+
+        response = Response(response_data, status=status.HTTP_200_OK)
         response.set_cookie(key='refresh', value=str(refresh), httponly=True, secure=False)
         return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # 회원가입
 @api_view(['POST'])
