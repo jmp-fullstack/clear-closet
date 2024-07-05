@@ -1,59 +1,50 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
-import styled from "@emotion/styled";
+import "./CameraBuyPage.css";
 
-const Root = styled.div`
-  height: 100%;
-  text-align: center;
-`;
-
-const ImgBox = styled(Box)`
-  max-width: 80%;
-  max-height: 80%;
-  margin: 10px;
-`;
-
-const Img = styled.img`
-  height: inherit;
-  max-width: inherit;
-`;
-
-const Input = styled.input`
-  display: none;
-`;
-
-function Camera() {
+function CameraBuyPage() {
   const [source, setSource] = useState("");
+  const navigate = useNavigate();
 
   const handleCapture = (target) => {
-    if (target.files) {
-      if (target.files.length !== 0) {
-        const file = target.files[0];
-        const newUrl = URL.createObjectURL(file);
-        setSource(newUrl);
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      if (!file.type.startsWith("image/")) {
+        alert("Please select an image file");
+        return;
       }
+      const newUrl = URL.createObjectURL(file);
+      console.log("Generated URL: ", newUrl);
+      setSource(newUrl);
+      navigate("/upload", { state: { imageUrl: newUrl } }); // navigate 함수로 상태 전달
     }
   };
 
   return (
-    <Root>
+    <div className="CameraBuy-page">
       <Grid container>
         <Grid item xs={12}>
           <h5>Capture your image</h5>
-          {source && (
-            <ImgBox display="flex" justifyContent="center" border={1}>
-              <Img src={source} alt={"snap"}></Img>
-            </ImgBox>
+          {source ? (
+            <Box className="imgBox">
+              <img src={source} alt="snap" className="img" />
+            </Box>
+          ) : (
+            <div className="message">
+              아이콘을 클릭해서 이미지를 업로드 해주세요
+            </div>
           )}
-          <Input
+          <input
             accept="image/*"
             id="icon-button-file"
             type="file"
             capture="environment"
             onChange={(e) => handleCapture(e.target)}
+            className="input"
           />
           <label htmlFor="icon-button-file">
             <IconButton
@@ -66,8 +57,8 @@ function Camera() {
           </label>
         </Grid>
       </Grid>
-    </Root>
+    </div>
   );
 }
 
-export default Camera;
+export default CameraBuyPage;

@@ -16,6 +16,7 @@
 
 .deal-tabs .active {
   font-weight: bold;
+  color: #8f0456;
 }
 
 .deal-tabs .line-bar {

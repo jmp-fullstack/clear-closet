@@ -1,0 +1,19 @@
+.logout-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.logout-modal .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 2rem;
+  color: black;
+}
+
+
+.logout-modal .button {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}

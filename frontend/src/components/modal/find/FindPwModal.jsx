@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CenterModal from "../my/CenterModal";
+import { resetPassword } from "../../../api/auth";
 
 import "./FindPwModal.css";
 
 import { IoCloseOutline } from "react-icons/io5";
 import CheckButton from "../../Button/CheckButton";
 
-const FindPwModal = ({ closeModal, foundPwAuth }) => {
+const FindPwModal = ({ closeModal }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match!");
+      setError("비밀번호가 일치하지 않습니다!");
       return;
     }
-    // Here, you would call your API to reset the password
-    // For demonstration, we just log to console
-    console.log("Resetting password to:", newPassword);
-    closeModal();
-  };
 
-  const handleCardSecClick = () => {
-    navigate(`/login`);
+    try {
+      const response = await resetPassword(newPassword);
+      console.log("Password reset successful:", response);
+      closeModal();
+      navigate("/login");
+    } catch (error) {
+      console.error("Password reset failed:", error);
+      setError("비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (
@@ -35,7 +38,6 @@ const FindPwModal = ({ closeModal, foundPwAuth }) => {
           <IoCloseOutline size={30} />
         </div>
         <div className="title">비밀번호 재설정</div>
-        <div className="line"></div>
         <div className="findPw-input">
           <input
             type="password"
@@ -47,18 +49,16 @@ const FindPwModal = ({ closeModal, foundPwAuth }) => {
           />
           <input
             type="password"
-            placeholder="비밀번호 확인"
+            placeholder="한번 더 입력해 주세요"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             aria-label="Confirm Password"
             className="find-field"
           />
-          <div className="line"></div>
           {error && <div className="error-message">{error}</div>}
-          <button onClick={handleResetPassword}>재설정</button>
         </div>
-        <div className="findPW-button">
-          <CheckButton onClick={handleCardSecClick} />
+        <div className="button">
+          <CheckButton onClick={handleResetPassword} />
         </div>
       </div>
     </CenterModal>

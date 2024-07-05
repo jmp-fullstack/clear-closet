@@ -1,0 +1,19 @@
+.Service {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 70vh;
+
+  padding: 2rem;
+}
+
+.Service .icon {
+  color: #8f0456;
+}
+
+.Service .text {
+  margin-top: 1rem;
+  font-size: 18px;
+}

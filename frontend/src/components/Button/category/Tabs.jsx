@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Tabs.css";
 
-const Tabs = ({ tabs, onTabClick }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0]?.label || "");
+const Tabs = ({ tabs, onTabClick, defaultActiveTab }) => {
+  const [activeTab, setActiveTab] = useState(
+    defaultActiveTab || tabs[0]?.label || ""
+  );
   const [lineStyle, setLineStyle] = useState({});
   const tabsRef = useRef(null);
 
@@ -23,8 +25,21 @@ const Tabs = ({ tabs, onTabClick }) => {
   };
 
   useEffect(() => {
-    updateLineStyle(tabs.findIndex((tab) => tab.label === activeTab));
+    const index = tabs.findIndex((tab) => tab.label === activeTab);
+    if (index !== -1) {
+      updateLineStyle(index);
+    }
   }, [tabs, activeTab]);
+
+  useEffect(() => {
+    if (defaultActiveTab) {
+      setActiveTab(defaultActiveTab);
+      const index = tabs.findIndex((tab) => tab.label === defaultActiveTab);
+      if (index !== -1) {
+        updateLineStyle(index);
+      }
+    }
+  }, [defaultActiveTab, tabs]);
 
   return (
     <div className="tabs" ref={tabsRef}>

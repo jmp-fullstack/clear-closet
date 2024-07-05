@@ -61,7 +61,6 @@ const SignUp = () => {
             className="sign-field"
             autoComplete="email"
           />
-          <div className="line"></div>
           <input
             type="password"
             placeholder="비밀번호를 입력해 주세요"
@@ -71,7 +70,6 @@ const SignUp = () => {
             className="sign-field"
             autoComplete="current-password"
           />
-          <div className="line"></div>
           <input
             type="text"
             placeholder="이름을 입력해 주세요"
@@ -80,7 +78,6 @@ const SignUp = () => {
             aria-label="Username"
             className="sign-field"
           />
-          <div className="line"></div>
           <input
             type="text"
             placeholder="닉네임을 입력해 주세요"
@@ -89,7 +86,6 @@ const SignUp = () => {
             aria-label="Nickname"
             className="sign-field"
           />
-          <div className="line"></div>
           <input
             type="text"
             placeholder="휴대폰 번호를 -없이 입력해 주세요"
@@ -98,7 +94,6 @@ const SignUp = () => {
             aria-label="Phone"
             className="sign-field"
           />
-          <div className="line"></div>
           {/* 프로필 이미지 업로드 필드를 추가할 수도 있습니다. */}
         </form>
       </div>

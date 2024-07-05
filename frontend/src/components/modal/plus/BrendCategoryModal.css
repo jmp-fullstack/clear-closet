@@ -1,4 +1,5 @@
-.sellCategory-modal .cancel {
+.brendCategory-modal .cancel {
+  height: 100%;
   position: absolute;
   top: 12px;
   right: 12px;
@@ -9,7 +10,7 @@
   color: black;
 }
 
-.sellCategory-modal .title {
+.brendCategory-modal .title {
   display: flex;
   justify-content: center;
 
@@ -20,13 +21,13 @@
   font-weight: 600;
 }
 
-.sellCategory-modal .line {
+.brendCategory-modal .line {
   width: 100%;
   height: 1px;
   color: #dadada;
 }
 
-/* .sellCategory-modal .sticky-tabs {
+/* .brendCategory-modal .sticky-tabs {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -35,7 +36,7 @@
 } */
 
 /* 가로 스크롤써서 화면 밖으로 쭉 빼기 */
-.sellCategory-modal .category-buttons {
+.brendCategory-modal .category-buttons {
   /* display: flex; */
   /* overflow-x: auto; */
   /* white-space: nowrap; */
@@ -44,11 +45,28 @@
   /* width: 110%; */
 }
 
-.sellCategory-modal .confirm {
+.brendCategory-modal .confirm {
   margin-top: 2rem;
   position: fixed;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
   width: 90%; 
+}
+
+.brendCategory-modal .confirm {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.confirm .apply-button {
+  width: 80%;
+  padding: 15px 20px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import Camera from "../../../components/camera/Camera";
+import Camera from "../../../components/camera/CameraSellPage";
 
-const CameraPage = () => {
+const CameraSell = () => {
   return (
     <div>
       {/* <h1>Camera Page</h1> */}
@@ -10,4 +10,4 @@ const CameraPage = () => {
   );
 };
 
-export default CameraPage;
+export default CameraSell;

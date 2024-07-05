@@ -1,0 +1,79 @@
+/* SizeFilterModal.css */
+.size-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.size-modal .size-content {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 0 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.size-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  color: black;
+}
+
+.size-modal .size-title {
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid #e5e5e5;
+}
+
+.size-samples {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.size-item {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  transition: font-weight 0.3s;
+}
+
+.size-item.active {
+  font-weight: 800;
+  color: #d02488;
+}
+
+.size-modal .size-button {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.size-button .apply-button {
+  width: 80%;
+  padding: 15px 20px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}

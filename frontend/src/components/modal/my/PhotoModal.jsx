@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import ShortModal from "./ShortModal";
 
@@ -9,7 +9,22 @@ import { TbPhoto } from "react-icons/tb";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { FaRegTrashCan } from "react-icons/fa6";
 
-const PhotoModal = ({ closeModal, cardSec }) => {
+const PhotoModal = ({ closeModal, setProfileImage }) => {
+  const fileInputRef = useRef(null);
+
+  const handleFileClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const objectUrl = URL.createObjectURL(file);
+  //     setProfileImage(objectUrl);
+  //     closeModal();
+  //   }
+  // };
+
   return (
     <ShortModal isOpen={true} closeModal={closeModal}>
       <div className="photo-modal">
@@ -18,11 +33,17 @@ const PhotoModal = ({ closeModal, cardSec }) => {
         <div className="line"></div>
 
         <div className="photo-sec">
-          <div className="content">
+          <div className="content" onClick={handleFileClick}>
             <div className="icon">
               <FaRegFile size={26} />
             </div>
             <div className="file">파일로 불러오기</div>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              // onChange={handleFileChange}
+            />
           </div>
           <div className="content">
             <div className="icon">

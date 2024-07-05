@@ -1,4 +1,4 @@
-.HomeProduct {
+.Product {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,74 +6,71 @@
   height: 900px;
   background-color: #ffffff;
 
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
   padding: 0 1rem;
 }
 
-.HomeProduct .header-sec {
+.Product .header-sec {
     display: flex;
     justify-content: space-between;
     width: 100%; 
     margin: 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.5px solid #ddd; 
 }
 
-.HomeProduct .title {
+.Product .title {
   font-weight: 600;
   font-size: 18px;
 }
 
-.HomeProduct .line {
-  width: 390px; /* 선의 길이 */
-  height: 1px; /* 선의 두께 */
-  background-color: #e4e4e4;
-}
 
-.HomeProduct .photo-sec {
+.Product .photo-sec {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
 }
 
-.HomeProduct .card {
+.Product .card {
   border-radius: 8px;
   margin-bottom: 1rem;
 }
-.HomeProduct .product-sec {
+.Product .product-sec {
   margin: 1rem;
 }
 
-.HomeProduct .info {
+.Product .info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 350px;
 }
 
-.HomeProduct .interest {
+.Product .interest {
   color: #ff1c8e;
 }
 
-.HomeProduct .name {
+.Product .name {
   font-size: 22px;
   font-weight: 600;
 }
-.HomeProduct .nickname {
+.Product .nickname {
   padding: 0.5rem 0;
   color: #a2a2a2;
 }
 
-.HomeProduct .price {
+.Product .price {
   padding: 0.5rem 0;
 
   font-size: 22px;
   font-weight: 450;
   letter-spacing: -0.5px; 
 }
-.HomeProduct .sentence {
+.Product .sentence {
   color: #a2a2a2;
 }
 
-.HomeProduct .write {
+.Product .write {
   padding: 0.5rem 0;
   font-size: 16px;
   color: #a2a2a2;

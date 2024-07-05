@@ -14,3 +14,8 @@
     background-color: #8f0456;
     color: #ffffff;
   }
+
+  .category-button.active {
+    background-color: #8f0456;
+    color: white;
+  }

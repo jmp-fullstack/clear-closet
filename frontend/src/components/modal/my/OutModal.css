@@ -28,8 +28,8 @@
 }
 
 .out-modal .text-2 {
-  font-size: 20px;
-  margin: 2rem 0;
+  font-size: 15px;
+  margin: 1.5rem 0;
 
   color: #dadada;
 }
@@ -38,4 +38,24 @@
   display: flex;
   justify-content: center;
   cursor: pointer;
+}
+
+.out-modal .input-field {
+  margin-bottom: 1rem;
+}
+
+.out-modal .input-fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 0px;
+
+  width: 90%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin: 0 1rem;
+
+  font-size: 15px;
+  border-bottom: 0.5px solid #ddd; 
 }

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUsername } from "../../api/auth"; // getUsername 함수를 불러옵니다.
 
 import BottomNav from "../../components/BottomNav/BottomNav";
 
@@ -12,14 +13,36 @@ import card from "../../assets/card/card_sample.png";
 
 import "./Home.css";
 
-const Home = (cardSec) => {
+const Home = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
 
-  const handleCardSecClick = () => {
-    navigate(`/home_product?cardsec=${cardSec}`);
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const fetchedUsername = await getUsername();
+        setUsername(fetchedUsername);
+      } catch (error) {
+        console.error("Failed to fetch username:", error);
+      }
+    };
+
+    // 로컬 스토리지에서 사용자 이름 가져오기
+    const storedUsername = localStorage.getItem("username");
+    console.log("Stored Username:", storedUsername); // 로컬 스토리지에서 가져온 값 출력
+    if (storedUsername) {
+      setUsername(storedUsername);
+    } else {
+      fetchUsername();
+    }
+  }, []);
+
+  const handleSearchClick = (category) => {
+    navigate(`/search?category=${category}`);
   };
-  const handleSearchClick = () => {
-    navigate(`/search`);
+
+  const handleProductClick = (cardSec) => {
+    navigate(`/product?cardsec=${cardSec}`);
   };
 
   const handleSAlarmClick = () => {
@@ -38,59 +61,56 @@ const Home = (cardSec) => {
       <div className="category-sec">
         <div className="item">
           <span className="icon-circle">
-            <IoShirtSharp size={28} onClick={handleSearchClick} />
+            <IoShirtSharp size={28} onClick={() => handleSearchClick("상의")} />
           </span>
           <div className="items-text">Top</div>
         </div>
         <div className="item">
           <span className="icon-circle">
-            <PiPantsFill size={30} onClick={handleSearchClick} />
+            <PiPantsFill size={30} onClick={() => handleSearchClick("바지")} />
           </span>
           <div className="items-text">Bottom</div>
         </div>
         <div className="item">
           <span className="icon-circle">
-            <PiHoodieFill size={32} onClick={handleSearchClick} />
+            <PiHoodieFill
+              size={32}
+              onClick={() => handleSearchClick("아우터")}
+            />
           </span>
           <div className="items-text">Outer</div>
         </div>
         <div className="item">
           <span className="icon-circle">
-            <GiLargeDress size={32} onClick={handleSearchClick} />
+            <GiLargeDress
+              size={32}
+              onClick={() => handleSearchClick("원피스")}
+            />
           </span>
           <div className="items-text">Dress</div>
         </div>
         <div className="item">
           <span className="icon-circle">
-            <GiSkirt size={26} onClick={handleSearchClick} />
+            <GiSkirt size={26} onClick={() => handleSearchClick("스커트")} />
           </span>
           <div className="items-text">Skirt</div>
         </div>
       </div>
-      <div className="line"></div>
+
+      <div className="welcome">{username}님 환영합니다!</div>
 
       <div className="left_2">Best</div>
 
       <div className="Home-cards">
         <div className="cards">
-          <div className="card-sec" onClick={handleCardSecClick}>
+          <div className="card-sec" onClick={handleProductClick}>
             <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
+            <div className="name">{username}</div>
             <div className="nickname">@nickname</div>
           </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
+          <div className="card-sec" onClick={handleProductClick}>
             <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="nickname">@nickname</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="nickname">@nickname</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
+            <div className="name">{username}</div>
             <div className="nickname">@nickname</div>
           </div>
         </div>

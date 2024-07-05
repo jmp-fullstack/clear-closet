@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./HomeProduct.css";
+import "./Product.css";
 import BottomNav from "../../components/BottomNav/BottomNav";
 
 import card from "../../assets/card/card_sample.png";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { BiSolidHeartSquare } from "react-icons/bi";
 import QuestButton from "../../components/Button/QuestButton";
 
-const HomeProduct = () => {
+const Product = () => {
   const navigate = useNavigate();
 
   const handleCardSecClick = () => {
@@ -26,8 +26,12 @@ const HomeProduct = () => {
     navigate(`/alarm`);
   };
 
+  const handleUserClick = () => {
+    navigate(`/user`);
+  };
+
   return (
-    <div className="HomeProduct">
+    <div className="Product">
       <div className="header-sec">
         <div className="back" onClick={handleCardSecClick}>
           <IoIosArrowBack size={26} />
@@ -37,7 +41,7 @@ const HomeProduct = () => {
           <GoBell size={26} onClick={handleAlarmClick} />
         </div>
       </div>
-      <div className="line"></div>
+      {/* <div className="line"></div> */}
 
       <div className="photo-sec">
         <img src={card} alt="Card" className="card" width={355} height={355} />
@@ -51,7 +55,9 @@ const HomeProduct = () => {
           </div>
         </div>
 
-        <div className="nickname">@nickname</div>
+        <div className="nickname" onClick={handleUserClick}>
+          @nickname
+        </div>
         <div className="price">45,000 원</div>
         <div className="sentence">거의 새상품이며 택배거래만 가능해요.</div>
       </div>
@@ -66,4 +72,4 @@ const HomeProduct = () => {
   );
 };
 
-export default HomeProduct;
+export default Product;

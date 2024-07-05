@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./My.css";
 import BottomNav from "../../components/BottomNav/BottomNav";
-import card from "../../assets/card/card_sample.png";
+// import card from "../../assets/card/card_sample.png";
 
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -14,6 +14,7 @@ import EmailModal from "../../components/modal/my/EmailModal";
 import InterestModal from "../../components/modal/my/InterestModal";
 import ReviewModal from "../../components/modal/my/ReviewModal";
 import OutModal from "../../components/modal/my/OutModal";
+import LogoutModal from "../../components/modal/my/LogoutModal";
 
 const My = () => {
   const [showPhotoModal, setShowPhotoModal] = useState(false);
@@ -22,8 +23,16 @@ const My = () => {
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showInterestModal, setShowInterestModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showOutModal, setShowOutModal] = useState(false);
+  // const [profileImage, setProfileImage] = useState(() => {
+  //   return localStorage.getItem("profileImage") || card;
+  // });
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   localStorage.setItem("profileImage", profileImage);
+  // }, [profileImage]);
 
   const handleShowPhotoModal = () => {
     setShowPhotoModal(true);
@@ -78,19 +87,33 @@ const My = () => {
     navigate("/deal");
   };
 
+  const handleShowLogoutModal = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleCloseLogoutModal = () => {
+    setShowLogoutModal(false);
+  };
+
+  const userId = 2;
+
   return (
     <div className="My">
       <div className="header-sec">
         <div className="title">My Page</div>
-        <div className="line"></div>
       </div>
       <div className="info-sec">
         <div className="photo">
-          <img src={card} alt="Card" className="card" />
+          {/* <img src={profileImage} alt="Card" className="card" /> */}
           <div className="photo-text" onClick={handleShowPhotoModal}>
             사진 변경하기
           </div>
-          {showPhotoModal && <PhotoModal closeModal={handleClosePhotoModal} />}
+          {showPhotoModal && (
+            <PhotoModal
+              closeModal={handleClosePhotoModal}
+              // setProfileImage={setProfileImage}
+            />
+          )}
         </div>
 
         <div className="info-modal">
@@ -121,7 +144,6 @@ const My = () => {
             )}
           </div>
         </div>
-        <div className="line"></div>
       </div>
       <div className="my-sec">
         <div className="interest">
@@ -149,16 +171,24 @@ const My = () => {
           )}
         </div>
       </div>
-      <div className="line"></div>
       <div className="out-sec">
         <div className="out">
           <div>회원 탈퇴</div>
           <div className="arrow" onClick={handleShowOutModal}>
             <IoIosArrowForward size={20} />
           </div>
-          {showOutModal && <OutModal closeModal={handleCloseOutModal} />}
+          {showOutModal && (
+            <OutModal closeModal={handleCloseOutModal} userId={userId} />
+          )}
         </div>
-        <div className="logout">로그아웃</div>
+        <div className="logout">
+          <div className="input" onClick={handleShowLogoutModal}>
+            로그아웃
+          </div>
+          {showLogoutModal && (
+            <LogoutModal closeModal={handleCloseLogoutModal} />
+          )}
+        </div>
       </div>
       <BottomNav />
     </div>
