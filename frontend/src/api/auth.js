@@ -43,11 +43,11 @@ export const login = async (email, password) => {
     const response = await api.post("/api/accounts/login/", requestData);
     console.log("Login Response Data:", response.data); // 로그인 응답 데이터 출력
 
-    const { access, user_id } = response.data;
+    const { access, username } = response.data;
 
     // access_token과 user_id를 로컬 스토리지에 저장
     localStorage.setItem("access", access);
-    localStorage.setItem("user_id", user_id);
+    localStorage.setItem("username", username);
 
     return response.data;
   } catch (error) {
@@ -58,23 +58,9 @@ export const login = async (email, password) => {
   }
 };
 
-// 사용자 이름을 불러오는 API 호출
-export const getUsername = async () => {
-  try {
-    const response = await api.get("/api/accounts/login");
-    console.log("Username Response Data:", response.data);
-    const { username } = response.data;
-
-    // 사용자 이름을 로컬 스토리지에 저장
-    localStorage.setItem("username", username);
-
-    return username;
-  } catch (error) {
-    if (error.response) {
-      console.error("Username Response Error:", error.response.data);
-    }
-    throw error;
-  }
+// 저장된 사용자 이름 가져오기 함수
+export const getUsername = () => {
+  return localStorage.getItem("username");
 };
 
 // 로그아웃 API

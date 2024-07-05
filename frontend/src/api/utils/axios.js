@@ -1,9 +1,9 @@
 import axios from "axios";
-import { logout } from "../auth"; // 로그아웃 함수를 가져옵니다. 위치에 맞게 수정해주세요.
+import { logout } from "../auth";
 
 // 기본 API 설정
 const api = axios.create({
-  baseURL: "", // 프록시 설정을 사용하여 baseURL을 빈 문자열로 설정
+  baseURL: "", // API의 기본 URL을 설정해야 합니다.
   withCredentials: true, // 쿠키를 포함한 요청을 보낼 수 있도록 설정
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => {
     if (response.headers["authorization"]) {
-      const access = response.headers["authorization"].split(" ")[1]; // 'Bearer ' 제거 후 토큰 추출
+      const access = response.headers["authorization"].split(" ")[1];
       localStorage.setItem("access", access); // 로컬 스토리지에 access 저장
     }
     return response;
@@ -27,16 +27,22 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
+        // 로컬 스토리지에서 리프레시 토큰을 가져옵니다.
+        const refresh = localStorage.getItem("refresh");
+        if (!refresh) {
+          throw new Error("No refresh token available");
+        }
+
         const response = await axios.post(
           "/api/accounts/refresh/",
-          {},
+          { refresh }, // 요청 바디에 리프레시 토큰을 포함
           {
             withCredentials: true, // 쿠키를 포함하여 요청
           }
         );
         const { access } = response.data;
-        // localStorage.setItem("access", access);
-        localStorage.setItem("access", "expired_access");
+
+        localStorage.setItem("access", access);
 
         originalRequest.headers["Authorization"] = `Bearer ${access}`;
 

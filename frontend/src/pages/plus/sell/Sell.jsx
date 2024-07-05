@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import BottomNav from "../../../components/BottomNav/BottomNav";
 import GuideModal from "../../../components/modal/GuideModal";
 import SellCategoryModal from "../../../components/modal/plus/SellCategoryModal";
@@ -9,10 +8,8 @@ import StatusCategoryModal from "../../../components/modal/plus/StatusCategoryMo
 import Placeholder from "../../../components/placeholder/Placeholder";
 import SellOptionModal from "../../../components/modal/plus/SellOptionModal";
 import { article_create } from "../../../api/articles";
-
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
-
 import "./Sell.css";
 
 const Sell = () => {
@@ -25,7 +22,6 @@ const Sell = () => {
   const [selectedCategory, setSelectedcategory] = useState("");
   const [showOptionModal, setShowOptionModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
-
   const [imageUrl, setImageUrl] = useState("");
   const [titleLength, setTitleLength] = useState(0);
   const [title, setTitle] = useState("");
@@ -113,7 +109,6 @@ const Sell = () => {
     const optionParts = selectedOption.split(" / ");
     const size = optionParts.length > 1 ? optionParts[1].split(": ")[1] : "";
     const color = optionParts.length > 0 ? optionParts[0].split(": ")[1] : "";
-
     const topCategory = selectedCategory.split(" > ")[0];
     const bottomCategory = selectedCategory.split(" > ")[1] || "";
 
