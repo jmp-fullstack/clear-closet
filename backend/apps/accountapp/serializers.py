@@ -6,10 +6,20 @@ from apps.imageapp.serializers import TotalImageSerializer
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'nickname', 'email', 'phone_number']
+        fields = ['id', 'username', 'password', 'nickname', 'email', 'phone_number']
+        extra_kwargs = {
+            'phone_number':{'write_only': True},
+            'password': {'write_only': True},
+            'email': {'write_only': True}
+        }
      
         def create(self, validated_data):
             return CustomUser.objects.create_user(**validated_data)
+        
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'nickname',]
 
 
 class LoginSerializer(serializers.Serializer):
