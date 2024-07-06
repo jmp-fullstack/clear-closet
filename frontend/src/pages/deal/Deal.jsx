@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import "./Deal.css";
-import BottomNav from "../../components/BottomNav/BottomNav";
-import DealTabs from "../../components/tabs/DealTabs";
-import { GoBell } from "react-icons/go";
-import ChatNone from "./ChatNone";
 import { useNavigate } from "react-router-dom";
+
+import BottomNav from "../../components/BottomNav/BottomNav";
+import DealTabs from "../../components/tabs/deal/DealTabs";
+import ChatNone from "./ChatNone";
+
+import { GoBell } from "react-icons/go";
+
+import "./Deal.css";
+import DealBuy from "../../components/tabs/deal/DealBuy";
+import DealSell from "../../components/tabs/deal/DealSell";
 
 const tabs = ["채팅", "구매", "판매"];
 
@@ -29,9 +34,17 @@ const Deal = () => {
           </div>
         );
       case "구매":
-        return <div>구매 페이지</div>;
+        return (
+          <div>
+            <DealBuy />
+          </div>
+        );
       case "판매":
-        return <div>판매 페이지</div>;
+        return (
+          <div>
+            <DealSell />
+          </div>
+        );
       default:
         return null;
     }

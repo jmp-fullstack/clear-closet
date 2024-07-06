@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { IoCloseOutline } from "react-icons/io5";
 
@@ -11,7 +11,11 @@ const SizeFilterModal = ({
   activeFilters,
   onApply,
 }) => {
-  const [selectedSizes, setSelectedSizes] = useState(activeFilters.size || []);
+  const [selectedSizes, setSelectedSizes] = useState([]);
+
+  useEffect(() => {
+    setSelectedSizes(Array.isArray(activeFilters) ? activeFilters : []);
+  }, [activeFilters]);
 
   const handleSizeClick = (size) => {
     setSelectedSizes((prevSizes) =>
@@ -29,8 +33,8 @@ const SizeFilterModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="size-modal">
-      <div className="size-content">
+    <div className="size-modal" onClick={onClose}>
+      <div className="size-content" onClick={(e) => e.stopPropagation()}>
         <button className="cancel" onClick={onClose}>
           <IoCloseOutline size={30} />
         </button>

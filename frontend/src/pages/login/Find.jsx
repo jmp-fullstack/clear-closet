@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import "./Find.css";
 
-import FindTabs from "../../components/tabs/FindTabs";
-import FindId from "../../components/tabs/FindId";
+import FindTabs from "../../components/tabs/find/FindTabs";
+import FindId from "../../components/tabs/find/FindId";
 
 import { IoIosArrowBack } from "react-icons/io";
-import FindPw from "../../components/tabs/FindPw";
+import FindPw from "../../components/tabs/find/FindPw";
 
 const tabs = ["아이디 찾기", "비밀번호 재설정"];
 

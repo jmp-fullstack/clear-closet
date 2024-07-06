@@ -29,9 +29,9 @@ const Home = () => {
     navigate(`/search?category=${category}`);
   };
 
-  const handleProductClick = (cardSec) => {
-    navigate(`/product?cardsec=${cardSec}`);
-  };
+  // const handleProductClick = (cardSec) => {
+  //   navigate(`/product?cardsec=${cardSec}`);
+  // };
 
   const handleSAlarmClick = () => {
     navigate(`/alarm`);
@@ -96,12 +96,12 @@ const Home = () => {
 
       <div className="Home-cards">
         <div className="cards">
-          <div className="card-sec" onClick={handleProductClick}>
+          <div className="card-sec">
             <img src={card} alt="Card" className="card" />
             <div className="name">username</div>
             <div className="nickname">@nickname</div>
           </div>
-          <div className="card-sec" onClick={handleProductClick}>
+          <div className="card-sec">
             <img src={card} alt="Card" className="card" />
             <div className="name">username</div>
             <div className="nickname">@nickname</div>

@@ -3,20 +3,30 @@
   flex-direction: column;
   align-items: center;
   /* justify-content: center; */
-  height: 900px;
+  width: 100%;
+  height: 100%;
   background-color: #ffffff;
 
   /* margin-top: 0.5rem; */
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
 }
 
 .Product .header-sec {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%; 
     margin: 0.5rem 0;
     padding-bottom: 0.5rem;
     border-bottom: 0.5px solid #ddd; 
+}
+
+.Product .back {
+  padding-left: 1rem;
+}
+
+.Product .alarm {
+  padding-right: 1rem;
 }
 
 .Product .title {
@@ -26,21 +36,60 @@
 
 
 .Product .photo-sec {
+  position: relative;
   display: flex;
-  justify-content: flex-start;
-
-  overflow-x: auto;
-  white-space: nowrap;
-
-
+  align-items: center;
+  justify-content: center;
   width: 100%;
   margin-top: 1rem;
 }
 
+.Product .arrow {
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(139, 139, 139, 0.5);
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.Product .arrow.left {
+  left: 1rem;
+}
+
+.Product .arrow.right {
+  right: 1rem;
+}
+
+.Product .thumbnail-sec {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.Product .thumbnail {
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 0.3rem;
+}
+
+.Product .thumbnail.active {
+  border-color: #8f0456;
+}
+
+
 .Product .card {
   border-radius: 8px;
   margin-bottom: 1rem;
-  padding: 0 3rem;
+  padding: 0 4rem;
 }
 .Product .product-sec {
   margin: 1rem;
@@ -51,10 +100,6 @@
   justify-content: space-between;
   align-items: center;
   width: 350px;
-}
-
-.Product .interest {
-  color: #ff1c8e;
 }
 
 .Product .name {
@@ -74,9 +119,10 @@
   letter-spacing: -0.5px; 
 }
 .Product .content {
-  margin: 1rem;
-  padding-left: 3rem;
-  width: 100%;
+  width: 79%;
+  height: 300px;
+
+  margin: 1.2rem;
   text-align: left;
   color: #a2a2a2;
 }

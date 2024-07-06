@@ -68,7 +68,7 @@
   margin-right: 0.8rem;
 }
 
-.login-con .info > .left, .right {
+.login-con .info > .left, .login-con .info > .right {
   text-decoration: underline;
   font-size: 15px;
 }

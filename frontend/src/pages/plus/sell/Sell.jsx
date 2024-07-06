@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { article_create } from "../../../api/articles";
+
 import BottomNav from "../../../components/BottomNav/BottomNav";
 import GuideModal from "../../../components/modal/GuideModal";
 import SellCategoryModal from "../../../components/modal/plus/SellCategoryModal";
@@ -7,9 +9,10 @@ import BrendCategoryModal from "../../../components/modal/plus/BrendCategoryModa
 import StatusCategoryModal from "../../../components/modal/plus/StatusCategoryModal";
 import Placeholder from "../../../components/placeholder/Placeholder";
 import SellOptionModal from "../../../components/modal/plus/SellOptionModal";
-import { article_create } from "../../../api/articles";
+
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+
 import "./Sell.css";
 
 const Sell = () => {
@@ -127,7 +130,8 @@ const Sell = () => {
         content
       );
       console.log("Article posted successfully:", response);
-      navigate("/articles"); // 실제 게시글 목록 페이지 경로로 수정하세요
+      const article_pk = response.id; // 서버에서 반환된 article ID
+      navigate(`/product?detail=${article_pk}`);
     } catch (error) {
       console.error("Failed to post article:", error);
       if (error.response) {

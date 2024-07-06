@@ -6,8 +6,8 @@ export const signUp = async (
   password,
   phone_number,
   nickname,
-  email,
-  profile_image = null
+  email
+  // profile_image = null
 ) => {
   const requestData = {
     username,
@@ -15,7 +15,7 @@ export const signUp = async (
     phone_number,
     nickname,
     email,
-    profile_image,
+    // profile_image,
   };
   console.log("Request Data:", requestData); // 요청 데이터 출력
 
@@ -43,11 +43,12 @@ export const login = async (email, password) => {
     const response = await api.post("/api/accounts/login/", requestData);
     console.log("Login Response Data:", response.data); // 로그인 응답 데이터 출력
 
-    const { access, username } = response.data;
+    const { access, username, nickname } = response.data;
 
     // access_token과 user_id를 로컬 스토리지에 저장
     localStorage.setItem("access", access);
     localStorage.setItem("username", username);
+    localStorage.setItem("nickname", nickname);
 
     return response.data;
   } catch (error) {
@@ -63,13 +64,19 @@ export const getUsername = () => {
   return localStorage.getItem("username");
 };
 
+// 저장된 사용자 이름 가져오기 함수
+export const getNickname = () => {
+  return localStorage.getItem("nickname");
+};
+
 // 로그아웃 API
 export const logout = () => {
   localStorage.removeItem("access");
-  localStorage.removeItem("user_id");
-
-  // 로컬 스토리지 비우기
+  localStorage.removeItem("username");
+  localStorage.removeItem("nickname");
+  localStorage.removeItem("refresh");
   document.cookie = "refresh=; Max-Age=0; path=/;"; // 쿠키에서 refresh_token 제거
+  window.location.href = "/login"; // 로그인 페이지로 리다이렉트
 };
 
 // 아이디 찾기 API
