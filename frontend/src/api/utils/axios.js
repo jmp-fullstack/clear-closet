@@ -3,7 +3,7 @@ import { logout } from "../auth";
 
 // 기본 API 설정
 const api = axios.create({
-  baseURL: "", // API의 기본 URL을 설정해야 합니다.
+  baseURL: "", // API의 기본 URL을 설정
   withCredentials: true, // 쿠키를 포함한 요청을 보낼 수 있도록 설정
   headers: {
     "Content-Type": "application/json",
@@ -50,7 +50,14 @@ api.interceptors.response.use(
       } catch (refreshError) {
         console.error("Failed to refresh access token", refreshError);
         logout(); // 로그아웃 함수 호출
+        window.location.href = "/login"; // 로그인 페이지로 리다이렉트
       }
+    }
+
+    if (error.response.status === 401) {
+      // 로그아웃 처리 및 리다이렉트
+      logout();
+      window.location.href = "/login";
     }
 
     return Promise.reject(error);

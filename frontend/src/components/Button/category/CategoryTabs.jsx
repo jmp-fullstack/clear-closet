@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Tabs from "./Tabs";
 import CategoryButton from "./CategoryButton";
@@ -49,6 +49,7 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (defaultCategory) {
@@ -101,15 +102,27 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
     fetchArticles();
   }, [currentCategory, currentSubcategory, activeFilters]);
 
+  const updateURLParams = (params) => {
+    const searchParams = new URLSearchParams(location.search);
+    Object.keys(params).forEach((key) => {
+      if (params[key]) {
+        searchParams.set(key, params[key]);
+      } else {
+        searchParams.delete(key);
+      }
+    });
+    navigate(`${location.pathname}?${searchParams.toString()}`);
+  };
+
   const handleTabClick = (category) => {
     setCurrentCategory(category);
     setCurrentSubcategory(""); // 메인 카테고리를 클릭할 때 하위 카테고리를 초기화
-    navigate(`/search?category=${category}`);
+    updateURLParams({ category });
   };
 
   const handleSubcategoryClick = (subcategory) => {
     setCurrentSubcategory(subcategory);
-    navigate(`/search?category=${currentCategory}&subcategory=${subcategory}`);
+    updateURLParams({ category: currentCategory, subcategory });
   };
 
   const handleFilterClick = (filterType, filterValue) => {
@@ -145,10 +158,21 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
       ...prevFilters,
       [filterType]: selectedFilters,
     }));
+    const filterParams = {
+      category: currentCategory,
+      subcategory: currentSubcategory,
+      color: activeFilters.color.join(","),
+      size: activeFilters.size.join(","),
+    };
+    if (filterType === "color") {
+      filterParams.color = selectedFilters.join(",");
+    } else if (filterType === "size") {
+      filterParams.size = selectedFilters.join(",");
+    }
+    updateURLParams(filterParams);
   };
 
   const handleCardSecClick = (article_pk) => {
-    console.log(`Navigating to /product?detail=${article_pk}`); // 디버깅을 위해 추가
     navigate(`/product?detail=${article_pk}`);
   };
 

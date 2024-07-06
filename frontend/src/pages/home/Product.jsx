@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { article_detail } from "../../api/articles";
+
+import ProductModal from "../../components/modal/home/ProductModal";
+import BottomQuest from "../../components/BottomNav/BottomQuest";
+
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 import "./Product.css";
-import BottomNav from "../../components/BottomNav/BottomNav";
-
-import { IoIosArrowBack } from "react-icons/io";
-import { GoBell } from "react-icons/go";
-import { BiSolidHeartSquare } from "react-icons/bi";
-import QuestButton from "../../components/Button/QuestButton";
-import { article_detail } from "../../api/articles";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -17,6 +17,8 @@ const Product = () => {
 
   const [article, setArticle] = useState(null);
   const [error, setError] = useState(null);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     console.log("Current URL:", window.location.href);
@@ -46,16 +48,8 @@ const Product = () => {
     }
   }, [article_pk]);
 
-  const handleBackClick = () => {
-    navigate(`/search`);
-  };
-
-  const handleQuestClick = () => {
-    navigate(`/chat`);
-  };
-
-  const handleAlarmClick = () => {
-    navigate(`/alarm`);
+  const handleProductClick = (article_pk) => {
+    navigate(`/product?detail=${article_pk}`);
   };
 
   const handleUserClick = () => {
@@ -70,27 +64,83 @@ const Product = () => {
     return <div>Loading...</div>;
   }
 
+  const handleShowProductModal = () => {
+    setShowProductModal(true);
+  };
+  const handleCloseProductModal = () => {
+    setShowProductModal(false);
+  };
+
+  const handleImageClick = (index) => {
+    setCurrentImageIndex(index);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0
+        ? article.product.product_images.length - 1
+        : prevIndex - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === article.product.product_images.length - 1
+        ? 0
+        : prevIndex + 1
+    );
+  };
+
+  const articles = [];
+
   return (
     <div className="Product">
       <div className="header-sec">
-        <div className="back" onClick={handleBackClick}>
+        <div className="back" onClick={() => navigate(-1)}>
           <IoIosArrowBack size={26} />
         </div>
+        {articles.map((article) => (
+          <div key={article.id} onClick={() => handleProductClick(article.id)}>
+            <p>{article.title}</p>
+          </div>
+        ))}
         <div className="title">{article.title}</div>
         <div className="alarm">
-          <GoBell size={26} onClick={handleAlarmClick} />
+          <HiOutlineDotsVertical size={26} onClick={handleShowProductModal} />
         </div>
+        {showProductModal && (
+          <ProductModal closeModal={handleCloseProductModal} />
+        )}
       </div>
 
       <div className="photo-sec">
-        {article.product.product_images.map((image) => (
+        <button className="arrow left" onClick={handlePrevImage}>
+          <IoIosArrowBack size={26} />
+        </button>
+        <img
+          src={article.product.product_images[currentImageIndex].image_url}
+          alt="Product"
+          className="card"
+          width={355}
+          height={355}
+        />
+        <button className="arrow right" onClick={handleNextImage}>
+          <IoIosArrowForward size={26} />
+        </button>
+      </div>
+
+      <div className="thumbnail-sec">
+        {article.product.product_images.map((image, index) => (
           <img
             key={image.id}
             src={image.image_url}
-            alt="Product"
-            className="card"
-            width={355}
-            height={355}
+            alt="Thumbnail"
+            className={`thumbnail ${
+              index === currentImageIndex ? "active" : ""
+            }`}
+            onClick={() => handleImageClick(index)}
+            width={45}
+            height={45}
           />
         ))}
       </div>
@@ -98,23 +148,15 @@ const Product = () => {
       <div className="product-sec">
         <div className="info">
           <div className="name">{article.title}</div>
-          <div className="interest">
-            <BiSolidHeartSquare size={40} />
-          </div>
         </div>
         <div className="nickname" onClick={handleUserClick}>
           @{article.user}
         </div>
         <div className="price">{article.product.price} 원</div>
       </div>
-      <div className="question-sec">
-        <div className="button">
-          <QuestButton onClick={handleQuestClick} />
-        </div>
-      </div>
       <div className="content">{article.content}</div>
-
-      <BottomNav />
+      <BottomQuest />
+      {/* <BottomNav /> */}
     </div>
   );
 };

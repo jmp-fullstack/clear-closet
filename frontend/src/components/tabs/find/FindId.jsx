@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { findId } from "../../api/auth";
+import { findId } from "../../../api/auth";
 import "./FindId.css";
 
-import FindButton from "../Button/find/FindButton";
-import FindIdModal from "../modal/find/FindIdModal";
+import FindButton from "../../Button/find/FindButton";
+import FindIdModal from "../../modal/find/FindIdModal";
 
 const FindId = () => {
   const [username, setUsername] = useState("");

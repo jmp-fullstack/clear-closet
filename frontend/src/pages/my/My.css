@@ -58,28 +58,27 @@
 
 .My .info-modal .name {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-
   width: 100%;
   padding: 1rem 0;
 }
 
 .My .info-modal .input {
   color: #dadada;
+  flex-grow: 1;
+  text-align: left; 
+  margin-left: 3rem;
+}
+
+.My .info-modal .name:first-of-type .input {
+  margin-left: 3.8rem; /* 원하는 margin-left 값으로 설정 */
 }
 
 .My .arrow {
   color: #dadada;
-}
-
-.My .line {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-  height: 1px;
-  background-color: #dadada;
+  flex-shrink: 0;
+  margin-left: 1rem;
 }
 
 .My .my-sec {

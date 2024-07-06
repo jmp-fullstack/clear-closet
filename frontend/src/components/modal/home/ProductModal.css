@@ -1,10 +1,10 @@
-.report-modal {
+.Product-modal {
   /* padding: 20px; */
   text-align: center;
   width: 100%;
 }
 
-.report-modal .topline {
+.Product-modal .topline {
   margin: 0 auto;
   margin-bottom: 1rem;
   width: 18%;
@@ -14,14 +14,14 @@
   border-radius: 2px;
 }
 
-.report-modal .line {
+.Product-modal .line {
   width: 100%;
   height: 1px;
   background-color: #dadada;
 
 }
 
-.report-modal .report-sec {
+.Product-modal .Product-sec {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -30,7 +30,7 @@
 
 }
 
-.report-modal .report-sec .text {
+.Product-modal .Product-sec .text {
   font-size: 18px;
   text-align: left;
   padding: 1rem 0.5rem;

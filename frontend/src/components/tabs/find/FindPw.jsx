@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { findPwAuth } from "../../api/auth";
+import { findPwAuth } from "../../../api/auth";
 import "./FindPw.css";
 
-import FindPwButton from "../Button/find/FindPwButton";
-import FindPwModal from "../modal/find/FindPwModal";
+import FindPwButton from "../../Button/find/FindPwButton";
+import FindPwModal from "../../modal/find/FindPwModal";
 
 const FindPw = () => {
   const [username, setUsername] = useState("");

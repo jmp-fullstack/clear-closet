@@ -20,16 +20,23 @@ const User = () => {
     setShowNameModal(false);
   };
 
-  const handleProductClick = (cardSec) => {
-    navigate(`/product?cardsec=${cardSec}`);
+  const handleProductClick = (article_pk) => {
+    navigate(`/product?detail=${article_pk}`);
   };
+
+  const articles = []; // 필요시 여기에 articles 데이터를 채워넣으세요.
 
   return (
     <div className="User">
       <div className="header-sec">
         <div className="left">
-          <IoIosArrowBack size={26} onClick={handleProductClick} />
+          <IoIosArrowBack size={26} onClick={() => navigate(-1)} />
         </div>
+        {articles.map((article) => (
+          <div key={article.id} onClick={() => handleProductClick(article.id)}>
+            <p>{article.title}</p>
+          </div>
+        ))}
         <div className="right">프로필</div>
       </div>
       <div className="profile-sec">
