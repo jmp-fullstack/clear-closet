@@ -40,7 +40,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
+# Application definition ------------------------------------------------------------------------------
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -65,32 +65,38 @@ INSTALLED_APPS = [
     'apps.profileapp',
 ]
 
-# AWS Setting
+# AWS Setting ---------------------------------------------------------------------------------------
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'clear-closet'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-
-AWS_LOCATION = 'static'
-
+AWS_STORAGE_BUCKET_NAME = 'closet-project'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+# 클라우드프론트 도메인 설정
+CLOUDFRONT_DOMAIN = env('CLOUDFRONT_DOMAIN')
+
+# 미디어 URL 설정
+MEDIA_URL = f'https://{CLOUDFRONT_DOMAIN}/'
+
+# 기본 유저 이미지 URL
+DEFAULT_PROFILE_IMAGE_URL = f'https://{CLOUDFRONT_DOMAIN}/user_profile/start_profile.jpg'
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+
+# 스태틱 셋팅
+# AWS_LOCATION = 'static'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # STATIC_URL = '/static/'
 # STATICFILES_DIRS = (
 #     (os.path.join(BASE_DIR, 'static')),
 # )
-
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/user_profile/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
-# default image url
-# DEFAULT_PROFILE_IMAGE_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/user_profile/start_profile.jpg'
+# --------------------------------------------------------------------------------------------------
 
 
-# JWT Token
+
+# JWT Token ----------------------------------------------------------------------------------------
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -124,11 +130,12 @@ TEMPLATES = [
         },
     },
 ]
+# --------------------------------------------------------------------------------------------------
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
+# Database -----------------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
@@ -144,6 +151,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+# -------------------------------------------------------------------------------------------------
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
