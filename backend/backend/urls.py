@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/reviews/', include('apps.reviewapp.urls')),
     path('api/comments/', include('apps.commentapp.urls')),
     path('api/profiles/', include('apps.profileapp.urls')),
+    path('api/images/', include('apps.imageapp.urls')),
 ]
