@@ -10,5 +10,5 @@ urlpatterns = [
     path('', article_create, name="article_create"),
     path('detail/<int:article_pk>', article_detail, name="article_detail"),
     path('modify/<int:article_pk>', article_modify, name="article_modify"),
-    path('delete/<int:article_pk>', article_delete, name="article_delte"),
+    path('delete/<int:article_pk>', article_delete, name="article_delete"),
 ]
