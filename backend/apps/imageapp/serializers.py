@@ -7,4 +7,4 @@ class TotalImageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TotalImage
-        fields = ['id', 'image_url']
+        fields = ['image_url']

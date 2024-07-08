@@ -30,9 +30,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 # 로그인 정보값
 class UserDetailSerializer(serializers.ModelSerializer):
+    profile_images = TotalImageSerializer(read_only=True)
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'nickname',]
+        fields = ['id', 'username', 'nickname', 'profile_images']
 
 # 로그인 인증
 class LoginSerializer(serializers.Serializer):
