@@ -134,6 +134,8 @@ def secondwear_crawling():
 
     df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'date']]
     df = df.drop_duplicates()
+    
+    df.to_csv('secondwear_data.csv', index=False, encoding='utf-8-sig')
 
     df['price'] = df['price'].astype(int)
     df['type'] = df['type'].astype(int)

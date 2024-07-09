@@ -36,15 +36,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'username', 'nickname', 'profile_images']
 
-    def update(self, instance, validated_data):
-        profile_image_data = validated_data.pop('profile_images', None)
-        if profile_image_data:
-            image_url = profile_image_data.get('image_url')
-            TotalImage.objects.update_or_create(user=instance, defaults={'image_url': image_url})
-
-        instance = super(UserDetailSerializer, self).update(instance, validated_data)
-        return instance
-
 # 로그인 인증
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -96,3 +87,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'profile_images']
+
+    def update(self, instance, validated_data):
+        profile_image_data = validated_data.pop('profile_images', None)
+        if profile_image_data:
+            image_url = profile_image_data.get('image_url')
+            TotalImage.objects.update_or_create(user=instance, defaults={'image_url': image_url})
+
+        instance = super(UserDetailSerializer, self).update(instance, validated_data)
+        return instance

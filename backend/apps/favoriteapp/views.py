@@ -1,3 +1,5 @@
+from django.db.models import Count
+
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -5,6 +7,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 
 from apps.articleapp.models import Article
+from apps.articleapp.serializers import ArticleListSerializer
 from apps.favoriteapp.models import Favorite
 from apps.favoriteapp.serializers import FavoriteSerializer
 
@@ -34,4 +37,13 @@ def list_favorites(request):
     user = request.user
     favorites = Favorite.objects.filter(user=user)
     serializer = FavoriteSerializer(favorites, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def list_top_favorited_articles(request):
+    articles = Article.objects.annotate(num_favorites=Count('favorite')).order_by('-num_favorites')
+    serializer = ArticleListSerializer(articles, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
