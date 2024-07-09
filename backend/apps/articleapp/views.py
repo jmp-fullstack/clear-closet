@@ -23,28 +23,28 @@ from apps.productapp.serializers import ProductMatchSerializer
 @api_view(['GET'])
 def article_list(request):
     top_category = request.query_params.get('top_category')
-    bottom_category = request.query_params.get('bottom_category')
-    color = request.query_params.get('color')
+    bottom_categories = request.query_params.getlist('bottom_category')
+    colors = request.query_params.getlist('color')
     sPrice = request.query_params.get('sPrice')
     ePrice = request.query_params.get('ePrice')
-    size = request.query_params.get('size')
+    sizes = request.query_params.getlist('size')
     isSort = request.query_params.get('isSort', 'asc')
 
-    articles = Article.objects.all()
+    articles = Article.objects.filter(is_sell=True)
     
     # 필터
     if top_category:
         articles = articles.filter(product__category__top_category=top_category)
-    if bottom_category:
-        articles = articles.filter(product__category__bottom_category=bottom_category)
-    if color:
-        articles = articles.filter(product__option__color=color)
+    if bottom_categories:
+        articles = articles.filter(product__category__bottom_category__in=bottom_categories)
+    if colors:
+        articles = articles.filter(product__option__color__in=colors)
     if sPrice:
         articles = articles.filter(product__price__gte=sPrice)
     if ePrice:
         articles = articles.filter(product__price__lte=ePrice)
-    if size:
-        articles = articles.filter(product__option__size=size)
+    if sizes:
+        articles = articles.filter(product__option__size__in=sizes)
 
     # 정렬
     if isSort == 'desc':
@@ -129,6 +129,7 @@ def article_detail(request, article_pk):
     return Response(serializer.data)
 
 
+# 게시글 삭제
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['DELETE'])
@@ -141,6 +142,7 @@ def article_delete(request, article_pk):
         return Response({"message":"권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN)
         
 
+# 게시글 수정
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['PATCH'])
@@ -154,3 +156,27 @@ def article_modify(request, article_pk):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# 판매중, 판매완료
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def article_is_sell(request, article_id):
+    user = request.user
+    try:
+        article = Article.objects.get(id=article_id)
+    except Article.DoesNotExist:
+        return Response({"error": "페이지를 찾을 수 없음"}, status=status.HTTP_404_NOT_FOUND)
+
+    if article.user != user:
+        return Response({"error": "권한이 없습니다"}, status=status.HTTP_403_FORBIDDEN)
+
+    if article.is_sell:
+        article.is_sell = False
+        article.save()
+        return Response({"message": "판매완료"}, status=status.HTTP_200_OK)
+    else:
+        article.is_sell = True
+        article.save()
+        return Response({"message": "판매중"}, status=status.HTTP_201_CREATED)
