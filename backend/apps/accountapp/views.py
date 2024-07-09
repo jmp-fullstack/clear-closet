@@ -175,9 +175,13 @@ def change_password(request):
 @permission_classes([IsAuthenticated])
 @api_view(['DELETE'])
 def delete_user(request):
-    user = get_object_or_404(get_user_model())
-    if user == request.user:
-        user.delete()
-        return Response({"message": "회원 탈퇴 되었습니다"}, status=status.HTTP_200_OK)
-    return Response({"message": "자기 자신의 계정만 삭제 가능합니다."}, status=status.HTTP_400_BAD_REQUEST)
-
+    user = request.user 
+    try:
+        user_to_delete = get_object_or_404(get_user_model(), id=user.id)
+        if user == user_to_delete:
+            user.delete()
+            return Response({"message": "회원 탈퇴 되었습니다"}, status=status.HTTP_200_OK)
+        return Response({"message": "자기 자신의 계정만 삭제 가능합니다."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    except get_user_model().MultipleObjectsReturned:
+        return Response({"message": "여러 개의 사용자 계정이 발견되었습니다. 관리자에게 문의하세요."}, status=status.HTTP_400_BAD_REQUEST)
