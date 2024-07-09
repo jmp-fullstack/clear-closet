@@ -30,11 +30,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 # 로그인 정보값
 class UserDetailSerializer(serializers.ModelSerializer):
-    profile_images = TotalImageSerializer(read_only=True)
+    profile_images = TotalImageSerializer()
 
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'nickname', 'profile_images']
+
+    def update(self, instance, validated_data):
+        profile_image_data = validated_data.pop('profile_images', None)
+        if profile_image_data:
+            image_url = profile_image_data.get('image_url')
+            TotalImage.objects.update_or_create(user=instance, defaults={'image_url': image_url})
+
+        instance = super(UserDetailSerializer, self).update(instance, validated_data)
+        return instance
 
 # 로그인 인증
 class LoginSerializer(serializers.Serializer):
@@ -79,23 +88,3 @@ class ChangePasswordSerializer(serializers.Serializer):
         if len(value) < 10:
             raise serializers.ValidationError("비밀번호는 최소 10자 이상이어야 합니다.")
         return value
-    
-
-# 프로필
-class UserProfileSerializer(serializers.ModelSerializer):
-    profile_images = TotalImageSerializer()
-
-    class Meta:
-        model = CustomUser
-        fields = ['id', 'profile_images']
-
-    def update(self, instance, validated_data):
-        print("테스트", instance)
-        print(validated_data)
-        profile_image_data = validated_data.pop('profile_images', None)
-        if profile_image_data:
-            image_url = profile_image_data.get('image_url')
-            TotalImage.objects.update_or_create(user=instance, defaults={'image_url': image_url})
-
-        instance = super(UserProfileSerializer, self).update(instance, validated_data)
-        return instance

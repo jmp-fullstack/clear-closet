@@ -29,4 +29,4 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
-        read_only_fields = ['user','update_at','create_at','id']
+        read_only_fields = ['user','product','update_at','create_at','id']
