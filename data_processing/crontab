@@ -1,0 +1,1 @@
+0 0 */3 * * cd /clear-closet && python3 crawling_main.py >> /clear-closet/cron.log 2>&1
