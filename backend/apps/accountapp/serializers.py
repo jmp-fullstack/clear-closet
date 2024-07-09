@@ -88,3 +88,11 @@ class ChangePasswordSerializer(serializers.Serializer):
         if len(value) < 10:
             raise serializers.ValidationError("비밀번호는 최소 10자 이상이어야 합니다.")
         return value
+
+# 프로필
+class UserProfileSerializer(serializers.ModelSerializer):
+    profile_images = TotalImageSerializer()
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'profile_images']
