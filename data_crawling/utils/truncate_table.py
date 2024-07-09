@@ -16,4 +16,8 @@ with engine.connect() as conn:
     conn.execute(text("TRUNCATE TABLE productapp_product;"))
     conn.execute(text("TRUNCATE TABLE product_categoryapp_productcategory;"))
     conn.execute(text("TRUNCATE TABLE product_optionapp_productoption;"))
+    conn.execute(text("TRUNCATE TABLE accountapp_customuser;"))
+    conn.execute(text("TRUNCATE TABLE articleapp_article;"))
+    conn.execute(text("TRUNCATE TABLE articleapp_article;"))
+    conn.execute(text("TRUNCATE TABLE articleapp_article;"))
     conn.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
