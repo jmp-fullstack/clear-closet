@@ -35,3 +35,14 @@ services:
     ports:
       - "3306:3306"
     restart: always
+
+  crawler:
+    build:
+      context: ./crawling
+      dockerfile: Dockerfile
+    env_file: .env.back
+    environment:
+      PYTHONUNBUFFERED: 1
+      TZ: Asia/Seoul
+    depends_on:
+      - backend
