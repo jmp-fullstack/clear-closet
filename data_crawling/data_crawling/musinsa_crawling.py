@@ -100,6 +100,7 @@ def musinsa_crawling():
                 cropped_center_img = extract_center_50_percent(image)
                 colors, pixel_count = extcolors.extract_from_image(cropped_center_img)
                 main_color = get_color_name(colors[0][0])
+                print(main_color)
 
                 data.append({
                     'price': item['price'],
@@ -110,16 +111,14 @@ def musinsa_crawling():
                     'date': item['registDateFormat'],
                     'color': main_color
                 })
-
-    # DataFrame 생성
-    df = pd.DataFrame(data, columns=['price', 'product_url', 'connect_url', 'title', 'brand', 'date'])
-    df['top_category'] = [f'{composition[0]}'] * len(df)
-    df['bottom_category'] = [f'{composition[2]}'] * len(df)
-    df['type'] = [1] * len(df)
-    df['status'] = ['새 상품'] * len(df)
-    df['color'] = [main_color] * len(df)
-    df['size'] = ['지정안함'] * len(df)
-    df['create_at'] = datetime.now().strftime('%Y-%m-%d')
+    
+            # DataFrame 생성
+            df = pd.DataFrame(data, columns=['price', 'product_url', 'connect_url', 'title', 'brand', 'date','color'])
+            df['top_category'] = [f'{composition[0]}'] * len(df)
+            df['bottom_category'] = [f'{composition[2]}'] * len(df)
+            df['type'] = [1] * len(df)
+            df['status'] = ['새 상품'] * len(df)
+            df['size'] = ['지정안함'] * len(df)
 
     # date 필터링
     df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
@@ -134,8 +133,10 @@ def musinsa_crawling():
     with open('data_crawling/musinsa_max_date.txt', 'w') as file:
         file.write(new_max_date)
 
-    df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'create_at']]
+    df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'date']]
     df = df.drop_duplicates()
+
+    df.to_csv('musinsa_data.csv', index=False, encoding='utf-8-sig')
 
     df['price'] = df['price'].astype(int)
     df['type'] = df['type'].astype(int)
@@ -156,7 +157,7 @@ def musinsa_crawling():
     df = df.merge(category_df, on=['top_category', 'bottom_category'], how='left')
     df = df.merge(option_df, on=['color', 'size'], how='left')
 
-    product_data = df[['title', 'price', 'brand', 'connect_url', 'type', 'status', 'category_id', 'option_id', 'create_at']]
+    product_data = df[['title', 'price', 'brand', 'connect_url', 'type', 'status', 'category_id', 'option_id', 'date']]
     product_data.columns = ['product_title', 'price', 'brand', 'connect_url', 'product_type', 'product_status', 'category_id', 'option_id', 'create_at']
 
     batch_size = 5000
@@ -166,7 +167,7 @@ def musinsa_crawling():
         batch_df.to_sql('productapp_product', engine, if_exists='append', index=False)
 
     # image table
-    image_data = df[['product_url', 'create_at']].copy()
+    image_data = df[['product_url', 'date']].copy()
     image_data.columns = ['image_url','create_at']
     image_data['image_type'] = 1
     image_data['user_id'] = None
