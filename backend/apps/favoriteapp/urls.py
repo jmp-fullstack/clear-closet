@@ -5,5 +5,5 @@ from apps.favoriteapp.views import favorite_article, list_favorites, list_top_fa
 urlpatterns = [
     path('<int:article_id>/', favorite_article, name='favorite-article'),
     path('list/', list_favorites, name='list-favorites'),
-    path('product/list/', list_top_favorited_articles, name='list-top-favorited-articles'),
+    path('articles/list/', list_top_favorited_articles, name='list-top-favorited-articles'),
 ]
