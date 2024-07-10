@@ -17,10 +17,11 @@ class ArticleSaveSerializer(serializers.ModelSerializer):
 
 class ArticleListSerializer(serializers.ModelSerializer):
     product = ProductArticleSerializer(read_only=True)
+    num_favorites = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Article
-        fields = ["id", "title", "product", 'is_sell']
+        fields = ["id", "title", "product", 'is_sell', 'num_favorites']
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):

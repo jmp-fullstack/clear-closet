@@ -94,5 +94,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
             image_url = profile_image_data.get('image_url')
             TotalImage.objects.update_or_create(user=instance, defaults={'image_url': image_url})
 
-        instance = super(UserDetailSerializer, self).update(instance, validated_data)
+        instance = super(UserProfileSerializer, self).update(instance, validated_data)
         return instance
