@@ -73,53 +73,61 @@ def musinsa_crawling():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     }
 
-    pages = 1
-    data = []
-    for page in range(pages):
+    pages = 2
+    top_category, bottom_category, price, pro_url, connect_url, title, brand, date, color, type, status, size = [[] for _ in range(12)]
+    
+    for page in range(1, pages):
         for composition in classes_composition_list:
             params = {
                 "siteKindId": "musinsa",
-                "keyword": f"{composition[2]}",
+                "keyword": composition[2],
                 "includeSoldOut": "false",
                 "includeUnisex": "true",
                 "sort": "NEW",
                 "originalYn": "N",
                 "size": "60",
-                "category1DepthCode": f"{composition[1]}",
-                "category2DepthCodes": f"{composition[3]}",
+                "category1DepthCode": composition[1],
+                "category2DepthCodes": composition[3],
                 "sex": "M",
-                "page": 1
+                "page": page
             }
-
             res = requests.get(url, params=params, headers=headers)
             items = res.json()['data']['list']
             for item in items:
-                # 색 추출
                 product_url = item['imageUrl']
                 image = maintain_proportion_and_resize_by_cv2(product_url, (416, 416))
                 cropped_center_img = extract_center_50_percent(image)
                 colors, pixel_count = extcolors.extract_from_image(cropped_center_img)
                 main_color = get_color_name(colors[0][0])
-                print(main_color)
 
-                data.append({
-                    'price': item['price'],
-                    'product_url': product_url,
-                    'connect_url': item['linkUrl'],
-                    'title': item['goodsName'],
-                    'brand': item['brandName'],
-                    'date': item['registDateFormat'],
-                    'color': main_color
-                })
-    
-            # DataFrame 생성
-            df = pd.DataFrame(data, columns=['price', 'product_url', 'connect_url', 'title', 'brand', 'date','color'])
-            df['top_category'] = [f'{composition[0]}'] * len(df)
-            df['bottom_category'] = [f'{composition[2]}'] * len(df)
-            df['type'] = [1] * len(df)
-            df['status'] = ['새 상품'] * len(df)
-            df['size'] = ['지정안함'] * len(df)
+                top_category.append(composition[0])
+                bottom_category.append(composition[2])
+                price.append(item['price'])
+                pro_url.append(item['imageUrl'])
+                connect_url.append(item['linkUrl'])
+                title.append(item['goodsName'])
+                brand.append(item['brandName'])
+                date.append(item['registDateFormat'])
+                color.append(main_color)
+                type.append(1)
+                status.append('새 상품')
+                size.append('지정안함')
+    data = {
+    'top_category' :top_category ,
+    'bottom_category' :bottom_category,
+    'price':price,
+    'product_url':pro_url,
+    'connect_url':connect_url,
+    'title':title,
+    'brand':brand,
+    'date':date,
+    'color':color,
+    'type':type,
+    'status':status,
+    'size' :size
+    }
 
+    df = pd.DataFrame(data)
     # date 필터링
     df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
     old_last_date = pd.to_datetime(old_last_date, format='%Y%m%d')

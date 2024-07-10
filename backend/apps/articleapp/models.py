@@ -11,5 +11,5 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     is_sell = models.BooleanField(default=1) 
-    create_at = models.DateField(auto_now_add=True)
-    update_at = models.DateField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
