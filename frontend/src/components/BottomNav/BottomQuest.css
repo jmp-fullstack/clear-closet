@@ -1,22 +1,23 @@
 .bottom-quest {
   height: 70px;
-
   /* 포지션을 하단 가운데로 조정 */
   position: fixed;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
 
+  /* 바텀 네비게이션의 크기를 조절하고, border radius 설정 */
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   padding-bottom: 0.25rem;
   background-color: #fefefe;
 
   box-sizing: border-box;
-  border-top: 0.5px solid #d8d8d8;
+  border-top: 1px solid #d8d8d8;
 
+   /* 내부 컴포넌트들의 위치를 조정 */
    display: flex;
-   justify-content: space-evenly;
+   justify-content: space-around;
    align-items: center;
 }
 
@@ -28,4 +29,5 @@
   color: #ff1c8e;
 
   font-size: 12px;
+  cursor: pointer;
 }

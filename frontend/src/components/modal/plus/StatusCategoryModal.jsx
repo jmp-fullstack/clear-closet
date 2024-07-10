@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import CategoryButton from "../../Button/category/CategoryButton";
 import ShortModal from "../my/ShortModal";
 
-import { LuPlus } from "react-icons/lu";
+import { IoCloseOutline } from "react-icons/io5";
 
 import "./StatusCategoryModal.css";
 
-const StatusCategoryModal = ({ closeModal, setSelectedStatuscategory }) => {
+const StatusCategoryModal = ({ closeModal, setSelectedStatusCategory }) => {
+  // 수정된 부분
   const categories = [
     "새 상품",
     "거의 새 상품",
@@ -24,7 +25,7 @@ const StatusCategoryModal = ({ closeModal, setSelectedStatuscategory }) => {
 
   const handleConfirmClick = () => {
     if (selectedCategory) {
-      setSelectedStatuscategory(selectedCategory);
+      setSelectedStatusCategory(selectedCategory); // 수정된 부분
       closeModal();
     }
   };
@@ -33,7 +34,7 @@ const StatusCategoryModal = ({ closeModal, setSelectedStatuscategory }) => {
     <ShortModal isOpen={true}>
       <div className="statusCategory-modal">
         <div className="cancel" onClick={closeModal}>
-          <LuPlus size={30} />
+          <IoCloseOutline size={30} />
         </div>
         <div className="title">상태를 선택해 주세요</div>
         <div className="line"></div>

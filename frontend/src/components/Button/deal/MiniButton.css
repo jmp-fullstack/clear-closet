@@ -1,0 +1,17 @@
+.mini-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.5rem;
+  padding: 2px 10px;
+
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: white;
+  font-weight: 200;
+}
+
+.mini-button:hover {
+  opacity: 0.9;
+} 

@@ -1,32 +1,27 @@
 .filter-button {
-  padding: 8px 9px;
-  font-size: 14px;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  cursor: pointer;
-  margin: 4px;
-  transition: background-color 0.3s ease;
-  display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center;     /* Center content vertically */
+  background-color: transparent;
+  color: #333; 
+  border: 2px solid #ddd; 
+  padding: 8px 8px;
+  margin: 0 3px;
+  
+  border-radius: 20px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  transition: color 0.3s, border-color 0.3s; 
 }
 
 .filter-button.active {
-  background-color: #ccc;
-}
-
-.filter-button:hover {
-  background-color: #e0e0e0;
+  color: #8f0456; 
+  border-color: #8f0456; 
 }
 
 .filter-button-content {
   display: flex;
   align-items: center;
-
-  color: #a0a0a0;
 }
 
 .filter-button-icon {
-  margin-left: 0.3rem; /* Provide some space between the label and the icon */
+  margin-left: 8px; /* 아이콘과 텍스트 사이 여백 */
 }
