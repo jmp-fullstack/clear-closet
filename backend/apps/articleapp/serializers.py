@@ -1,11 +1,8 @@
 from rest_framework import serializers
 
-# from apps.accountapp.serializers import CustomUserSerializer
 from apps.articleapp.models import Article
-from apps.product_categoryapp.models import ProductCategory
-from apps.product_optionapp.models import ProductOption
-from apps.productapp.models import Product
 from apps.productapp.serializers import ProductArticleSerializer, ProductMatchSerializer
+
 
 class ArticleSaveSerializer(serializers.ModelSerializer):
     product = ProductMatchSerializer()
@@ -18,14 +15,18 @@ class ArticleSaveSerializer(serializers.ModelSerializer):
 class ArticleListSerializer(serializers.ModelSerializer):
     product = ProductArticleSerializer(read_only=True)
     num_favorites = serializers.IntegerField(read_only=True)
+    create_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    update_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
 
     class Meta:
         model = Article
-        fields = ["id", "title", "product", 'is_sell', 'num_favorites']
+        fields = ["id", "title", "product", 'is_sell', 'num_favorites', 'create_at', 'update_at']
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     product = ProductArticleSerializer()
+    create_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    update_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
 
     class Meta:
         model = Article

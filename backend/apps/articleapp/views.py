@@ -29,6 +29,7 @@ def article_list(request):
     ePrice = request.query_params.get('ePrice')
     sizes = request.query_params.getlist('size')
     isSort = request.query_params.get('isSort', 'asc')
+    isDate = request.query_params.get('isDate', 'asc')
 
     articles = Article.objects.filter(is_sell=True)
     
@@ -47,10 +48,9 @@ def article_list(request):
         articles = articles.filter(product__option__size__in=sizes)
 
     # 정렬
-    if isSort == 'desc':
-        articles = articles.order_by('-product__price')
-    else:
-        articles = articles.order_by('product__price')
+    sort_order = '-product__price' if isSort == 'desc' else 'product__price'
+    date_order = '-create_at' if isDate == 'desc' else 'create_at'
+    articles = articles.order_by(sort_order, date_order)
 
     # 페이지네이터
     paginator = StandardResultsSetPagination()
