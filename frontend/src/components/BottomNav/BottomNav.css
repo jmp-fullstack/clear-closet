@@ -1,7 +1,5 @@
 .bottom-nav {
-  /* 바텀 네비게이션 바 기본 크기 */
   height: 70px;
-
   /* 포지션을 하단 가운데로 조정 */
   position: fixed;
   bottom: 0;
@@ -10,7 +8,7 @@
 
   /* 바텀 네비게이션의 크기를 조절하고, border radius 설정 */
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   padding-bottom: 0.25rem;
   background-color: #fefefe;
 
@@ -21,7 +19,7 @@
    display: flex;
    justify-content: space-around;
    align-items: center;
-   padding: 0 0.4rem; /* vertical, horizontal */
+   padding: 0 0.4rem;
    padding-bottom: 0.5rem;
 
 }

@@ -1,14 +1,16 @@
 .login-con {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
   width: 100%;
+  max-width: 600px;
   height: 100vh;
   background-color: #ffffff;
 }
 
-.logo-sec, .find-sec {
+.login-con .logo-sec, .find-sec {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -19,7 +21,7 @@
   margin: 1rem auto 1rem;
 }
 
-.logo-sec {
+.login-con .logo-sec {
   display: flex;
   flex-direction: row;
   align-items: center;

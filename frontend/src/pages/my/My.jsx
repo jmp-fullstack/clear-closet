@@ -1,45 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { getProfileImageURL } from "../../api/auth";
+import { user_profile, update_user_profile } from "../../api/myPage";
+import ProfileUpload from "../../assets/ProfileUpload";
 
 import BottomNav from "../../components/BottomNav/BottomNav";
-import card from "../../assets/card/profile_photo_1.jpg";
-import PhotoModal from "../../components/modal/my/PhotoModal";
 import NameModal from "../../components/modal/my/NameModal";
 import NickModal from "../../components/modal/my/NickModal";
-import EmailModal from "../../components/modal/my/EmailModal";
 import InterestModal from "../../components/modal/my/InterestModal";
 import ReviewModal from "../../components/modal/my/ReviewModal";
 import OutModal from "../../components/modal/my/OutModal";
 import LogoutModal from "../../components/modal/my/LogoutModal";
 
 import { IoIosArrowForward } from "react-icons/io";
+import { useUser } from "../../pages/context/UserContext"; // Context 사용
 
 import "./My.css";
 
 const My = () => {
-  const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
   const [showNickModal, setShowNickModal] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
   const [showInterestModal, setShowInterestModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showOutModal, setShowOutModal] = useState(false);
-
-  // const [profileImage, setProfileImage] = useState(() => {
-  //   return localStorage.getItem("profileImage") || card;
-  // });
+  const [profileImageURL, setProfileImageURL] =
+    useState();
+    // "/default_profile.jpg"
+  const { user, updateUser } = useUser(); // Context에서 사용자 정보와 업데이트 함수 가져오기
+  const user_pk = localStorage.getItem("user_pk");
   const navigate = useNavigate();
+  const profileUploadRef = useRef();
 
-  // useEffect(() => {
-  //   localStorage.setItem("profileImage", profileImage);
-  // }, [profileImage]);
+  useEffect(() => {
+    const storedProfileImageURL = getProfileImageURL();
+    if (storedProfileImageURL) {
+      setProfileImageURL(storedProfileImageURL);
+    }
 
-  const handleShowPhotoModal = () => {
-    setShowPhotoModal(true);
+    const loadUserProfile = async () => {
+      try {
+        const profileData = await user_profile(user_pk);
+        updateUser({
+          username: profileData.username,
+          nickname: profileData.nickname,
+        });
+      } catch (error) {
+        console.error("Failed to load user profile:", error);
+      }
+    };
+
+    loadUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user_pk]);
+
+  const handleFileClick = () => {
+    profileUploadRef.current.openFileDialog();
   };
-  const handleClosePhotoModal = () => {
-    setShowPhotoModal(false);
+
+  const handleUploadSuccess = (uploadedImages) => {
+    if (uploadedImages.url) {
+      const newProfileImageUrl = uploadedImages.url;
+      setProfileImageURL(newProfileImageUrl);
+      localStorage.setItem("profile_image_url", newProfileImageUrl);
+    }
   };
 
   const handleShowNameModal = () => {
@@ -49,18 +73,26 @@ const My = () => {
     setShowNameModal(false);
   };
 
+  const handleSaveUserProfile = async (newName, newNickname) => {
+    try {
+      const updatedProfile = await update_user_profile(user_pk, {
+        username: newName || user.username,
+        nickname: newNickname || user.nickname,
+      });
+      updateUser({
+        username: updatedProfile.username,
+        nickname: updatedProfile.nickname,
+      });
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    }
+  };
+
   const handleShowNickModal = () => {
     setShowNickModal(true);
   };
   const handleCloseNickModal = () => {
     setShowNickModal(false);
-  };
-
-  const handleShowEmailModal = () => {
-    setShowEmailModal(true);
-  };
-  const handleCloseEmailModal = () => {
-    setShowEmailModal(false);
   };
 
   const handleShowInterestModal = () => {
@@ -96,8 +128,6 @@ const My = () => {
     setShowLogoutModal(false);
   };
 
-  const userId = 2;
-
   return (
     <div className="My">
       <div className="header-sec">
@@ -105,43 +135,43 @@ const My = () => {
       </div>
       <div className="info-sec">
         <div className="photo">
-          <img src={card} alt="Card" className="card" />
-          <div className="photo-text" onClick={handleShowPhotoModal}>
+          <img src={profileImageURL} alt="Profile" className="profile_images" />
+          <div className="photo-text" onClick={handleFileClick}>
             사진 변경하기
           </div>
-          {showPhotoModal && (
-            <PhotoModal
-              closeModal={handleClosePhotoModal}
-              // setProfileImage={setProfileImage}
-            />
-          )}
+          <ProfileUpload
+            ref={profileUploadRef}
+            onUploadSuccess={handleUploadSuccess}
+          />
         </div>
 
         <div className="info-modal">
           <div className="name">
             <div>이름</div>
-            <div className="input">이름</div>
+            <div className="input">{user.username}</div>
             <div className="arrow" onClick={handleShowNameModal}>
               <IoIosArrowForward size={20} />
             </div>
-            {showNameModal && <NameModal closeModal={handleCloseNameModal} />}
+            {showNameModal && (
+              <NameModal
+                closeModal={handleCloseNameModal}
+                onSave={handleSaveUserProfile}
+                user_pk={user_pk}
+              />
+            )}
           </div>
           <div className="name">
             <div>닉네임</div>
-            <div className="input">@nickname</div>
+            <div className="input">{user.nickname}</div>
             <div className="arrow" onClick={handleShowNickModal}>
               <IoIosArrowForward size={20} />
             </div>
-            {showNickModal && <NickModal closeModal={handleCloseNickModal} />}
-          </div>
-          <div className="name">
-            <div>이메일</div>
-            <div className="input">name@domain.com</div>
-            <div className="arrow" onClick={handleShowEmailModal}>
-              <IoIosArrowForward size={20} />
-            </div>
-            {showEmailModal && (
-              <EmailModal closeModal={handleCloseEmailModal} />
+            {showNickModal && (
+              <NickModal
+                closeModal={handleCloseNickModal}
+                onSave={handleSaveUserProfile}
+                user_pk={user_pk}
+              />
             )}
           </div>
         </div>
@@ -178,9 +208,7 @@ const My = () => {
           <div className="arrow" onClick={handleShowOutModal}>
             <IoIosArrowForward size={20} />
           </div>
-          {showOutModal && (
-            <OutModal closeModal={handleCloseOutModal} userId={userId} />
-          )}
+          {showOutModal && <OutModal closeModal={handleCloseOutModal} />}
         </div>
         <div className="logout">
           <div className="input" onClick={handleShowLogoutModal}>

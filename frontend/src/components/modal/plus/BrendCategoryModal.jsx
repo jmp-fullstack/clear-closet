@@ -4,11 +4,12 @@ import Tabs from "../../Button/category/Tabs";
 import CategoryButton from "../../Button/category/CategoryButton";
 import WideModal from "../WideModal";
 
-import { LuPlus } from "react-icons/lu";
+import { IoCloseOutline } from "react-icons/io5";
 
 import "./BrendCategoryModal.css";
 
-const BrendCategoryModal = ({ closeModal, setSelectedBrendcategory }) => {
+const BrendCategoryModal = ({ closeModal, setSelectedBrendCategory }) => {
+  // 수정된 부분
   const categories = {
     베이식: [
       "무신사 스탠다드",
@@ -57,7 +58,7 @@ const BrendCategoryModal = ({ closeModal, setSelectedBrendcategory }) => {
 
   const handleConfirmClick = () => {
     if (selectedSubcategory) {
-      setSelectedBrendcategory(`${currentCategory} > ${selectedSubcategory}`);
+      setSelectedBrendCategory(`${currentCategory} > ${selectedSubcategory}`); // 수정된 부분
       closeModal();
     }
   };
@@ -66,7 +67,7 @@ const BrendCategoryModal = ({ closeModal, setSelectedBrendcategory }) => {
     <WideModal isOpen={true}>
       <div className="brendCategory-modal">
         <div className="cancel" onClick={closeModal}>
-          <LuPlus size={30} />
+          <IoCloseOutline size={30} />
         </div>
         <div className="title">브랜드를 선택해 주세요</div>
         <div className="line"></div>
