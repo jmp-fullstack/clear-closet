@@ -53,15 +53,6 @@ def article_list(request):
     date_order = '-create_at' if isDate == 'desc' else 'create_at'
     articles = articles.order_by(date_order, sort_order)
 
-    if isSort != 'none' and isDate != 'none':
-        articles = articles.annotate(num_favorites=Count('favorite')).order_by(sort_order, date_order)
-    elif isSort != 'none':
-        articles = articles.annotate(num_favorites=Count('favorite')).order_by(sort_order)
-    elif isDate != 'none':
-        articles = articles.annotate(num_favorites=Count('favorite')).order_by(date_order)
-    else:
-        articles = articles.annotate(num_favorites=Count('favorite'))
-        
     # 페이지네이터
     paginator = StandardResultsSetPagination()
     paginated_articles = paginator.paginate_queryset(articles, request)
