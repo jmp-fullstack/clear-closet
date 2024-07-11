@@ -24,14 +24,15 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
-    product = ProductArticleSerializer()
+    product = ProductArticleSerializer(read_only=True)
     create_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     update_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    num_favorites = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Article
         fields = '__all__'
-        read_only_fields = ['user', 'product', 'update_at', 'create_at', 'id', 'is_sell']
+        read_only_fields = ['user','product', 'update_at', 'create_at', 'id', 'is_sell']
 
     def update(self, instance, validated_data):
         product_data = validated_data.pop('product', None)
