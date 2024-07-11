@@ -1,12 +1,9 @@
-.buy-modal {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.Buy-modal {
   text-align: center;
   width: 100%;
 }
 
-.buy-modal .topline {
+.Buy-modal .topline {
   margin: 0 auto;
   margin-bottom: 1rem;
   width: 18%;
@@ -15,14 +12,20 @@
   border-radius: 2px;
 }
 
-.buy-modal .title {
+.Buy-modal .title {
   font-size: 20px;
   font-weight: 600;
-  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
   border-bottom: 0.5px solid #dadada;
 }
 
-.buy-modal .buy-cards {
+.Buy-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Buy-modal .Buy-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -30,39 +33,29 @@
   margin-top: 1rem;
 }
 
-.buy-modal .buy-cards .card-sec {
+.Buy-modal .Buy-cards .card-sec {
   display: flex;
   flex-direction: column;
   align-items: left;
-  width: calc(50% - 10px); /* 간격 조정을 위해 수정됨 */
+  width: calc(50% - 4px);
   margin-bottom: 12px;
   text-align: left;
-  cursor: grab; /* 드래그 가능한 항목 표시 */
 }
 
-.buy-modal .buy-cards .card-sec:active {
-  cursor: grabbing; /* 드래그 중임을 표시 */
-}
-
-.buy-modal .buy-cards .card {
+.Buy-modal .Buy-cards .card {
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1; /* 정사각형 이미지 */
   object-fit: cover;
   border-radius: 8px;
 }
 
-.buy-modal .buy-cards .name {
-  font-weight: 500;
+.Buy-modal .Buy-cards .name {
+  font-weight: 500; 
   padding-top: 0.3rem;
 }
 
-.buy-modal .buy-cards .category {
-  color: #afafaf;
-  font-size: 13px;
-}
-
-.buy-modal .buy-cards .price {
+.Buy-modal .Buy-cards .price {
   font-weight: bold;
   font-size: 14px;
   padding-top: 0.4rem;

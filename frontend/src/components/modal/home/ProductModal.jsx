@@ -31,7 +31,6 @@ const ProductModal = ({ closeModal, article_pk }) => {
         throw new Error("액세스 토큰을 찾을 수 없습니다");
       }
 
-      // 게시글 상세 정보 가져오기
       const articleData = await article_detail(article_pk, access);
 
       console.log(`게시글 수정 페이지로 이동: ${article_pk}`); // 성공 로그

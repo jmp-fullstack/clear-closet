@@ -25,16 +25,13 @@ export const article_list = async (articleData, access) => {
     const response = await api.get("/api/articles/list/", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${access}`, // 액세스 토큰을 헤더에 추가
+        Authorization: `Bearer ${access}`, // 액세스 토큰을 헤더에 추가합니다.
       },
       params: articleData,
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Get Article List Error Response Data:",
-      error.response?.data
-    );
+    console.error("게시글 목록 조회 오류 응답 데이터:", error.response?.data);
     throw error;
   }
 };
@@ -101,3 +98,22 @@ export const article_delete = async (article_pk, access) => {
     throw error;
   }
 };
+
+// 게시글 판매 상태 변경 함수
+export async function article_is_sell(article_pk, accessToken) {
+  try {
+    const response = await api.post(
+      `/api/articles/isSell/${article_pk}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("게시글 상태 변경 중 오류 발생:", error);
+    throw error;
+  }
+}

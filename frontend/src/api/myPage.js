@@ -33,18 +33,20 @@ export async function update_user_profile(user_pk, updateData) {
     throw error;
   }
 }
-
-export async function article_sales_list(user_pk) {
+export async function article_sales_list(user_pk, isSell) {
   try {
     const access = localStorage.getItem("access");
     const response = await axios.get(`/api/profiles/${user_pk}/sales/list/`, {
       headers: {
         Authorization: `Bearer ${access}`,
       },
+      params: {
+        isSell: isSell,
+      },
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching sales list:", error);
+    console.error("판매 목록을 가져오는 중 오류 발생:", error);
     throw error;
   }
 }

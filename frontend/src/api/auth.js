@@ -37,7 +37,7 @@ export const login = async (email, password) => {
     email,
     password,
   };
-  console.log("Login Request Data:", requestData);
+  // console.log("Login Request Data:", requestData);
 
   try {
     const response = await api.post("/api/accounts/login/", requestData);

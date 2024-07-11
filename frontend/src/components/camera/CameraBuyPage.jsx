@@ -20,7 +20,7 @@ function CameraBuyPage() {
       const newUrl = URL.createObjectURL(file);
       console.log("Generated URL: ", newUrl);
       setSource(newUrl);
-      navigate("/upload", { state: { imageUrl: newUrl } }); // navigate 함수로 상태 전달
+      navigate("/buy", { state: { imageUrl: newUrl } }); // navigate 함수로 상태 전달
     }
   };
 

@@ -1,48 +1,99 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { article_sales_list } from "../../../api/myPage";
 
 import SellingButton from "../../Button/deal/SellingButton";
 import ReviewButton from "../../Button/deal/ReviewButton";
-import Card from "../../../assets/card/product_sample_1.png";
+import DealSellModal from "../../modal/deal/DealSellModal";
 
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 import "./DealSell.css";
 
-const DealSell = () => {
+const DealSell = ({ onStatusToggle }) => {
   const navigate = useNavigate();
+  const [salesList, setSalesList] = useState([]);
+  const [showSellModal, setShowSellModal] = useState(false);
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
 
-  const handleClick = () => {
-    navigate("/search");
+  useEffect(() => {
+    const getSalesList = async () => {
+      try {
+        const user_pk = localStorage.getItem("user_pk"); // 유저 pk 가져오기
+        const articles = await article_sales_list(user_pk, "true");
+        setSalesList(articles);
+      } catch (error) {
+        console.error("판매중 목록을 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    getSalesList();
+  }, []);
+
+  const handleClick = (id) => {
+    navigate(`/search?detail=${id}`);
+  };
+
+  const handleShowSellModal = (articleId) => {
+    setSelectedArticleId(articleId);
+    setShowSellModal(true);
+  };
+
+  const handleCloseSellModal = () => {
+    setShowSellModal(false);
+    setSelectedArticleId(null);
+  };
+
+  const handleStatusChange = (newIsSell) => {
+    onStatusToggle(newIsSell);
+    handleCloseSellModal();
   };
 
   return (
     <div className="DealSell">
-      <div className="sell-sec">
-        <div className="sell">
-          <div className="photo">
-            <img src={Card} alt="card" className="card" />
-          </div>
-          <div className="info">
-            <div className="deal-title">
-              구찌 x 아디다스 가젤 스니커즈 그린 스웨이드
+      {salesList.map((article) => (
+        <div key={article.id} className="sell-sec">
+          <div className="sell">
+            <div className="photo">
+              <img
+                src={
+                  article.product.product_images[0]?.image_url ||
+                  "/path/to/default_image.png"
+                }
+                alt="card"
+                className="card"
+              />
             </div>
-            <div className="where">신림동 . 2달전</div>
-            <div className="price">
-              <SellingButton onClick={handleClick} />
-              239,000 원
+            <div className="info">
+              <div className="deal-title">{article.title}</div>
+              <div className="where">2주 전 {article.created_at}</div>
+              <div className="price">
+                <SellingButton onClick={() => handleClick(article.id)} />
+                {article.product.price} 원
+              </div>
+              {showSellModal && selectedArticleId === article.id && (
+                <DealSellModal
+                  closeModal={handleCloseSellModal}
+                  articleId={selectedArticleId}
+                  isSell={true}
+                  onStatusChange={handleStatusChange}
+                />
+              )}
+            </div>
+          </div>
+          <div className="review-sec">
+            <div className="review">
+              <ReviewButton onClick={() => handleClick(article.id)} />
+            </div>
+            <div className="add">
+              <HiOutlineDotsHorizontal
+                size={22}
+                onClick={() => handleShowSellModal(article.id)}
+              />
             </div>
           </div>
         </div>
-        <div className="review-sec">
-          <div className="review">
-            <ReviewButton onClick={handleClick} />
-          </div>
-          <div className="add">
-            <HiOutlineDotsHorizontal size={22} />
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

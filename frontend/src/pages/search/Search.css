@@ -1,17 +1,17 @@
 .Search {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 130vh; 
-  background-color: #ffffff;
   /* padding: 1rem; */
+  width: 100%;
+  height: 355vh;
+  background-color: #ffffff;
 }
 .Search .search-input-container {
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
-  margin: 0.5rem 0;
+  /* margin: 0.5rem 0; */
 
   background-color: #ffffff;
   border-radius: 10px;

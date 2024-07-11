@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { article_create, article_modify } from "../../../api/articles";
+import {
+  article_create,
+  article_modify,
+  // article_detail,
+} from "../../../api/articles";
 
 import BottomNav from "../../../components/BottomNav/BottomNav";
 import GuideModal from "../../../components/modal/plus/GuideModal";
@@ -41,34 +45,44 @@ const Sell = () => {
   const imageUploadRef = useRef();
 
   useEffect(() => {
-    if (location.state && location.state.image_urls) {
-      setImage_urls(location.state.image_urls);
+    const fetchArticleData = async () => {
+      try {
+        const access = localStorage.getItem("access");
+        if (!access) {
+          throw new Error("액세스 토큰을 찾을 수 없습니다");
+        }
+
+        const articleData = location.state.articleData;
+        setArticlePk(articleData.id); // 게시글 ID 설정
+        setImage_urls(
+          articleData.product.product_images.map((img) => img.image_url) || [""]
+        );
+        setSelectedBrendCategory(articleData.product.brand || "");
+        setSelectedStatusCategory(articleData.product.product_status || "");
+        setTitle(articleData.title || "");
+        setContent(articleData.content || "");
+        setTitleLength(articleData.title?.length || 0);
+        setContentLength(articleData.content?.length || 0);
+        setPriceLength(articleData.product.price?.toString().length || 0);
+        setPrice(articleData.product.price || "");
+        setSelectedCategory(
+          `${articleData.product.category.top_category} > ${articleData.product.category.bottom_category}` ||
+            ""
+        );
+        setSelectedOption(
+          `Color: ${articleData.product.option.color} / Size: ${articleData.product.option.size}` ||
+            ""
+        );
+        setIsEditMode(true); // 수정 모드로 설정
+      } catch (error) {
+        console.error("Failed to fetch article data:", error);
+      }
+    };
+
+    if (location.state && location.state.article_pk) {
+      fetchArticleData();
     }
-    if (location.state && location.state.articleData) {
-      const { articleData } = location.state;
-      setArticlePk(articleData.id); // 게시글 ID 설정
-      setImage_urls(
-        articleData.product.product_images.map((img) => img.image_url) || [""]
-      );
-      setSelectedBrendCategory(articleData.product.brand || "");
-      setSelectedStatusCategory(articleData.product.product_status || "");
-      setTitle(articleData.title || "");
-      setContent(articleData.content || "");
-      setTitleLength(articleData.title?.length || 0);
-      setContentLength(articleData.content?.length || 0);
-      setPriceLength(articleData.product.price?.toString().length || 0);
-      setPrice(articleData.product.price || "");
-      setSelectedCategory(
-        `${articleData.product.category.top_category} > ${articleData.product.category.bottom_category}` ||
-          ""
-      );
-      setSelectedOption(
-        `Color: ${articleData.product.option.color} / Size: ${articleData.product.option.size}` ||
-          ""
-      );
-      setIsEditMode(true); // 수정 모드로 설정
-    }
-  }, [location]);
+  }, [location.state]);
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -168,6 +182,14 @@ const Sell = () => {
       if (error.response) {
         console.error("Server response:", error.response.data);
       }
+    }
+  };
+
+  const handleCreateOrModifySubmit = async () => {
+    if (isEditMode) {
+      await handleModifySubmit();
+    } else {
+      await handleCreateSubmit();
     }
   };
 
@@ -367,33 +389,18 @@ const Sell = () => {
           />
         )}
         <div className="sell-button">
-          {isEditMode ? (
-            <button
-              className="apply-button"
-              onClick={handleModifySubmit}
-              style={{
-                backgroundColor: isSellButtonEnabled ? "#8f0456" : "#dadada",
-                color: "#ffffff",
-                cursor: isSellButtonEnabled ? "pointer" : "not-allowed",
-              }}
-              disabled={!isSellButtonEnabled}
-            >
-              상품을 수정할래요
-            </button>
-          ) : (
-            <button
-              className="apply-button"
-              onClick={handleCreateSubmit}
-              style={{
-                backgroundColor: isSellButtonEnabled ? "#8f0456" : "#dadada",
-                color: "#ffffff",
-                cursor: isSellButtonEnabled ? "pointer" : "not-allowed",
-              }}
-              disabled={!isSellButtonEnabled}
-            >
-              상품을 판매할래요
-            </button>
-          )}
+          <button
+            className="apply-button"
+            onClick={handleCreateOrModifySubmit}
+            style={{
+              backgroundColor: isSellButtonEnabled ? "#8f0456" : "#dadada",
+              color: "#ffffff",
+              cursor: isSellButtonEnabled ? "pointer" : "not-allowed",
+            }}
+            disabled={!isSellButtonEnabled}
+          >
+            {isEditMode ? "상품을 수정할래요" : "상품을 판매할래요"}
+          </button>
         </div>
       </div>
       <BottomNav />

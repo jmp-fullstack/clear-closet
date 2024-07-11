@@ -11,10 +11,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
+  /* width: 86%; */
   background-color: #dadada;
-  padding-top: 2rem;
-  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1rem;
 
   font-weight: 600;
   font-size: 15px;
