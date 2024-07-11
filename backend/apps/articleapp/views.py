@@ -1,4 +1,5 @@
 import json
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from rest_framework import status
@@ -28,8 +29,8 @@ def article_list(request):
     sPrice = request.query_params.get('sPrice')
     ePrice = request.query_params.get('ePrice')
     sizes = request.query_params.getlist('size')
-    isSort = request.query_params.get('isSort', 'asc')
-    isDate = request.query_params.get('isDate', 'asc')
+    isSort = request.query_params.get('isSort')
+    isDate = request.query_params.get('isDate','desc')
 
     articles = Article.objects.filter(is_sell=True)
     
@@ -50,8 +51,17 @@ def article_list(request):
     # 정렬
     sort_order = '-product__price' if isSort == 'desc' else 'product__price'
     date_order = '-create_at' if isDate == 'desc' else 'create_at'
-    articles = articles.order_by(sort_order, date_order)
+    articles = articles.order_by(date_order, sort_order)
 
+    if isSort != 'none' and isDate != 'none':
+        articles = articles.annotate(num_favorites=Count('favorite')).order_by(sort_order, date_order)
+    elif isSort != 'none':
+        articles = articles.annotate(num_favorites=Count('favorite')).order_by(sort_order)
+    elif isDate != 'none':
+        articles = articles.annotate(num_favorites=Count('favorite')).order_by(date_order)
+    else:
+        articles = articles.annotate(num_favorites=Count('favorite'))
+        
     # 페이지네이터
     paginator = StandardResultsSetPagination()
     paginated_articles = paginator.paginate_queryset(articles, request)
@@ -124,7 +134,8 @@ def article_create(request):
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def article_detail(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
+    annotated_articles = Article.objects.annotate(num_favorites=Count('favorite'))
+    article = get_object_or_404(annotated_articles, pk=article_pk)
     serializer = ArticleDetailSerializer(article)
     return Response(serializer.data)
 
