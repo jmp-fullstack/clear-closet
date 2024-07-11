@@ -16,7 +16,7 @@ import Search from "../pages/search/Search";
 import Plus from "../pages/plus/Plus";
 import Sell from "../pages/plus/sell/Sell";
 import Buy from "../pages/plus/buy/Buy";
-import Upload from "../components/camera/Upload";
+// import Upload from "../components/camera/Upload";
 
 import Deal from "../pages/deal/Deal";
 import Chat from "../pages/deal/Chat";
@@ -50,7 +50,7 @@ const AllRoutes = () => {
         <Route path="/buy" element={<Buy />} />
         <Route path="/camera-sell" element={<CameraSell />} />
         <Route path="/camera-buy" element={<CameraBuy />} />
-        <Route path="/upload" element={<Upload />} />
+        {/* <Route path="/upload" element={<Upload />} /> */}
 
         <Route path="/deal" element={<Deal />} />
         <Route path="/chat" element={<Chat />} />

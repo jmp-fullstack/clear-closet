@@ -1,8 +1,11 @@
 import axios from "axios";
 
-export async function favorite_article(article_id) {
+export const favorite_article = async (article_id) => {
   try {
     const access = localStorage.getItem("access");
+    if (!access) {
+      throw new Error("액세스 토큰이 없습니다");
+    }
     const response = await axios.post(
       `/api/favorites/${article_id}/`,
       {},
@@ -14,10 +17,10 @@ export async function favorite_article(article_id) {
     );
     return response.data;
   } catch (error) {
-    console.error("Error toggling favorite:", error);
+    console.error("좋아요 토글 오류:", error.response?.data);
     throw error;
   }
-}
+};
 
 export async function list_favorites() {
   try {

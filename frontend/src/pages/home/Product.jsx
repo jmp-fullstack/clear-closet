@@ -4,6 +4,7 @@ import { article_detail } from "../../api/articles";
 
 import ProductModal from "../../components/modal/home/ProductModal";
 import BottomQuest from "../../components/BottomNav/BottomQuest";
+
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
@@ -137,10 +138,21 @@ const Product = () => {
 
       <div className="product-sec">
         <div className="info">
+          <div className="cate">
+            <div className="top">{article.product.category.top_category}</div>
+            <div>
+              &nbsp;
+              <IoIosArrowForward size={16} />
+              &nbsp;
+            </div>
+            <div className="bottom">
+              {article.product.category.bottom_category}
+            </div>
+          </div>
           <div className="name">{article.title}</div>
         </div>
         <div className="nickname" onClick={() => navigate(`/user`)}>
-          @{article.user.username}
+          @{article.nickname}
         </div>
         <div className="price">{article.product.price} 원</div>
         <div className="content">{article.content}</div>

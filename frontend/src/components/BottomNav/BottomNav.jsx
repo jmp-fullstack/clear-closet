@@ -29,8 +29,10 @@ const BottomNav = () => {
           <AiOutlinePlusSquare size={28} />
         </span>
       </Link>
-      <Link to={"/deal"}>
-        <span className={location.pathname === "/deal" ? "active" : ""}>
+      <Link to={"/deal?isSell=true"}>
+        <span
+          className={location.pathname === "/deal?isSell=true" ? "active" : ""}
+        >
           <IoChatboxOutline size={28} />
         </span>
       </Link>

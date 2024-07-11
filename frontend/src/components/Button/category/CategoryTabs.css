@@ -1,5 +1,6 @@
 .CategoryTabs {
-  height: 100vh;
+  height: 160vh;
+  background-color: white;
 }
 
 .CategoryTabs .sticky-tabs {
@@ -17,8 +18,9 @@
   overflow-x: auto;
   white-space: nowrap;
   margin-top: 8px;
-  margin-bottom: 8px;
+  padding-bottom: 8px;
   width: 100%; /* 부모 컨테이너에 맞추기 */
+  border-bottom: 1px solid #e2e2e2;
 }
 
 .CategoryTabs .filter-buttons {
@@ -30,7 +32,7 @@
 .CategoryTabs .line {
   width: 100%;
   height: 8px;
-  background-color: #eeeeee;
+  background-color: rgb(246, 245, 245);
 }
 
 .CategoryTabs .filter-group {
@@ -74,14 +76,22 @@
 }
 
 .CategoryTabs .category-content .title {
-  font-weight: bold; 
+  font-size: 18px;
+  font-weight: 400; 
   margin-top: 8px; 
 }
 
 .CategoryTabs .category-content .price {
-  color: gray;
+  color: rgb(0, 0, 0);
   margin-top: 2px; 
   font-size: 14px;
+  font-weight: 600;
+}
+.CategoryTabs .category-content .date {
+  color: rgb(143, 143, 143);
+  margin-top: 2px; 
+  font-size: 12px;
+  font-weight: 200;
 }
 
 

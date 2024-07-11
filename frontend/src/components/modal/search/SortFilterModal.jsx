@@ -9,22 +9,22 @@ const SortFilterModal = ({
   activeFilters,
   onApply,
 }) => {
-  const [selectedSortes, setSelectedSortes] = useState([]);
+  const [selectedSort, setSelectedSort] = useState("");
 
   useEffect(() => {
-    setSelectedSortes(Array.isArray(activeFilters) ? activeFilters : []);
+    setSelectedSort(activeFilters.length ? activeFilters[0] : "");
   }, [activeFilters]);
 
-  const handleSizeClick = (sort) => {
-    setSelectedSortes((prevSortes) =>
-      prevSortes.includes(sort)
-        ? prevSortes.filter((s) => s !== sort)
-        : [...prevSortes, sort]
-    );
+  const handleSortClick = (sort) => {
+    if (selectedSort === sort) {
+      setSelectedSort("");
+    } else {
+      setSelectedSort(sort);
+    }
   };
 
   const handleApply = () => {
-    onApply("sort", selectedSortes);
+    onApply("sort", selectedSort ? [selectedSort] : []);
     onClose();
   };
 
@@ -41,10 +41,8 @@ const SortFilterModal = ({
           {sortes.map((sort) => (
             <span
               key={sort}
-              className={`sort-item ${
-                selectedSortes.includes(sort) ? "active" : ""
-              }`}
-              onClick={() => handleSizeClick(sort)}
+              className={`sort-item ${selectedSort === sort ? "active" : ""}`}
+              onClick={() => handleSortClick(sort)}
             >
               {sort}
             </span>
@@ -55,8 +53,7 @@ const SortFilterModal = ({
             className="apply-button"
             onClick={handleApply}
             style={{
-              backgroundColor:
-                selectedSortes.length > 0 ? "#8f0456" : "#dadada",
+              backgroundColor: selectedSort ? "#8f0456" : "#dadada",
               color: "#ffffff",
             }}
           >

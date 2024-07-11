@@ -1,0 +1,22 @@
+.Buy {
+  background-color: black;
+
+  width: 100%;
+  height: 100vb;
+}
+
+.Buy .imgBox {
+  display: flex;
+  justify-content: center;
+
+  max-width: 95%;
+  max-height: 100%;
+  padding: 0.5rem;
+  padding-top: 2rem;
+
+}
+
+.Buy .img {
+  height: inherit;
+  max-width: inherit;
+}
