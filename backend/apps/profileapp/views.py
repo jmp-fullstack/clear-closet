@@ -38,10 +38,18 @@ def user_profile(request, user_pk):
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def article_sales_list(request, user_pk):
+    isSell = request.query_params.get('isSell')
     try:
-        articles = Article.objects.filter(user=user_pk)
+        if isSell == "true": 
+            articles = Article.objects.filter(user=user_pk, is_sell=True)
+        elif isSell == "false":
+            articles = Article.objects.filter(user=user_pk, is_sell=False)
+        else:
+            return Response({"detail": "Invalid isSell parameter. Use 'true' or 'false'."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = ArticleListSerializer(articles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     except Article.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = ArticleListSerializer(articles, many=True)
-    return Response(serializer.data)
+        return Response({"detail": "User or articles not found."}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

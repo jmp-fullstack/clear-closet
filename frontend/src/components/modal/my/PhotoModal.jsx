@@ -1,29 +1,38 @@
 import React, { useRef } from "react";
-
+import { user_profile } from "../../../api/myPage"; // 필요한 API 함수 임포트
 import ShortModal from "./ShortModal";
-
-import "./PhotoModal.css";
 
 import { FaRegFile } from "react-icons/fa";
 import { TbPhoto } from "react-icons/tb";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { FaRegTrashCan } from "react-icons/fa6";
 
-const PhotoModal = ({ closeModal, setProfileImage }) => {
+import "./PhotoModal.css";
+
+const PhotoModal = ({ closeModal, setProfileImageURL }) => {
   const fileInputRef = useRef(null);
+  const user_pk = localStorage.getItem("user_pk"); // user_pk를 로컬 스토리지에서 가져옵니다.
 
   const handleFileClick = () => {
     fileInputRef.current.click();
   };
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const objectUrl = URL.createObjectURL(file);
-  //     setProfileImage(objectUrl);
-  //     closeModal();
-  //   }
-  // };
+  const handleImageChange = async (e) => {
+    const newProfileImage = e.target.files[0];
+    const access = localStorage.getItem("access");
+    if (!user_pk) {
+      console.error("user_pk가 로컬 스토리지에 없습니다.");
+      return;
+    }
+    try {
+      const response = await user_profile(user_pk, newProfileImage, access);
+      localStorage.setItem("profile_images_url", response.profileimage);
+      setProfileImageURL(response.profileimage);
+      closeModal();
+    } catch (error) {
+      console.error("Error updating profile image:", error);
+    }
+  };
 
   return (
     <ShortModal isOpen={true} closeModal={closeModal}>
@@ -42,7 +51,7 @@ const PhotoModal = ({ closeModal, setProfileImage }) => {
               type="file"
               ref={fileInputRef}
               style={{ display: "none" }}
-              // onChange={handleFileChange}
+              onChange={handleImageChange}
             />
           </div>
           <div className="content">

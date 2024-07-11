@@ -1,0 +1,12 @@
+.favorite-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.favorite-count {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #000;
+}

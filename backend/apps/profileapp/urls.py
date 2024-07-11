@@ -3,6 +3,8 @@ from django.urls import path
 from apps.profileapp.views import article_sales_list, user_profile
 
 
+
+
 app_name = "profileapp"
 
 urlpatterns = [

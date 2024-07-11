@@ -173,10 +173,10 @@ def article_modify(request, article_pk):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def article_is_sell(request, article_id):
+def article_is_sell(request, article_pk):
     user = request.user
     try:
-        article = Article.objects.get(id=article_id)
+        article = Article.objects.get(id=article_pk)
     except Article.DoesNotExist:
         return Response({"error": "페이지를 찾을 수 없음"}, status=status.HTTP_404_NOT_FOUND)
 

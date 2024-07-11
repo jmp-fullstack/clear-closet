@@ -41,14 +41,18 @@ export const login = async (email, password) => {
 
   try {
     const response = await api.post("/api/accounts/login/", requestData);
-    console.log("Login Response Data:", response.data); // 로그인 응답 데이터 출력
-
-    const { access, username, nickname } = response.data;
+    // console.log("Login Response Data:", response.data);
+    const { access, refresh, username, nickname, id, email, profile_images } =
+      response.data;
 
     // access_token과 user_id를 로컬 스토리지에 저장
     localStorage.setItem("access", access);
+    localStorage.setItem("refresh", refresh);
     localStorage.setItem("username", username);
     localStorage.setItem("nickname", nickname);
+    localStorage.setItem("user_pk", id);
+    localStorage.setItem("email", email);
+    localStorage.setItem("profile_image_url", profile_images.image_url);
 
     return response.data;
   } catch (error) {
@@ -69,12 +73,32 @@ export const getNickname = () => {
   return localStorage.getItem("nickname");
 };
 
+// 저장된 프로필 이미지 가져오기 함수
+export const getProfileImageURL = () => {
+  return localStorage.getItem("profile_image_url");
+};
+
+// 저장된 사용자 ID 가져오기 함수
+export const getUserPk = () => {
+  return localStorage.getItem("user_pk");
+};
+
+// 저장된 사용자 이메일 가져오기 함수
+export const getEmail = () => {
+  return localStorage.getItem("email");
+};
+
 // 로그아웃 API
 export const logout = () => {
   localStorage.removeItem("access");
+  localStorage.removeItem("refresh");
   localStorage.removeItem("username");
   localStorage.removeItem("nickname");
   localStorage.removeItem("refresh");
+  localStorage.removeItem("profile_image_url");
+  localStorage.removeItem("profile_images");
+  localStorage.removeItem("user_pk");
+  localStorage.removeItem("email");
   document.cookie = "refresh=; Max-Age=0; path=/;"; // 쿠키에서 refresh_token 제거
   window.location.href = "/login"; // 로그인 페이지로 리다이렉트
 };
@@ -156,12 +180,12 @@ export const resetPassword = async (newPassword) => {
 };
 
 // 회원 탈퇴 API
-export const deleteAccount = async (username, password) => {
+export const delete_user = async (email, username, password) => {
   const requestData = {
-    username,
-    password,
+    email: email,
+    username: username,
+    password: password,
   };
-  console.log("Delete Request Data:", requestData);
 
   const access = localStorage.getItem("access");
 

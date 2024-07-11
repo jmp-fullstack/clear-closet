@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CenterModal from "./CenterModal";
-import { deleteAccount } from "../../../api/auth";
+import { delete_user } from "../../../api/auth";
 
 import "./OutModal.css";
 
@@ -10,6 +10,7 @@ import DeleteButton from "../../Button/DeleteButton";
 
 const OutModal = ({ closeModal }) => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,9 +30,9 @@ const OutModal = ({ closeModal }) => {
 
   const handleOut = async () => {
     try {
-      const response = await deleteAccount(username, password);
-      console.log("Account deletion successful:", response);
+      const response = await delete_user(email, username, password);
       navigate("/login");
+      console.log("Account deletion successful:", response);
     } catch (error) {
       console.error("Account deletion failed:", error);
       if (error.message === "No access token available") {
@@ -55,6 +56,13 @@ const OutModal = ({ closeModal }) => {
           탈퇴 버튼 선택 시, 계정은 삭제되며 복구되지 않습니다
         </div>
         <div className="input-field">
+          <input
+            type="email"
+            placeholder="이메일을 입력해 주세요"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input-fields"
+          />
           <input
             type="text"
             placeholder="이름을 입력해 주세요"

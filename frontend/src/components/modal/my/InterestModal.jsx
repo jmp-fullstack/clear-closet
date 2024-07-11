@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { list_favorites } from "../../../api/favorite";
 import LongModal from "./LongModal";
-import card from "../../../assets/card/card_sample_3.png";
-
 import "./InterestModal.css";
 
-// import { IoCloseOutline } from "react-icons/io5";
-// import CheckButton from "../../Button/CheckButton";
-
-const InterestModal = ({ closeModal, cardSec }) => {
+const InterestModal = ({ closeModal }) => {
   const navigate = useNavigate();
+  const [favorites, setFavorites] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleCardSecClick = () => {
-    navigate(`/home_product?cardsec=${cardSec}`);
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const data = await list_favorites();
+        setFavorites(data);
+      } catch (err) {
+        setError(err);
+        console.error("좋아요한 목록을 가져오는 중 오류 발생:", err);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  const handleCardSecClick = (article_pk) => {
+    navigate(`/product?detail=${article_pk}`);
   };
+
+  if (error) {
+    return <div>오류: {error.message}</div>;
+  }
 
   return (
     <LongModal isOpen={true} closeModal={closeModal}>
@@ -24,42 +39,23 @@ const InterestModal = ({ closeModal, cardSec }) => {
         <div className="line"></div>
 
         <div className="interest-cards">
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="category">category</div>
-            <div className="price">50,000 won</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="category">category</div>
-            <div className="price">50,000 won</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="category">category</div>
-            <div className="price">50,000 won</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="category">category</div>
-            <div className="price">50,000 won</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="category">category</div>
-            <div className="price">50,000 won</div>
-          </div>
-          <div className="card-sec" onClick={handleCardSecClick}>
-            <img src={card} alt="Card" className="card" />
-            <div className="name">username</div>
-            <div className="category">category</div>
-            <div className="price">50,000 won</div>
-          </div>
+          {favorites.map((favorite) => {
+            const article = favorite.article;
+            const product = article.product;
+            const imageUrl =
+              product.product_images[0]?.image_url || "기본이미지경로";
+            return (
+              <div
+                key={favorite.id}
+                className="card-sec"
+                onClick={() => handleCardSecClick(article.id)}
+              >
+                <img src={imageUrl} alt="Card" className="card" />
+                <div className="name">{article.title}</div>
+                <div className="price">{product.price} 원</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </LongModal>

@@ -2,12 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: 100vh;
 
-  /* height: 100%; */
   background-color: #ffffff;
-  margin-top: 0.5rem;
-  margin-bottom: 5rem;
-  padding: 0 1rem;
 }
 
 .My .header-sec {
@@ -39,7 +37,7 @@
   margin: 1rem;
 }
 
-.My .info-sec .card {
+.My .info-sec .profile_images {
   width: 70px;
   height: 70px;
   border-radius: 50px;
@@ -50,10 +48,15 @@
   font-size: 15px;
   font-weight: 600;
   margin: 0.8rem 0;
+  cursor: pointer;
 }
 
 .My .info-modal {
   margin: 1cqb 0;
+}
+
+.My .arrow {
+  cursor: pointer;
 }
 
 .My .info-modal .name {
@@ -126,5 +129,6 @@
   
   font-weight: 600;
   color: #ff0000;
+  cursor: pointer;
 }
 

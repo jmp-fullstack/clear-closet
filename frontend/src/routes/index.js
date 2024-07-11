@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { UserProvider } from "../pages/context/UserContext";
 
 import Start from "../pages/login/Start";
 import Login from "../pages/login/Login";
@@ -28,35 +29,37 @@ import CameraBuy from "../pages/plus/camera/CameraBuy";
 
 const AllRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Start />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/find" element={<Find />} />
-      <Route path="/service" element={<Service />} />
+    <UserProvider>
+      <Routes>
+        <Route path="/" element={<Start />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/find" element={<Find />} />
+        <Route path="/service" element={<Service />} />
 
-      <Route path="/welcome" element={<Wellcome />} />
+        <Route path="/welcome" element={<Wellcome />} />
 
-      <Route path="/home" element={<Home />} />
-      <Route path="/product" element={<Product />} />
-      <Route path="/user" element={<User />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/product" element={<Product />} />
+        <Route path="/user" element={<User />} />
 
-      <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<Search />} />
 
-      <Route path="/plus" element={<Plus />} />
-      <Route path="/sell" element={<Sell />} />
-      <Route path="/buy" element={<Buy />} />
-      <Route path="/camera-sell" element={<CameraSell />} />
-      <Route path="/camera-buy" element={<CameraBuy />} />
-      <Route path="/upload" element={<Upload />} />
+        <Route path="/plus" element={<Plus />} />
+        <Route path="/sell" element={<Sell />} />
+        <Route path="/buy" element={<Buy />} />
+        <Route path="/camera-sell" element={<CameraSell />} />
+        <Route path="/camera-buy" element={<CameraBuy />} />
+        <Route path="/upload" element={<Upload />} />
 
-      <Route path="/deal" element={<Deal />} />
-      <Route path="/chat" element={<Chat />} />
+        <Route path="/deal" element={<Deal />} />
+        <Route path="/chat" element={<Chat />} />
 
-      <Route path="/my" element={<My />} />
+        <Route path="/my" element={<My />} />
 
-      <Route path="/alarm" element={<Alarm />} />
-    </Routes>
+        <Route path="/alarm" element={<Alarm />} />
+      </Routes>
+    </UserProvider>
   );
 };
 

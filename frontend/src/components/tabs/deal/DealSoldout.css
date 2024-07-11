@@ -1,0 +1,68 @@
+.DealSoldout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.DealSoldout .Soldout-sec {
+  width: 100%;
+}
+
+.DealSoldout .Soldout {
+  display: flex;
+  margin-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  height: 120px;
+}
+
+.DealSoldout .Soldout-sec .card {
+  border-radius: 8px;
+  width: 120px;
+  height: 120px;
+  margin-right: 1rem;
+}
+
+.DealSoldout .info .deal-title {
+  padding-top: 0.5rem;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.DealSoldout .info .where {
+  color: #aeaeae;
+  padding-top: 1rem;
+  font-size: 14px;
+}
+
+.DealSoldout .info .price {
+  display: flex;
+  align-items: center;
+
+  margin-top: 0.4rem;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.review-sec {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.5px solid #dadada;
+}
+
+.review-sec .add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+  margin-left: 0.5rem;
+
+  background-color: #dadada;
+  border-radius: 6px;
+}

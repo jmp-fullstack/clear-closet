@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import QuestButton from "../Button/QuestButton";
-
-import { FaRegHeart } from "react-icons/fa";
-
+import FavoriteButton from "../Button/category/FavoriteButton";
 import "./BottomQuest.css";
 
-const BottomQuest = () => {
+const BottomQuest = ({
+  article_id,
+  initialFavoriteCount,
+  initialIsFavorited,
+}) => {
   const navigate = useNavigate();
 
   const handleQuestClick = () => {
@@ -16,10 +17,11 @@ const BottomQuest = () => {
 
   return (
     <div className="bottom-quest">
-      <div className="interest">
-        <FaRegHeart size={26} />
-        999
-      </div>
+      <FavoriteButton
+        article_id={article_id}
+        initialFavoriteCount={initialFavoriteCount}
+        initialIsFavorited={initialIsFavorited}
+      />
       <div className="button">
         <QuestButton onClick={handleQuestClick} />
       </div>

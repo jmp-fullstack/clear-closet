@@ -1,15 +1,21 @@
 .Sell {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  width: 100%;
+  height: 140vh;
   margin-bottom: 10rem;
+  background-color: #ffffff;
 }
+
 .Sell .guide-sec {
   display: flex;
   justify-content: center;
+  align-items: center;
+  
   background-color: #dadada;
   padding-top: 2rem;
   padding-bottom: 0.8rem;
+
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
@@ -22,9 +28,9 @@
   padding-left: 0.5rem;
 }
 
-.Sell .form-sec {
+/* .Sell .form-sec {
   margin: 1rem;
-}
+} */
 
 .Sell .photo-text {
   font-size: 20px;
@@ -92,6 +98,7 @@
 .Sell .select .icon {
   margin: 0 0.5rem;
   color: #b9b9b9;
+  cursor: pointer;
 }
 
 /*  */

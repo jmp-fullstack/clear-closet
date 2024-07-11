@@ -21,7 +21,6 @@ const Login = () => {
       navigate("/home");
     } catch (error) {
       console.error("Login failed:", error);
-      // 로그인 실패 시의 처리 (에러 메시지 등) - 여기서는 생략
     }
   };
 

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 
 import Tabs from "../../Button/category/Tabs";
 import CategoryButton from "../../Button/category/CategoryButton";
@@ -8,45 +8,44 @@ import { IoCloseOutline } from "react-icons/io5";
 
 import "./SellCategoryModal.css";
 
-const SellCategoryModal = ({ closeModal, setSelectedcategory }) => {
+const SellCategoryModal = ({ closeModal, setSelectedCategory }) => {
   const categories = {
     상의: [
       "니트",
       "후드",
       "맨투맨",
-      "셔츠/블라우스",
-      "긴소매 티셔츠",
-      "반소매 티셔츠",
-      "민소매 티셔츠",
-      "카라 티셔츠",
+      "셔츠블라우스",
+      "긴소매티셔츠",
+      "반소매티셔츠",
+      "민소매티셔츠",
+      "카라티셔츠",
       "베스트",
     ],
-    바지: [
-      "데님 팬츠",
+    하의: [
+      "데님팬츠",
       "슬랙스",
-      "트레이닝/조거팬츠",
+      "트레이닝조거팬츠",
       "숏팬츠",
-      "코튼 팬츠",
+      "코튼팬츠",
       "레깅스",
-      "와이드 팬츠",
     ],
     아우터: [
-      "후드 집업",
+      "후드집업",
       "바람막이",
       "코트",
       "롱패딩",
       "숏패딩",
-      "패딩 베스트",
-      "블루종/MA-1",
-      "라이더 자켓",
+      "패딩베스트",
+      "블루종",
+      "레더자켓",
       "무스탕",
-      "트러커 자켓",
+      "트러커자켓",
       "블레이저",
       "가디건",
-      "뽀글이 후리스",
-      "사파리 자켓",
+      "뽀글이후리스",
+      "사파리자켓",
     ],
-    원피스: ["미니 원피스", "미디 원피스", "롱원피스", "투피스", "점프수트"],
+    원피스: ["미니원피스", "미디원피스", "롱원피스"],
     스커트: ["미니스커트", "미디스커트", "롱스커트"],
   };
 
@@ -66,7 +65,7 @@ const SellCategoryModal = ({ closeModal, setSelectedcategory }) => {
 
   const handleConfirmClick = () => {
     if (selectedSubcategory) {
-      setSelectedcategory(`${currentCategory} > ${selectedSubcategory}`);
+      setSelectedCategory(`${currentCategory} > ${selectedSubcategory}`);
       closeModal();
     }
   };
