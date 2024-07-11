@@ -27,5 +27,4 @@ urlpatterns = [
     path('api/comments/', include('apps.commentapp.urls')),
     path('api/profiles/', include('apps.profileapp.urls')),
     path('api/images/', include('apps.imageapp.urls')),
-    path('api/prediction/', include('apps.predictionapp.urls')),
 ]
