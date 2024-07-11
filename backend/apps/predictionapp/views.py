@@ -1,19 +1,21 @@
-import torch
-import torch.hub
-from utils.yolo_effent_models import load_efficientnet_model, load_yolov5_model
-from utils.yolo_effnet_utils import extract_main_sub_color_effnet_layer
+# from utils.yolo_effnet_utils import extract_main_sub_color_effnet_layer
+# from rest_framework.decorators import api_view, authentication_classes, permission_classes
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here
-def image_classifier_model(request):
-    image = request.FILES["image"]
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
+# @api_view(['POST'])
+# def image_classifier_model(request):
+#     global yolov5_model, effnet_v2_s_model, device
+    
+#     user_input_image = request.FILES.get("image")[0]
+#     if user_input_image:
+#         # main_color, sub_color = extract_main_sub_color_effnet_layer(user_input_image, yolov5_model, effnet_v2_s_model, device)
+        
+#     return main_color, sub_color
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    yolov5_model = load_yolov5_model('yolo_best.pt', device)
-    effnet_v2_s_model = load_efficientnet_model('trained_260_effnet.pt', 38, device)
-
-    user_input_image = image
-
-    extract_main_sub_color_effnet_layer(user_input_image, yolov5_model, effnet_v2_s_model, device) 
     # return topcategory, bottomcategory, color
 
     # 3번째 모델 input : topcategory, bottomcategory, color, brand

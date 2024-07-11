@@ -1,9 +1,9 @@
-from django.urls import path
+# from django.urls import path
 
-from apps.predictionapp.views import image_classifier_model
+# # from apps.predictionapp.views import image_classifier_model
 
-app_name = "predictionapp"
+# app_name = "predictionapp"
 
-urlpatterns = [
-    path('ai/', image_classifier_model, name='image_classifier_model'),
-]
+# urlpatterns = [
+#     # path('ai/', image_classifier_model, name='image_classifier_model'),
+# ]
