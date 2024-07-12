@@ -17,10 +17,14 @@ class ArticleListSerializer(serializers.ModelSerializer):
     num_favorites = serializers.IntegerField(read_only=True)
     create_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     update_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    nickname = serializers.SerializerMethodField()
 
     class Meta:
         model = Article
-        fields = ["id", "title", "product", 'is_sell', 'num_favorites', 'create_at', 'update_at']
+        fields = ["id", "title", "product", 'is_sell', 'num_favorites', 'create_at', 'update_at', 'nickname']
+    
+    def get_nickname(self, obj):
+        return obj.user.nickname
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
