@@ -14,12 +14,13 @@ def secondwear_crawling():
     korean_tz = timezone(timedelta(hours=9))
 
     categories = {
-        '상의' : ['니트', '후드', '맨투맨','셔츠블라우스','긴소매티셔츠','반소매티셔츠','민소매티셔츠','카라티셔츠','베스트'],
-        '바지' : ['데님팬츠', '슬랙스','트레이닝조거팬츠','숏팬츠','코튼팬츠','레깅스'],
-        '아우터' : ['후드집업', '바람막이', '코트', '롱패딩', '숏패딩', '패딩베스트', '블루종', 
-                    '레더자켓', '무스탕', '트러커자켓', '블레이저', '가디건','뽀글이후리스','사파리자켓'],
-        '원피스' : ['미니원피스', '미디원피스', '롱원피스', '점프수트'],
-        '스커트' : ['미니스커트', '미디스커트', '롱스커트']
+        '상의' : ['니트', ]
+        #         '후드', '맨투맨','셔츠블라우스','긴소매티셔츠','반소매티셔츠','민소매티셔츠','카라티셔츠','베스트'],
+        # '바지' : ['데님팬츠', '슬랙스','트레이닝조거팬츠','숏팬츠','코튼팬츠','레깅스'],
+        # '아우터' : ['후드집업', '바람막이', '코트', '롱패딩', '숏패딩', '패딩베스트', '블루종', 
+        #             '레더자켓', '무스탕', '트러커자켓', '블레이저', '가디건','뽀글이후리스','사파리자켓'],
+        # '원피스' : ['미니원피스', '미디원피스', '롱원피스', '점프수트'],
+        # '스커트' : ['미니스커트', '미디스커트', '롱스커트']
         }
 
     # 날짜 필터
@@ -42,17 +43,33 @@ def secondwear_crawling():
         for sub in subs :
             print(f'{sub} 크롤링 중 ...')
             title,price,connect_url,product_type,status,brand,top,bottom,color,size,product_url = [[] for _ in range(11)]
-            for page in range(1, 9) :
+            for page in range(1, 100) :
                 params = {
                     "q": sub,
                     "page": page,
                     "sort": "current",
                     "limit": count
                 }
-                res = requests.get(url, headers=headers, params=params)
+
+                try:
+                    res = requests.get(url, headers=headers, params=params)
+                    res.raise_for_status()
+
+                except requests.exceptions.HTTPError as e:
+                    print(f"HTTP error occurred: {e}")
+                    continue
+
+                except requests.exceptions.RequestException as e:
+                    print(f"Error occurred: {e}")
+                    continue
+
                 all_info_dict = res.json()
 
-                product_info_list = all_info_dict['list']
+                product_info_list = all_info_dict.get('list', [])
+
+                if not product_info_list:
+                    print(f"{sub}의 페이지 {page}에서 데이터가 없습니다. 다음으로 카테고리로 넘어갑니다.")
+                    continue
 
                 for product_info in product_info_list :
                     p_title = product_info['title']
@@ -96,7 +113,7 @@ def secondwear_crawling():
                     bottom.append(p_bottom)
                     color.append(main_color)
                     size.append(p_size)
-                    product_url.append(p_product_url)
+                    product_url.append(product_info['imageUrl'])
 
             df = pd.DataFrame({
                 'title' : title,
@@ -129,7 +146,7 @@ def secondwear_crawling():
     df.loc[df['top_category'] == '바지', 'top_category'] = '하의'
 
     new_max_date = df['date'].max().strftime('%Y%m%d')
-    with open('data_crawling/max_date.txt', 'w') as file:
+    with open('data_crawling/secondwear_max_date.txt', 'w') as file:
         file.write(new_max_date)
 
     df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'date']]
@@ -163,45 +180,49 @@ def secondwear_crawling():
 
     batch_size = 5000
 
-    # product table
-    for start in range(0, len(product_data), batch_size):
-        batch_df = product_data[start:start+batch_size]
-        batch_df.to_sql('productapp_product', engine, if_exists='append', index=False)
+    try:
+        # 데이터베이스 트랜잭션 시작
 
-    # image table
-    image_data = df[['product_url', 'create_at']].copy()
-    image_data.columns = ['image_url','create_at']
-    image_data['image_type'] = 1
-    image_data['user_id'] = None
+        with engine.begin() as conn:
+            # product table
+            for start in range(0, len(product_data), batch_size):
+                batch_df = product_data[start:start+batch_size]
+                batch_df.to_sql('productapp_product', conn, if_exists='append', index=False)
 
-    for start in range(0, len(image_data), batch_size):
-        batch_df = image_data[start:start+batch_size]
-        batch_df.to_sql('imageapp_totalimage', engine, if_exists='append', index=False)
+            # image table
+            image_data = df[['product_url', 'date']].copy()
+            image_data.columns = ['image_url','create_at']
+            image_data['image_type'] = 2
+            image_data['user_id'] = None
 
-    # product_image table
-    today_date = today.strftime('%Y-%m-%d')
+            for start in range(0, len(image_data), batch_size):
+                batch_df = image_data[start:start+batch_size]
+                batch_df.to_sql('imageapp_totalimage', conn, if_exists='append', index=False)
 
-    with engine.connect() as conn:
-        product_query = """
-        SELECT id, connect_url 
-        FROM productapp_product 
-        WHERE create_at = %s AND product_type = 2
-        """
-        product_df = pd.read_sql(product_query, conn, params=(today_date,))
-        
-        image_query = """
-        SELECT id, image_url 
-        FROM imageapp_totalimage 
-        WHERE create_at = %s AND image_type = 2
-        """
-        image_df = pd.read_sql(image_query, conn, params=(today_date,))
-        
-    product_image_df = pd.DataFrame({
-        'totalimage_id': image_df['id'].to_list(),
-        'product_id': product_df['id'].to_list()
-    })
+            # product_image table
+            product_query = """
+            SELECT id, connect_url 
+            FROM productapp_product 
+            WHERE create_at = %s AND product_type = 2
+            """
+            product_df = pd.read_sql(product_query, conn, params=(today_date,))
+            
+            image_query = """
+            SELECT id, image_url 
+            FROM imageapp_totalimage 
+            WHERE create_at = %s AND image_type = 2
+            """
+            image_df = pd.read_sql(image_query, conn, params=(today_date,))
+      
+            product_image_df = pd.DataFrame({
+                'totalimage_id': image_df['id'].to_list(),
+                'product_id': product_df['id'].to_list()
+            })
 
-    with engine.connect() as conn:
-        product_image_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
+            product_image_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
 
-    return "세컨드웨어 데이터베이스 삽입 완료"
+        # 트랜잭션이 성공적으로 완료되면 메시지 출력
+        print("데이터베이스 삽입 완료")
+    except Exception as e:
+        print(f"오류 발생: {e}. 모든 변경 사항을 롤백합니다.")
+    return "세컨드웨어 크롤링 종료 "
