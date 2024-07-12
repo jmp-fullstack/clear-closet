@@ -73,7 +73,7 @@ def musinsa_crawling():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     }
 
-    pages = 2
+    pages = 50
     top_category, bottom_category, price, pro_url, connect_url, title, brand, date, color, type, status, size = [[] for _ in range(12)]
     
     for page in range(1, pages):
@@ -91,8 +91,24 @@ def musinsa_crawling():
                 "sex": "M",
                 "page": page
             }
-            res = requests.get(url, params=params, headers=headers)
-            items = res.json()['data']['list']
+
+            try:
+                res = requests.get(url, params=params, headers=headers)
+                res.raise_for_status()
+            except requests.exceptions.HTTPError as e:
+                print(f"HTTP error occurred: {e}")
+                continue
+            except requests.exceptions.RequestException as e:
+                print(f"Error occurred: {e}")
+                continue
+
+            items = res.json().get('data', {}).get('list', [])
+
+            if not items:
+                print(f"{composition[2]}의 페이지 {page}에서 데이터가 없습니다. 다음 페이지로 넘어갑니다.")
+                continue
+
+
             for item in items:
                 product_url = item['imageUrl']
                 image = maintain_proportion_and_resize_by_cv2(product_url, (416, 416))
@@ -170,44 +186,51 @@ def musinsa_crawling():
 
     batch_size = 5000
     # product table
-    for start in range(0, len(product_data), batch_size):
-        batch_df = product_data[start:start+batch_size]
-        batch_df.to_sql('productapp_product', engine, if_exists='append', index=False)
+    try:
+        # 데이터베이스 트랜잭션 시작
+        with engine.begin() as conn:
+            # product table
+            for start in range(0, len(product_data), batch_size):
+                batch_df = product_data[start:start+batch_size]
+                batch_df.to_sql('productapp_product', conn, if_exists='append', index=False)
 
-    # image table
-    image_data = df[['product_url', 'date']].copy()
-    image_data.columns = ['image_url','create_at']
-    image_data['image_type'] = 1
-    image_data['user_id'] = None
+            # image table
+            image_data = df[['product_url', 'date']].copy()
+            image_data.columns = ['image_url', 'create_at']
+            image_data['image_type'] = 1
+            image_data['user_id'] = None
 
-    for start in range(0, len(image_data), batch_size):
-        batch_df = image_data[start:start+batch_size]
-        batch_df.to_sql('imageapp_totalimage', engine, if_exists='append', index=False)
+            for start in range(0, len(image_data), batch_size):
+                batch_df = image_data[start:start+batch_size]
+                batch_df.to_sql('imageapp_totalimage', conn, if_exists='append', index=False)
 
-    # product_image table
-    today_date = today.strftime('%Y-%m-%d')
+            # product_image table
+            product_query = """
+            SELECT id, connect_url 
+            FROM productapp_product 
+            WHERE create_at = %s AND product_type = 1
+            """
+            product_df = pd.read_sql(product_query, conn, params=(today_date,))
+            
+            image_query = """
+            SELECT id, image_url 
+            FROM imageapp_totalimage 
+            WHERE create_at = %s AND image_type = 1
+            """
+            image_df = pd.read_sql(image_query, conn, params=(today_date,))
+            
+            if len(product_df) == len(image_df):
+                product_image_df = pd.DataFrame({
+                    'totalimage_id': image_df['id'].to_list(),
+                    'product_id': product_df['id'].to_list()
+                })
+                product_image_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
+            else:
+                print("Product 데이터와 Image 데이터의 길이가 일치하지 않습니다.")
+                raise ValueError("Product 데이터와 Image 데이터의 길이가 일치하지 않습니다.")
+        print("데이터베이스 삽입 완료")
 
-    with engine.connect() as conn:
-        product_query = """
-        SELECT id, connect_url 
-        FROM productapp_product 
-        WHERE create_at = %s AND product_type = 1
-        """
-        product_df = pd.read_sql(product_query, conn, params=(today_date,))
-        
-        image_query = """
-        SELECT id, image_url 
-        FROM imageapp_totalimage 
-        WHERE create_at = %s AND image_type = 1
-        """
-        image_df = pd.read_sql(image_query, conn, params=(today_date,))
-        
-    product_image_df = pd.DataFrame({
-        'totalimage_id': image_df['id'].to_list(),
-        'product_id': product_df['id'].to_list()
-    })
-
-    with engine.connect() as conn:
-        product_image_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
+    except Exception as e:
+        print(f"오류 발생: {e}. 모든 변경 사항을 롤백합니다.")
 
     return "무신사 데이터베이스 삽입 완료"
