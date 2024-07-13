@@ -10,17 +10,17 @@ import os
 def secondwear_crawling():
     load_dotenv()
     engine = create_engine(f'mysql+pymysql://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}:3306/{os.getenv("DB_DATABASE")}')
+    connection = engine.connect()
 
     korean_tz = timezone(timedelta(hours=9))
 
     categories = {
-        '상의' : ['니트', ]
-        #         '후드', '맨투맨','셔츠블라우스','긴소매티셔츠','반소매티셔츠','민소매티셔츠','카라티셔츠','베스트'],
-        # '바지' : ['데님팬츠', '슬랙스','트레이닝조거팬츠','숏팬츠','코튼팬츠','레깅스'],
-        # '아우터' : ['후드집업', '바람막이', '코트', '롱패딩', '숏패딩', '패딩베스트', '블루종', 
-        #             '레더자켓', '무스탕', '트러커자켓', '블레이저', '가디건','뽀글이후리스','사파리자켓'],
-        # '원피스' : ['미니원피스', '미디원피스', '롱원피스', '점프수트'],
-        # '스커트' : ['미니스커트', '미디스커트', '롱스커트']
+        '상의' : ['니트', '후드', '맨투맨','셔츠블라우스','긴소매티셔츠','반소매티셔츠','민소매티셔츠','카라티셔츠','베스트'],
+        '바지' : ['데님팬츠', '슬랙스','트레이닝조거팬츠','숏팬츠','코튼팬츠','레깅스'],
+        '아우터' : ['후드집업', '바람막이', '코트', '롱패딩', '숏패딩', '패딩베스트', '블루종', 
+                    '레더자켓', '무스탕', '트러커자켓', '블레이저', '가디건','뽀글이후리스','사파리자켓'],
+        '원피스' : ['미니원피스', '미디원피스', '롱원피스', '점프수트'],
+        '스커트' : ['미니스커트', '미디스커트', '롱스커트']
         }
 
     # 날짜 필터
@@ -43,7 +43,7 @@ def secondwear_crawling():
         for sub in subs :
             print(f'{sub} 크롤링 중 ...')
             title,price,connect_url,product_type,status,brand,top,bottom,color,size,product_url = [[] for _ in range(11)]
-            for page in range(1, 100) :
+            for page in range(1, 3) :
                 params = {
                     "q": sub,
                     "page": page,
@@ -182,7 +182,6 @@ def secondwear_crawling():
 
     try:
         # 데이터베이스 트랜잭션 시작
-
         with engine.begin() as conn:
             # product table
             for start in range(0, len(product_data), batch_size):
@@ -213,16 +212,61 @@ def secondwear_crawling():
             WHERE create_at = %s AND image_type = 2
             """
             image_df = pd.read_sql(image_query, conn, params=(today_date,))
-      
-            product_image_df = pd.DataFrame({
-                'totalimage_id': image_df['id'].to_list(),
-                'product_id': product_df['id'].to_list()
+
+            if len(product_df) == len(image_df):
+                product_image_df = pd.DataFrame({
+                    'totalimage_id': image_df['id'].to_list(),
+                    'product_id': product_df['id'].to_list()
+                })
+                product_image_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
+            else:
+                print("Product 데이터와 Image 데이터의 길이가 일치하지 않습니다.")
+                raise ValueError("Product 데이터와 Image 데이터의 길이가 일치하지 않습니다.")
+        print("데이터베이스 삽입 완료")
+
+        # 매칭되지 않은 데이터 처리
+        try:
+            # 매칭되지 않은 productapp_product 가져오기
+            unmatched_products = pd.read_sql("""
+                SELECT p.id 
+                FROM productapp_product p
+                LEFT JOIN imageapp_totalimage_product tip ON p.id = tip.product_id
+                WHERE p.product_type = 2
+                AND tip.product_id IS NULL;
+                """, connection)
+
+            print(f"Unmatched product IDs: {len(unmatched_products)}")
+
+            # 매칭되지 않은 imageapp_totalimage 가져오기
+            unmatched_images = pd.read_sql("""
+                SELECT ti.id 
+                FROM imageapp_totalimage ti
+                LEFT JOIN imageapp_totalimage_product tip ON ti.id = tip.totalimage_id
+                WHERE ti.image_type = 2
+                AND tip.totalimage_id IS NULL;
+                """, connection)
+
+            print(f"Unmatched image IDs: {len(unmatched_images)}")
+
+            # 매칭되지 않은 데이터를 서로 매핑하기
+            unmatched_product_ids = unmatched_products['id'].tolist()
+            unmatched_image_ids = unmatched_images['id'].tolist()
+
+            mapped_df = pd.DataFrame({
+                'product_id': unmatched_product_ids,
+                'totalimage_id': unmatched_image_ids
             })
 
-            product_image_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
+            with engine.begin() as conn:
+                mapped_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
 
-        # 트랜잭션이 성공적으로 완료되면 메시지 출력
-        print("데이터베이스 삽입 완료")
-    except Exception as e:
-        print(f"오류 발생: {e}. 모든 변경 사항을 롤백합니다.")
-    return "세컨드웨어 크롤링 종료 "
+            print("Data mapping and insertion completed successfully.")
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+
+    finally:
+        # 연결 종료
+        connection.close()
+
+    print("세컨드웨어 크롤링 종료")

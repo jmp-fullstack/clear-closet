@@ -10,6 +10,7 @@ from utils.color_extract import extract_center_50_percent, get_color_name, maint
 def musinsa_crawling():
     load_dotenv()
     engine = create_engine(f'mysql+pymysql://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}:3306/{os.getenv("DB_DATABASE")}')
+    connection = engine.connect()
 
     classes_composition_list = [
         # 상의 001
@@ -21,7 +22,6 @@ def musinsa_crawling():
         ('상의', '001', '반소매티셔츠', '001001'),
         ('상의', '001', '민소매티셔츠', '001011'),
         ('상의', '001', '카라티셔츠', '001003'),
-        ('상의', '001', '베스트', '002021'),
 
         # 바지 003
         ('바지', '003', '데님팬츠', '003002'),
@@ -32,6 +32,7 @@ def musinsa_crawling():
         ('바지', '003', '레깅스', '003005'),
 
         # 아우터 002
+        ('아우터', '002', '베스트', '002021'),
         ('아우터', '002', '후드집업', '002022'),
         ('아우터', '002', '바람막이', '002006'),
         ('아우터', '002', '코트', '002008'),
@@ -51,7 +52,7 @@ def musinsa_crawling():
         ('아우터', '002', '사파리자켓', '002014'),
 
         # 원피스 020
-        ('원피스', '020', '미니원피스', '020'),
+        ('원피스', '020', '미니원피스', '020006'),
         ('원피스', '020', '미디원피스', '020007'),
         ('원피스', '020', '롱원피스', '020008'),
 
@@ -73,7 +74,7 @@ def musinsa_crawling():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     }
 
-    pages = 50
+    pages = 3
     top_category, bottom_category, price, pro_url, connect_url, title, brand, date, color, type, status, size = [[] for _ in range(12)]
     
     for page in range(1, pages):
@@ -88,7 +89,7 @@ def musinsa_crawling():
                 "size": "60",
                 "category1DepthCode": composition[1],
                 "category2DepthCodes": composition[3],
-                "sex": "M",
+                "sex": "A",
                 "page": page
             }
 
@@ -143,50 +144,49 @@ def musinsa_crawling():
     'size' :size
     }
 
-    df = pd.DataFrame(data)
-    # date 필터링
-    df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
-    old_last_date = pd.to_datetime(old_last_date, format='%Y%m%d')
-    today_date = pd.to_datetime(today_date, format='%Y%m%d')
-
-    df = df[(df['date'] > old_last_date) & (df['date'] <= today_date)]
-    df.loc[df['top_category'] == '바지', 'top_category'] = '하의'
-
-    # max_date 저장
-    new_max_date = df['date'].max().strftime('%Y%m%d')
-    with open('data_crawling/musinsa_max_date.txt', 'w') as file:
-        file.write(new_max_date)
-
-    df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'date']]
-    df = df.drop_duplicates()
-
-    df.to_csv('musinsa_data.csv', index=False, encoding='utf-8-sig')
-
-    df['price'] = df['price'].astype(int)
-    df['type'] = df['type'].astype(int)
-
-    # SQL
-    category_query = """
-    SELECT id AS category_id, top_category, bottom_category 
-    FROM product_categoryapp_productcategory
-    """
-
-    option_query = """
-    SELECT id AS option_id, color, size 
-    FROM product_optionapp_productoption
-    """
-    category_df = pd.read_sql(category_query, engine)
-    option_df = pd.read_sql(option_query, engine)
-
-    df = df.merge(category_df, on=['top_category', 'bottom_category'], how='left')
-    df = df.merge(option_df, on=['color', 'size'], how='left')
-
-    product_data = df[['title', 'price', 'brand', 'connect_url', 'type', 'status', 'category_id', 'option_id', 'date']]
-    product_data.columns = ['product_title', 'price', 'brand', 'connect_url', 'product_type', 'product_status', 'category_id', 'option_id', 'create_at']
-
-    batch_size = 5000
-    # product table
     try:
+        # 데이터 준비
+        df = pd.DataFrame(data)
+        df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
+        old_last_date = pd.to_datetime(old_last_date, format='%Y%m%d')
+        today_date = pd.to_datetime(today_date, format='%Y%m%d')
+
+        df = df[(df['date'] > old_last_date) & (df['date'] <= today_date)]
+        df.loc[df['top_category'] == '바지', 'top_category'] = '하의'
+
+        # max_date 저장
+        new_max_date = df['date'].max().strftime('%Y%m%d')
+        with open('data_crawling/musinsa_max_date.txt', 'w') as file:
+            file.write(new_max_date)
+
+        df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'date']]
+        df = df.drop_duplicates()
+
+        df.to_csv('musinsa_data.csv', index=False, encoding='utf-8-sig')
+
+        df['price'] = df['price'].astype(int)
+        df['type'] = df['type'].astype(int)
+
+        # SQL
+        category_query = """
+        SELECT id AS category_id, top_category, bottom_category 
+        FROM product_categoryapp_productcategory
+        """
+        option_query = """
+        SELECT id AS option_id, color, size 
+        FROM product_optionapp_productoption
+        """
+        category_df = pd.read_sql(category_query, engine)
+        option_df = pd.read_sql(option_query, engine)
+
+        df = df.merge(category_df, on=['top_category', 'bottom_category'], how='left')
+        df = df.merge(option_df, on=['color', 'size'], how='left')
+
+        product_data = df[['title', 'price', 'brand', 'connect_url', 'type', 'status', 'category_id', 'option_id', 'date']]
+        product_data.columns = ['product_title', 'price', 'brand', 'connect_url', 'product_type', 'product_status', 'category_id', 'option_id', 'create_at']
+
+        batch_size = 5000
+
         # 데이터베이스 트랜잭션 시작
         with engine.begin() as conn:
             # product table
@@ -211,14 +211,14 @@ def musinsa_crawling():
             WHERE create_at = %s AND product_type = 1
             """
             product_df = pd.read_sql(product_query, conn, params=(today_date,))
-            
+
             image_query = """
             SELECT id, image_url 
             FROM imageapp_totalimage 
             WHERE create_at = %s AND image_type = 1
             """
             image_df = pd.read_sql(image_query, conn, params=(today_date,))
-            
+
             if len(product_df) == len(image_df):
                 product_image_df = pd.DataFrame({
                     'totalimage_id': image_df['id'].to_list(),
@@ -230,7 +230,50 @@ def musinsa_crawling():
                 raise ValueError("Product 데이터와 Image 데이터의 길이가 일치하지 않습니다.")
         print("데이터베이스 삽입 완료")
 
-    except Exception as e:
-        print(f"오류 발생: {e}. 모든 변경 사항을 롤백합니다.")
+        # 매칭되지 않은 데이터 처리
+        try:
+            # 매칭되지 않은 productapp_product 가져오기
+            unmatched_products = pd.read_sql("""
+                SELECT p.id 
+                FROM productapp_product p
+                LEFT JOIN imageapp_totalimage_product tip ON p.id = tip.product_id
+                WHERE p.product_type = 1
+                AND tip.product_id IS NULL;
+                """, connection)
 
-    return "무신사 데이터베이스 삽입 완료"
+            print(f"Unmatched product IDs: {len(unmatched_products)}")
+
+            # 매칭되지 않은 imageapp_totalimage 가져오기
+            unmatched_images = pd.read_sql("""
+                SELECT ti.id 
+                FROM imageapp_totalimage ti
+                LEFT JOIN imageapp_totalimage_product tip ON ti.id = tip.totalimage_id
+                WHERE ti.image_type = 1
+                AND tip.totalimage_id IS NULL;
+                """, connection)
+
+            print(f"Unmatched image IDs: {len(unmatched_images)}")
+
+            # 매칭되지 않은 데이터를 매핑하기
+            unmatched_product_ids = unmatched_products['id'].tolist()
+            unmatched_image_ids = unmatched_images['id'].tolist()
+
+            mapped_df = pd.DataFrame({
+                'product_id': unmatched_product_ids,
+                'totalimage_id': unmatched_image_ids
+            })
+
+            print("Mapped DataFrame sample:")
+            print(mapped_df.head())
+
+            with engine.begin() as conn:
+                mapped_df.to_sql('imageapp_totalimage_product', conn, if_exists='append', index=False)
+
+            print("Data mapping and insertion completed successfully.")
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+
+    finally:
+        # 연결 종료
+        connection.close()
