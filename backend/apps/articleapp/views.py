@@ -118,12 +118,10 @@ def article_create(request):
             }
             article_serializer = ArticleSaveSerializer(data=article_data)
             if article_serializer.is_valid():
-                article = article_serializer.save(user=request.user, product=product)
+                article=article_serializer.save(user=request.user, product=product)
                 product.connect_url = f"/product?detail={article.id}"
                 product.save()
-                return Response({
-                    'message': "게시글 업로드 성공",
-                    'article_id': article.id}, status=status.HTTP_201_CREATED)
+                return Response(article_serializer.data, status=status.HTTP_201_CREATED)
             return Response(article_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except (ProductCategory.DoesNotExist, ProductOption.DoesNotExist):
         return Response({"error": "유효하지 않은 카테고리 또는 옵션입니다."}, status=status.HTTP_400_BAD_REQUEST)

@@ -6,11 +6,11 @@ from apps.productapp.serializers import ProductArticleSerializer, ProductMatchSe
 
 class ArticleSaveSerializer(serializers.ModelSerializer):
     product = ProductMatchSerializer()
-
+    
     class Meta:
         model = Article
-        fields = ['id', 'title', 'content', 'product']
-        read_only_fields = ['id']
+        fields = '__all__'
+        read_only_fields = ['id','user']
 
 class ArticleListSerializer(serializers.ModelSerializer):
     product = ProductArticleSerializer(read_only=True)
