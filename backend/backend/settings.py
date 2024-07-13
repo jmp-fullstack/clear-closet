@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'apps.productapp',
     'apps.reviewapp',
     'apps.profileapp',
+    'apps.predictionapp',
 ]
 
 # AWS Setting ---------------------------------------------------------------------------------------
@@ -209,9 +210,6 @@ SIMPLE_JWT = {
 
 
 # Logging
-LOG_FILE_PATH = os.path.join(BASE_DIR, 'logs', 'backend.log')
-os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
