@@ -5,32 +5,45 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from apps.accountapp.models import CustomUser
-from apps.accountapp.serializers import  UserDetailSerializer
+from apps.accountapp.serializers import  UserDetailSerializer, YourDetailSerializer
 from apps.articleapp.models import Article
 from apps.articleapp.serializers import ArticleListSerializer
 
 # Create your views here.
-
-# 내 프로필 정보
+# 프로필 정보
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
-@api_view(['GET', 'PATCH'])
-def user_profile(request, user_pk):
+@api_view(['GET'])
+def get_user_profile(request, user_pk):
+    try:
+        user = CustomUser.objects.get(pk=user_pk)
+    except CustomUser.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if user == request.user:
+        serializer = UserDetailSerializer(user)
+    else:
+        serializer = YourDetailSerializer(user)
+    return Response(serializer.data)
+
+# 프로필 수정
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@api_view(['PATCH'])
+def update_user_profile(request, user_pk):
     try:
         user = CustomUser.objects.get(pk=user_pk)
     except CustomUser.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
-        serializer = UserDetailSerializer(user)
-        return Response(serializer.data)
+    if user != request.user:
+        return Response({"detail": "자신의 프로필만 수정할 수 있습니다."}, status=status.HTTP_403_FORBIDDEN)
     
-    if request.method == 'PATCH':
-        serializer = UserDetailSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "프로필 변경 완료", "data": serializer.data}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = UserDetailSerializer(user, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message": "프로필 변경 완료", "data": serializer.data}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # 내 판매목록 조회

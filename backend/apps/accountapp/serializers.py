@@ -1,3 +1,5 @@
+from apps.articleapp.models import Article
+from apps.favoriteapp.models import Favorite
 from backend import settings
 from rest_framework import serializers
 from apps.accountapp.models import CustomUser
@@ -31,11 +33,32 @@ class CustomUserSerializer(serializers.ModelSerializer):
 # 로그인 정보값
 class UserDetailSerializer(serializers.ModelSerializer):
     profile_images = TotalImageSerializer()
+    total_favorite = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'nickname', 'profile_images','total_favorite']
+
+    def get_total_favorite(self, obj):
+        article_ids = Article.objects.filter(user=obj).values_list('id', flat=True)
+        total_favorite = Favorite.objects.filter(article_id__in=article_ids).count()
+        return total_favorite
+
+
+class YourDetailSerializer(serializers.ModelSerializer):
+    profile_images = TotalImageSerializer()
+    total_favorite = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'nickname', 'profile_images']
+        fields = ['id', 'nickname', 'profile_images', 'total_favorite']
 
+    def get_total_favorite(self, obj):
+        article_ids = Article.objects.filter(user=obj).values_list('id', flat=True)
+        total_favorite = Favorite.objects.filter(article_id__in=article_ids).count()
+        return total_favorite
+    
+    
 # 로그인 인증
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -86,7 +109,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'profile_images']
+        fields = ['id', 'profile_images', 'nickname']
 
     def update(self, instance, validated_data):
         profile_image_data = validated_data.pop('profile_images', None)
