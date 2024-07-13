@@ -9,8 +9,8 @@ class ArticleSaveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = '__all__'
-        read_only_fields = ['id','user']
+        fields = ['id', 'title', 'content', 'product']
+        read_only_fields = ['id']
 
 class ArticleListSerializer(serializers.ModelSerializer):
     product = ProductArticleSerializer(read_only=True)
