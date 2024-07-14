@@ -3,7 +3,7 @@ from PIL import Image as Img
 import extcolors
 import torchvision.transforms as transforms
 from torchvision import transforms 
-from load_ai_models.models_input_utils import * 
+from .models_input_utils import * 
 import torch
 from torchvision import transforms
 

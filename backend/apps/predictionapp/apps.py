@@ -1,7 +1,7 @@
 import os
 from django.apps import AppConfig
 
-from load_ai_models.models_load import initialize_models
+from .load_ai_models.models_load import initialize_models
 
 class PredictionappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
