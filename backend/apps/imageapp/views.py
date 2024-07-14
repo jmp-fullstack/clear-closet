@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from apps.accountapp.serializers import UserProfileSerializer
-from utils.s3_image_uploader import S3ImageUploader
+from .utils.s3_image_uploader import S3ImageUploader
 
 # 유저 프로필
 @authentication_classes([JWTAuthentication])
