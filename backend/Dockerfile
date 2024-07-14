@@ -9,7 +9,9 @@ RUN apt-get -y update && apt-get install -y \
     build-essential \
     pkg-config \
     default-libmysqlclient-dev \
-    gcc
+    gcc \
+    libglib2.0-dev \
+    libgl1-mesa-glx 
 
 RUN pip install --no-cache-dir -r requirements.txt
 

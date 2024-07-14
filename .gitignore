@@ -3,6 +3,8 @@ logs
 data/
 *.csv
 *.tsv
+.env*
+
 # *.json
 *.parquet
 *.hdf5
