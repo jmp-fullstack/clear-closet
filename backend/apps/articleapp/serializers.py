@@ -36,7 +36,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
-        read_only_fields = ['user','product', 'update_at', 'create_at', 'id', 'is_sell']
+        read_only_fields = ['user','product', 'update_at', 'create_at', 'id', 'is_sell', 'nickname']
     
     def get_nickname(self, obj):
         return obj.user.nickname

@@ -153,7 +153,7 @@ categories = {
 softmax = torch.nn.Softmax(dim=1)
 
 # 브랜드와 세부카테고리를 원핫인코딩 하기 
-all_data = pd.read_csv('./pt_files/all_data.csv')
+all_data = pd.read_csv('/clear-closet/apps/predictionapp/load_ai_models/pt_files/all_data.csv')
 
 # 세부 카테고리 원핫인코딩하기
 bottom_df = pd.DataFrame({'bottom_category': list(set(all_data['bottom_category']))})
