@@ -1,8 +1,8 @@
 from apps.predictionapp.serializers import ModelSerializers
 from apps.productapp.models import Product
 from rest_framework.response import Response
-from load_ai_models.models_output_utils import extract_main_sub_color_price_range
-from load_ai_models.models_load import yolov5_model, effnet_v2_s_model, predict_price_model, device
+from .load_ai_models.models_output_utils import extract_main_sub_color_price_range
+from .load_ai_models.models_load import yolov5_model, effnet_v2_s_model, predict_price_model, device
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
