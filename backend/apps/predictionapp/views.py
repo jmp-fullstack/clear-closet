@@ -26,17 +26,27 @@ def image_classifier_model(request):
         return Response({"error": "브랜드 이름, 상품 상태를 모두 입력해주세요"}, status=400)
 
     image = Image.open(io.BytesIO(user_input_image.read()))
-    print(predict_price_model)
 
     top_category, bottom_category, main_color, s_price, e_price = extract_main_sub_color_price_range(
         image, yolov5_model, effnet_v2_s_model, predict_price_model, brand_name, product_status, device
     )
 
+    if product_status == "새 상품(미개봉)":
+        s_price, e_price * 0.95
+
+    if product_status == "거의 새상품":
+        s_price, e_price * 0.85
+
+    if product_status == "사용감 있는 깨끗한 상품":
+        s_price, e_price * 0.8
+        
+    if product_status == "사용흔적이 많이 있는 상품":
+        s_price, e_price * 0.75
+
     type_0_products = Product.objects.filter(
-        product_status=product_status,
         product_type=0,
         price__gte=s_price,
-        price__lte=e_price,
+        price__lte=int(e_price*1.5),
         category__bottom_category=bottom_category,
         category__top_category=top_category,
         option__color=main_color
@@ -44,8 +54,8 @@ def image_classifier_model(request):
 
     type_1_products = Product.objects.filter(
         product_type=1,
-        price__gte=s_price*2,
-        price__lte=e_price*2,
+        price__gte=int(s_price*2),
+        price__lte=int(e_price*2.5),
         category__bottom_category=bottom_category,
         category__top_category=top_category,
         option__color=main_color
@@ -55,6 +65,8 @@ def image_classifier_model(request):
     type_1_serializer = ModelSerializers(type_1_products, many=True)
 
     return Response({
-        "우리 사이트 내의 상품": type_0_serializer.data,
-        "다른 사이트의 상품": type_1_serializer.data
+        "s_pirce": s_price,
+        "e_price": e_price,
+        "our_site_products": type_0_serializer.data,
+        "other_site_products": type_1_serializer.data
     })
