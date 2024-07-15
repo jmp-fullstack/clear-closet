@@ -32,7 +32,8 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     create_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     update_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     num_favorites = serializers.IntegerField(read_only=True)
-
+    nickname = serializers.SerializerMethodField()
+    
     class Meta:
         model = Article
         fields = '__all__'
