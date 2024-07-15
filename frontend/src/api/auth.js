@@ -97,6 +97,8 @@ export const logout = () => {
   localStorage.removeItem("refresh");
   localStorage.removeItem("profile_image_url");
   localStorage.removeItem("profile_images");
+  localStorage.removeItem("product_images");
+  localStorage.removeItem("user");
   localStorage.removeItem("user_pk");
   localStorage.removeItem("email");
   document.cookie = "refresh=; Max-Age=0; path=/;"; // 쿠키에서 refresh_token 제거

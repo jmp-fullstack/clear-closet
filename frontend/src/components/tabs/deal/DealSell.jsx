@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { article_sales_list } from "../../../api/myPage";
 
 import SellingButton from "../../Button/deal/SellingButton";
-import ReviewButton from "../../Button/deal/ReviewButton";
 import DealSellModal from "../../modal/deal/DealSellModal";
 
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 import "./DealSell.css";
+import CommentButton from "../../Button/deal/CommentButton";
 
 const DealSell = ({ onStatusToggle }) => {
   const navigate = useNavigate();
@@ -71,6 +71,17 @@ const DealSell = ({ onStatusToggle }) => {
                 <SellingButton onClick={() => handleClick(article.id)} />
                 {article.product.price} 원
               </div>
+            </div>
+          </div>
+          <div className="review-sec">
+            <div className="review">
+              <CommentButton onClick={() => handleClick(article.id)} />
+            </div>
+            <div className="add">
+              <HiOutlineDotsHorizontal
+                size={22}
+                onClick={() => handleShowSellModal(article.id)}
+              />
               {showSellModal && selectedArticleId === article.id && (
                 <DealSellModal
                   closeModal={handleCloseSellModal}
@@ -79,17 +90,6 @@ const DealSell = ({ onStatusToggle }) => {
                   onStatusChange={handleStatusChange}
                 />
               )}
-            </div>
-          </div>
-          <div className="review-sec">
-            <div className="review">
-              <ReviewButton onClick={() => handleClick(article.id)} />
-            </div>
-            <div className="add">
-              <HiOutlineDotsHorizontal
-                size={22}
-                onClick={() => handleShowSellModal(article.id)}
-              />
             </div>
           </div>
         </div>

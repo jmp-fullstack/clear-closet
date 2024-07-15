@@ -1,0 +1,19 @@
+.comment-modal {
+  /* padding: 20px; */
+  text-align: center;
+  width: 100%;
+}
+
+.comment-modal .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 2rem;
+  color: black;
+}
+
+
+.comment-modal .button {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}

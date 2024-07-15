@@ -1,6 +1,7 @@
 .Buy-modal {
   text-align: center;
   width: 100%;
+  height: 70vh;
 }
 
 .Buy-modal .topline {
@@ -12,7 +13,7 @@
   border-radius: 2px;
 }
 
-.Buy-modal .title {
+.Buy-modal .title-1 {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -20,43 +21,59 @@
   border-bottom: 0.5px solid #dadada;
 }
 
-.Buy-modal .cancel {
+.Buy-modal .reco {
   display: flex;
-  justify-content: flex-end;
-}
-
-.Buy-modal .Buy-cards {
-  display: flex;
+  justify-content: space-evenly;
   flex-wrap: wrap;
-  justify-content: space-between;
   width: 100%;
-  margin-top: 1rem;
+  height: 60vh;
+
+  padding-top: 1rem;
+  overflow-y: auto;
 }
 
-.Buy-modal .Buy-cards .card-sec {
+.Buy-modal .reco .reco-1,
+.Buy-modal .reco .reco-2 {
+  width: 44%;
+  height: 100%;
+}
+
+.Buy-modal .reco .info-1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #8f0456;
+}
+
+.Buy-modal .reco .info-2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.Buy-modal .reco .card-sec {
   display: flex;
   flex-direction: column;
-  align-items: left;
-  width: calc(50% - 4px);
-  margin-bottom: 12px;
+  align-items: start;
+  width: 100%;
+  height: 26vh;
+  margin-bottom: 10px;
+}
+
+.Buy-modal .reco .card-sec .card {
+  width: 100%;
+  height: 20vh;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.Buy-modal .reco .card-sec .name {
+  font-size: 12px;
   text-align: left;
 }
 
-.Buy-modal .Buy-cards .card {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1; /* 정사각형 이미지 */
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.Buy-modal .Buy-cards .name {
-  font-weight: 500; 
-  padding-top: 0.3rem;
-}
-
-.Buy-modal .Buy-cards .price {
-  font-weight: bold;
+.Buy-modal .reco .card-sec .price {
   font-size: 14px;
-  padding-top: 0.4rem;
+  font-weight: 700;
+  text-align: left;
 }

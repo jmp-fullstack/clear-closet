@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -16,11 +15,10 @@ function CameraSellPage() {
     if (target.files && target.files.length > 0) {
       const file = target.files[0];
       if (!file.type.startsWith("image/")) {
-        alert("Please select an image file");
+        alert("이미지 파일을 선택해주세요.");
         return;
       }
       const newUrl = URL.createObjectURL(file);
-      console.log("Generated URL: ", newUrl);
       setSource(newUrl);
       navigate("/sell", { state: { imageUrl: newUrl } });
     }
@@ -30,7 +28,7 @@ function CameraSellPage() {
     <div className="CameraSell-page">
       <Grid container>
         <Grid item xs={12}>
-          <h5>Capture your image</h5>
+          <h5>이미지 캡처하기</h5>
           {source ? (
             <Box className="imgBox">
               <img src={source} alt="snap" className="img" />

@@ -3,10 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 100%;
   max-width: 600px;
-  height: 100vh;
+  height: 96vh;
   background-color: #ffffff;
 }
 
@@ -16,7 +15,6 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-
   padding: 1.5rem;
   margin: 1rem auto 1rem;
 }
@@ -36,7 +34,6 @@
 .login-con .input-field {
   margin: 0.2rem 0;
   padding: 0.5rem;
-
   width: 320px;
   height: 30px;
   border-radius: 6px;
@@ -53,7 +50,6 @@
   background-color: #e4e4e4; /* 선의 색상 */
 }
 
-
 .login-con .find-sec {
   display: flex;
   flex-direction: column;
@@ -62,7 +58,7 @@
 
 .login-con .find-sec > .info {
   display: flex;
-  justify-content: space-between;  
+  justify-content: space-between;
 }
 
 .login-con .bar-2 {
@@ -73,10 +69,17 @@
 .login-con .info > .left, .login-con .info > .right {
   text-decoration: underline;
   font-size: 15px;
+  cursor: pointer;
 }
-
 
 .login-con .error {
   color: #cfcfcf;
   font-size: 15px;
+  /* cursor: pointer; */
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
 }

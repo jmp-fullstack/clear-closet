@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import card from "../../assets/card/card_sample.png";
@@ -7,18 +7,17 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 
 import "./User.css";
-import NameModal from "../../components/modal/my/NameModal";
 
 const User = () => {
   const navigate = useNavigate();
-  const [showNameModal, setShowNameModal] = useState(false);
+  // const [showNameModal, setShowNameModal] = useState(false);
 
-  const handleShowNameModal = () => {
-    setShowNameModal(true);
-  };
-  const handleCloseNameModal = () => {
-    setShowNameModal(false);
-  };
+  // const handleShowNameModal = () => {
+  //   setShowNameModal(true);
+  // };
+  // const handleCloseNameModal = () => {
+  //   setShowNameModal(false);
+  // };
 
   const handleProductClick = (article_pk) => {
     navigate(`/product?detail=${article_pk}`);
@@ -52,24 +51,21 @@ const User = () => {
       <div className="content-sec">
         <div className="sell-product">
           <div>판매 상품</div>
-          <div className="arrow" onClick={handleShowNameModal}>
+          <div className="arrow">
             <IoIosArrowForward size={20} />
           </div>
-          {showNameModal && <NameModal closeModal={handleCloseNameModal} />}
         </div>
         <div className="sell-product">
           <div>받은 매너 평가</div>
-          <div className="arrow" onClick={handleShowNameModal}>
+          <div className="arrow">
             <IoIosArrowForward size={20} />
           </div>
-          {showNameModal && <NameModal closeModal={handleCloseNameModal} />}
         </div>
         <div className="sell-product">
           <div>리뷰 후기</div>
-          <div className="arrow" onClick={handleShowNameModal}>
+          <div className="arrow">
             <IoIosArrowForward size={20} />
           </div>
-          {showNameModal && <NameModal closeModal={handleCloseNameModal} />}
         </div>
       </div>
     </div>

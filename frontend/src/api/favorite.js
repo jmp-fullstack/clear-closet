@@ -32,7 +32,7 @@ export async function list_favorites() {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching favorite list:", error);
+    console.error("좋아요한 목록을 가져오는 중 오류 발생:", error);
     throw error;
   }
 }

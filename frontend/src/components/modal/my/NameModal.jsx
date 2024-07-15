@@ -12,6 +12,7 @@ const NameModal = ({ closeModal, onSave, user_pk }) => {
 
   const handleSave = () => {
     onSave(username);
+    window.location.reload();
     closeModal();
   };
 

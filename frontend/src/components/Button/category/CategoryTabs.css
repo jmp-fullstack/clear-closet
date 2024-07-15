@@ -1,35 +1,43 @@
 .CategoryTabs {
-  height: 160vh;
+  width: 100%;
+  height: 100%;
   background-color: white;
+  margin-bottom: 8rem;
 }
 
 .CategoryTabs .sticky-tabs {
-  position: -webkit-sticky; /* For Safari */
   position: sticky;
   top: 0;
   background-color: white;
-  /* z-index: 1000; */
   border-bottom: 1px solid #ddd;
-
+  overflow-x: auto;
 }
 
 .CategoryTabs .category-buttons {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
+
+  width: 42.5vh;
   margin-top: 8px;
   padding-bottom: 8px;
-  width: 100%; /* 부모 컨테이너에 맞추기 */
-  border-bottom: 1px solid #e2e2e2;
+  background-color: white;
 }
+
+/* .CategoryTabs .category-buttons::-webkit-scrollbar {
+  display: none; 
+} */
 
 .CategoryTabs .filter-buttons {
   display: flex;
   align-items: center;
   margin: 8px 0;
+  width: 100%;
+
 }
 
 .CategoryTabs .line {
+  border-top: 1px solid #ebebeb;
   width: 100%;
   height: 8px;
   background-color: rgb(246, 245, 245);
@@ -45,10 +53,12 @@
 
 .CategoryTabs .category-content {
   width: 100%;
+  height: 850px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  align-items: flex-start;
+  overflow-y: auto;
+
 }
 
 .CategoryTabs .category-content .cards {
@@ -62,42 +72,69 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  width: calc(50% - 4px); /* 2개씩 나열하기 위해 너비 설정 */
+  width: calc(50% - 4px);
   margin-bottom: 12px;
 }
 
 .CategoryTabs .category-content .card {
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1; /* 정사각형 이미지 */
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
-
 }
 
 .CategoryTabs .category-content .title {
-  font-size: 18px;
-  font-weight: 400; 
-  margin-top: 8px; 
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 8px;
 }
 
 .CategoryTabs .category-content .price {
   color: rgb(0, 0, 0);
-  margin-top: 2px; 
+  margin-top: 5px;
   font-size: 14px;
   font-weight: 600;
 }
+
 .CategoryTabs .category-content .date {
   color: rgb(143, 143, 143);
-  margin-top: 2px; 
-  font-size: 12px;
+  margin-top: 2px;
+  font-size: 11px;
   font-weight: 200;
 }
-
 
 .CategoryTabs .post {
   margin: 8px 0;
   padding: 16px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.CategoryTabs .load-more-button {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 40px;
+  background-color: #8f0456;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.CategoryTabs .load-more-button.hidden {
+  display: none;
+}
+
+.CategoryTabs .load-more-button:hover {
+  background-color: #5c0036;
 }

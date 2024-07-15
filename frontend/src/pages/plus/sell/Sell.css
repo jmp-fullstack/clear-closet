@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 140vh;
-  margin-bottom: 10rem;
+  height: 92vh;
+  /* margin-bottom: 10rem; */
   background-color: #ffffff;
 }
 
@@ -12,9 +12,10 @@
   justify-content: center;
   align-items: center;
 
-  /* width: 86%; */
+  width: 100%;
+  transform: translate(-1rem, -1rem);
   background-color: #dadada;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   padding: 1rem 1rem;
 
   font-weight: 600;
@@ -29,9 +30,15 @@
   padding-left: 0.5rem;
 }
 
-/* .Sell .form-sec {
-  margin: 1rem;
-} */
+.Sell .form-sec {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 1200px;
+}
 
 .Sell .photo-text {
   font-size: 20px;
@@ -56,6 +63,7 @@
   border: 2px solid #d8d8d8;
   border-radius: 8px;
   border-style: dashed;
+  cursor: pointer;
 }
 
 .Sell .box .box-text {
@@ -94,6 +102,7 @@
   display: flex;
   align-items: center;
   color: #b9b9b9;
+  cursor: pointer;
 }
 
 .Sell .select .icon {
@@ -128,6 +137,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+
 .Sell .left {
   font-size: 20px;
   font-weight: 700;

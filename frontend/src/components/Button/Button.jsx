@@ -9,7 +9,6 @@ const Button = ({
   textcolor = "#fff",
   onClick = () => {},
 }) => {
-  //   console.log("Button onClick:", onClick); // 디버깅 추가
   return (
     <button
       className="custom-button"
@@ -26,7 +25,7 @@ const Button = ({
 
 Button.propTypes = {
   img: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.node.isRequired,
   color: PropTypes.string,
   textcolor: PropTypes.string,
   onClick: PropTypes.func,

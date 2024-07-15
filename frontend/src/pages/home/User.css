@@ -4,7 +4,7 @@
   align-items: center;
 
   width: 100%;
-  height: 100%;
+  height: 96vh;
   background-color: #ffffff;
 }
 
@@ -18,9 +18,9 @@
   padding-bottom: 0.5rem;
   border-bottom: 0.5px solid #dadada;
 }
-.User .left {
+/* .User .left {
     padding: 0 1rem; 
-}
+} */
 
 .User .right {
   position: absolute; 
@@ -43,6 +43,10 @@
   height: 60px;
   border-radius: 50px;
   margin-right: 1rem;
+}
+
+.User .userId {
+  color: #00c3ff;
 }
 
 .User .interest-sec {

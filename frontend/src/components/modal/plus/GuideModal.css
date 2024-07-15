@@ -1,6 +1,7 @@
 .guide-modal {
   /* padding: 20px; */
   text-align: center;
+  width: 100%;
 }
 
 .guide-modal .cancel {
@@ -17,14 +18,14 @@
 
 .guide-modal p {
   font-size: 16px;
-  color: #c8c8c8;
+  font-weight: 600;
+  /* text-decoration: underline; */
+  color: #e8108e;
 }
 
 .guide-modal .forms {
   display: flex;
   flex-direction: column;
-
-
   list-style-type: none;
   padding: 1.5rem;
   font-size: 14px;
@@ -41,7 +42,7 @@
   padding-right: 0.5rem;
 }
 
-.guide-modal .text {
+.guide-modal .form .text {
   font-size: 16px;
   text-align: left;
 }

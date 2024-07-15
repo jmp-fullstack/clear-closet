@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  article_create,
-  article_modify,
-  // article_detail,
-} from "../../../api/articles";
+import axios from "axios";
+import { article_create, article_modify } from "../../../api/articles";
 
 import BottomNav from "../../../components/BottomNav/BottomNav";
 import GuideModal from "../../../components/modal/plus/GuideModal";
@@ -13,10 +10,12 @@ import BrendCategoryModal from "../../../components/modal/plus/BrendCategoryModa
 import StatusCategoryModal from "../../../components/modal/plus/StatusCategoryModal";
 import Placeholder from "../../../components/placeholder/Placeholder";
 import SellOptionModal from "../../../components/modal/plus/SellOptionModal";
+import AiRecoModal from "../../../components/modal/plus/AiRecoModal";
 import ImageUpload from "../../../assets/ImageUpload";
 
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+import { BsStars } from "react-icons/bs";
 
 import "./Sell.css";
 
@@ -30,103 +29,85 @@ const Sell = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showOptionModal, setShowOptionModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
-  const [image_urls, setImage_urls] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [titleLength, setTitleLength] = useState(0);
   const [title, setTitle] = useState("");
   const [priceLength, setPriceLength] = useState(0);
   const [price, setPrice] = useState("");
   const [contentLength, setContentLength] = useState(0);
   const [content, setContent] = useState("");
-  const [articlePk, setArticlePk] = useState(null); // 게시글 ID 상태 추가
-  const [isEditMode, setIsEditMode] = useState(false); // 수정 모드 상태 추가
+  const [articlePk, setArticlePk] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [showAiRecoModal, setShowAiRecoModal] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   const imageUploadRef = useRef();
 
   useEffect(() => {
-    const fetchArticleData = async () => {
-      try {
-        const access = localStorage.getItem("access");
-        if (!access) {
-          throw new Error("액세스 토큰을 찾을 수 없습니다");
+    if (location.state && location.state.articleData) {
+      const fetchArticleData = async () => {
+        try {
+          const access = localStorage.getItem("access");
+          if (!access) {
+            throw new Error("액세스 토큰을 찾을 수 없습니다");
+          }
+
+          const articleData = location.state.articleData;
+          setArticlePk(articleData.id);
+          setImageUrls(
+            articleData.product.product_images.map((img) => img.image_url) || [
+              "",
+            ]
+          );
+          setSelectedBrendCategory(articleData.product.brand || "");
+          setSelectedStatusCategory(articleData.product.product_status || "");
+          setTitle(articleData.title || "");
+          setContent(articleData.content || "");
+          setTitleLength(articleData.title?.length || 0);
+          setContentLength(articleData.content?.length || 0);
+          setPriceLength(articleData.product.price?.toString().length || 0);
+          setPrice(articleData.product.price || "");
+          setSelectedCategory(
+            `${articleData.product.category.top_category} > ${articleData.product.category.bottom_category}` ||
+              ""
+          );
+          setSelectedOption(
+            `Color: ${articleData.product.option.color} / Size: ${articleData.product.option.size}` ||
+              ""
+          );
+          setIsEditMode(true);
+        } catch (error) {
+          console.error("Failed to fetch article data:", error);
         }
+      };
 
-        const articleData = location.state.articleData;
-        setArticlePk(articleData.id); // 게시글 ID 설정
-        setImage_urls(
-          articleData.product.product_images.map((img) => img.image_url) || [""]
-        );
-        setSelectedBrendCategory(articleData.product.brand || "");
-        setSelectedStatusCategory(articleData.product.product_status || "");
-        setTitle(articleData.title || "");
-        setContent(articleData.content || "");
-        setTitleLength(articleData.title?.length || 0);
-        setContentLength(articleData.content?.length || 0);
-        setPriceLength(articleData.product.price?.toString().length || 0);
-        setPrice(articleData.product.price || "");
-        setSelectedCategory(
-          `${articleData.product.category.top_category} > ${articleData.product.category.bottom_category}` ||
-            ""
-        );
-        setSelectedOption(
-          `Color: ${articleData.product.option.color} / Size: ${articleData.product.option.size}` ||
-            ""
-        );
-        setIsEditMode(true); // 수정 모드로 설정
-      } catch (error) {
-        console.error("Failed to fetch article data:", error);
-      }
-    };
-
-    if (location.state && location.state.article_pk) {
       fetchArticleData();
     }
   }, [location.state]);
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
+  useEffect(() => {
+    if (location.state && location.state.imageUrl) {
+      setImageUrls([location.state.imageUrl]);
+    }
+  }, [location.state]);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
-  const handleShowBrendCategoryModal = () => {
-    setShowBrendCategoryModal(true);
-  };
+  const handleShowBrendCategoryModal = () => setShowBrendCategoryModal(true);
+  const handleCloseBrendCategoryModal = () => setShowBrendCategoryModal(false);
 
-  const handleCloseBrendCategoryModal = () => {
-    setShowBrendCategoryModal(false);
-  };
-
-  const handleShowStatusCategoryModal = () => {
-    setShowStatusCategoryModal(true);
-  };
-
-  const handleCloseStatusCategoryModal = () => {
+  const handleShowStatusCategoryModal = () => setShowStatusCategoryModal(true);
+  const handleCloseStatusCategoryModal = () =>
     setShowStatusCategoryModal(false);
-  };
 
-  const handleShowCategoryModal = () => {
-    setShowCategoryModal(true);
-  };
+  const handleShowCategoryModal = () => setShowCategoryModal(true);
+  const handleCloseCategoryModal = () => setShowCategoryModal(false);
 
-  const handleCloseCategoryModal = () => {
-    setShowCategoryModal(false);
-  };
-
-  const handleShowOptionModal = () => {
-    setShowOptionModal(true);
-  };
-
-  const handleCloseOptionModal = () => {
-    setShowOptionModal(false);
-  };
-
-  const handleQuestClick = () => {
-    navigate(`/search`);
-  };
+  const handleShowOptionModal = () => setShowOptionModal(true);
+  const handleCloseOptionModal = () => setShowOptionModal(false);
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -135,9 +116,9 @@ const Sell = () => {
   };
 
   const handlePriceChange = (event) => {
-    const price = event.target.value;
-    setPrice(price);
-    setPriceLength(price.length);
+    const inputValue = event.target.value.replace(/[^0-9]/g, ""); // 숫자 이외의 문자 제거
+    setPrice(inputValue);
+    setPriceLength(inputValue.length);
   };
 
   const handleContentChange = (event) => {
@@ -154,29 +135,50 @@ const Sell = () => {
     const topCategory = categoryParts[0] || "";
     const bottomCategory = categoryParts[1] || "";
 
-    const articleData = {
-      title,
-      content,
-      product: {
-        image_urls,
-        brand: selectedBrendCategory,
-        product_status: selectedStatusCategory,
-        price,
-        category: {
-          top_category: topCategory,
-          bottom_category: bottomCategory,
-        },
-        option: {
-          size,
-          color,
-        },
-      },
-    };
-
     try {
+      // 이미지 업로드 요청
+      const formData = new FormData();
+      imageFiles.forEach((file) => formData.append("images", file));
+
+      const uploadResponse = await axios.post(
+        "/api/images/upload/product/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      );
+
+      const uploadedImageUrls = uploadResponse.data.uploaded_images.map(
+        (img) => img.image_url
+      );
+
+      const articleData = {
+        title,
+        content,
+        product: {
+          image_urls: uploadedImageUrls,
+          brand: selectedBrendCategory,
+          product_status: selectedStatusCategory,
+          price,
+          category: {
+            top_category: topCategory,
+            bottom_category: bottomCategory,
+          },
+          option: {
+            size,
+            color,
+          },
+        },
+      };
+
       const response = await article_create(articleData);
       const newArticlePk = response.id;
-      navigate(`/product?detail=${newArticlePk}`);
+      navigate(`/product?detail=${newArticlePk}`, {
+        state: { fromSellPage: true },
+      });
     } catch (error) {
       console.error("Failed to submit article:", error);
       if (error.response) {
@@ -204,7 +206,7 @@ const Sell = () => {
       title,
       content,
       product: {
-        image_urls,
+        image_urls: imageUrls,
         brand: selectedBrendCategory,
         product_status: selectedStatusCategory,
         price,
@@ -222,7 +224,9 @@ const Sell = () => {
     try {
       const access = localStorage.getItem("access");
       await article_modify(articlePk, access, modifiedData);
-      navigate(`/product?detail=${articlePk}`);
+      navigate(`/product?detail=${articlePk}`, {
+        state: { fromSellPage: true },
+      });
     } catch (error) {
       console.error("Failed to modify article:", error);
       if (error.response) {
@@ -236,12 +240,29 @@ const Sell = () => {
 
   const handleUploadSuccess = (uploadedImages) => {
     const uploadedUrls = uploadedImages.map((img) => img.image_url);
-    setImage_urls((prevUrls) => [...prevUrls, ...uploadedUrls]);
+    const files = uploadedImages.map((img) => img.file);
+    setImageUrls((prevUrls) => [...prevUrls, ...uploadedUrls]);
+    setImageFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
   const handleImageUploadClick = () => {
     imageUploadRef.current.openFileDialog();
   };
+
+  const handleShowAiRecoModal = async () => {
+    if (imageFiles.length === 0) {
+      console.error("No image file uploaded.");
+      return;
+    }
+
+    try {
+      setShowAiRecoModal(true);
+    } catch (error) {
+      console.error("Failed to show AI recommendation modal:", error);
+    }
+  };
+
+  const handleCloseAiRecoModal = () => setShowAiRecoModal(false);
 
   return (
     <div className="Sell">
@@ -255,8 +276,8 @@ const Sell = () => {
           <div className="photo-text">상품 사진</div>
           <div className="photo-box">
             <div className="box" onClick={handleImageUploadClick}>
-              {image_urls.length > 0 ? (
-                image_urls.map((url, index) => (
+              {imageUrls.length > 0 ? (
+                imageUrls.map((url, index) => (
                   <img
                     key={index}
                     src={url}
@@ -303,7 +324,7 @@ const Sell = () => {
         <div className="ai-button">
           <button
             className="apply-button"
-            onClick={handleQuestClick}
+            onClick={handleShowAiRecoModal}
             style={{
               backgroundColor: isAIButtonEnabled ? "#8f0456" : "#dadada",
               color: "#ffffff",
@@ -311,8 +332,18 @@ const Sell = () => {
             }}
             disabled={!isAIButtonEnabled}
           >
+            <BsStars />
             AI 측정하기
           </button>
+          {showAiRecoModal && (
+            <AiRecoModal
+              closeModal={handleCloseAiRecoModal}
+              brand={selectedBrendCategory}
+              productStatus={selectedStatusCategory}
+              imageFile={imageFiles[0]}
+              setPrice={setPrice} // setPrice 함수를 prop으로 전달
+            />
+          )}
         </div>
 
         <div className="info">

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { findId } from "../../../api/auth";
 import "./FindId.css";
 
-import FindButton from "../../Button/find/FindButton";
 import FindIdModal from "../../modal/find/FindIdModal";
 
 const FindId = () => {
@@ -23,12 +22,15 @@ const FindId = () => {
   };
 
   const handleFindIdClick = async () => {
+    if (!username || !phone) {
+      setError("이름과 휴대폰 번호를 입력해 주세요.");
+      return;
+    }
     try {
       const response = await findId(username, phone);
       console.log("FindId response:", response); // 응답 전체를 출력
       if (response && response.email) {
         setFoundId(response.email); // id 대신 email 사용
-        // console.log("Found ID (email):", response.email);
         handleShowFindModal();
       } else {
         console.log("ID not found");
@@ -63,8 +65,16 @@ const FindId = () => {
         <div className="line"></div>
       </form>
       {error && <div className="error-message">{error}</div>}
-      <div className="id-button">
-        <FindButton onClick={handleFindIdClick} />
+      <div
+        className="id-button"
+        onClick={handleFindIdClick}
+        style={{
+          backgroundColor: username && phone ? "#8f0456" : "#dadada",
+          color: "#ffffff",
+          cursor: username && phone ? "pointer" : "not-allowed",
+        }}
+      >
+        아이디 찾기
       </div>
       {showFindModal && (
         <FindIdModal closeModal={handleCloseFindModal} foundId={foundId} />

@@ -1,22 +1,105 @@
 .Buy {
-  background-color: black;
-
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100vb;
+  height: 79vh;
+  margin-bottom: 10rem;
+  background-color: #ffffff;
+}
+
+.Buy .title {
+  text-align: center;
+  font-weight: 500;
+  width: 100%;
+  transform: translate(-1rem);
+  padding: 0 1rem;
+  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
+  border-bottom: 1px solid #dadada;
+}
+
+.Buy .photo-text {
+  margin-top: 1rem;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.Buy.photo-box {
+  display: flex;
+  /* border-bottom: 0.5px solid #ddd;  */
+}
+
+.Buy .box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 0.8rem 0;
+  margin-right: 1rem;
+  background-color: #f7f7f7;
+  border: 2px solid #d8d8d8;
+  border-radius: 8px;
+  border-style: dashed;
+  position: relative;
+  cursor: pointer;
 }
 
 .Buy .imgBox {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
-
-  max-width: 95%;
-  max-height: 100%;
-  padding: 0.5rem;
-  padding-top: 2rem;
-
+  align-items: center;
 }
 
 .Buy .img {
-  height: inherit;
-  max-width: inherit;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.Buy .input {
+  display: none;
+}
+
+
+.Buy .brend,
+.Buy .status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 0.5px solid #ddd;
+}
+
+.Buy .select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #dadada;
+  cursor: pointer;
+}
+
+.Buy .icon {
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+
+.Buy .input {
+  display: none;
+}
+
+.Buy .message {
+  margin: 20px 0;
+  color: #888;
+}
+
+.Buy .ai-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin: 1rem 0;
 }

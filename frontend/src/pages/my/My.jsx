@@ -8,7 +8,6 @@ import BottomNav from "../../components/BottomNav/BottomNav";
 import NameModal from "../../components/modal/my/NameModal";
 import NickModal from "../../components/modal/my/NickModal";
 import InterestModal from "../../components/modal/my/InterestModal";
-import ReviewModal from "../../components/modal/my/ReviewModal";
 import OutModal from "../../components/modal/my/OutModal";
 import LogoutModal from "../../components/modal/my/LogoutModal";
 
@@ -21,12 +20,10 @@ const My = () => {
   const [showNameModal, setShowNameModal] = useState(false);
   const [showNickModal, setShowNickModal] = useState(false);
   const [showInterestModal, setShowInterestModal] = useState(false);
-  const [showReviewModal, setShowReviewModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showOutModal, setShowOutModal] = useState(false);
-  const [profileImageURL, setProfileImageURL] =
-    useState();
-    // "/default_profile.jpg"
+  const [profileImageURL, setProfileImageURL] = useState();
+  // "/default_profile.jpg"
   const { user, updateUser } = useUser(); // Context에서 사용자 정보와 업데이트 함수 가져오기
   const user_pk = localStorage.getItem("user_pk");
   const navigate = useNavigate();
@@ -50,7 +47,9 @@ const My = () => {
       }
     };
 
-    loadUserProfile();
+    if (user_pk) {
+      loadUserProfile();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user_pk]);
 
@@ -76,8 +75,8 @@ const My = () => {
   const handleSaveUserProfile = async (newName, newNickname) => {
     try {
       const updatedProfile = await update_user_profile(user_pk, {
-        username: newName || user.username,
-        nickname: newNickname || user.nickname,
+        username: newName || user?.username,
+        nickname: newNickname || user?.nickname,
       });
       updateUser({
         username: updatedProfile.username,
@@ -102,13 +101,6 @@ const My = () => {
     setShowInterestModal(false);
   };
 
-  const handleShowReviewModal = () => {
-    setShowReviewModal(true);
-  };
-  const handleCloseReviewModal = () => {
-    setShowReviewModal(false);
-  };
-
   const handleShowOutModal = () => {
     setShowOutModal(true);
   };
@@ -117,7 +109,7 @@ const My = () => {
   };
 
   const handleDealClick = () => {
-    navigate("/deal");
+    navigate("/deal?isSell=true");
   };
 
   const handleShowLogoutModal = () => {
@@ -127,6 +119,10 @@ const My = () => {
   const handleCloseLogoutModal = () => {
     setShowLogoutModal(false);
   };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="My">
@@ -144,7 +140,11 @@ const My = () => {
             onUploadSuccess={handleUploadSuccess}
           />
         </div>
-
+        <div className="interest-sec">
+          <div className="text">관심 지수</div>
+          <div className="line-1"></div>
+          <div className="line-2"></div>
+        </div>
         <div className="info-modal">
           <div className="name">
             <div>이름</div>
@@ -194,12 +194,9 @@ const My = () => {
         </div>
         <div className="review">
           <div>나의 리뷰</div>
-          <div className="arrow" onClick={handleShowReviewModal}>
+          <div className="arrow">
             <IoIosArrowForward size={20} />
           </div>
-          {showReviewModal && (
-            <ReviewModal closeModal={handleCloseReviewModal} />
-          )}
         </div>
       </div>
       <div className="out-sec">

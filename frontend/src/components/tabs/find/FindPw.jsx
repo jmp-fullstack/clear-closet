@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { findPwAuth } from "../../../api/auth";
-import "./FindPw.css";
 
-import FindPwButton from "../../Button/find/FindPwButton";
 import FindPwModal from "../../modal/find/FindPwModal";
+
+import "./FindPw.css";
 
 const FindPw = () => {
   const [username, setUsername] = useState("");
@@ -13,8 +13,12 @@ const FindPw = () => {
   const [showFindModal, setShowFindModal] = useState(false);
 
   const handleFindPwAuth = async () => {
+    if (!username || !email || !phone) {
+      setError("모든 필드를 입력해 주세요.");
+      return;
+    }
     try {
-      await findPwAuth(username, email, phone); // 응답을 변수에 저장할 필요가 없습니다
+      await findPwAuth(username, email, phone);
       setShowFindModal(true);
     } catch (error) {
       console.error("Authentication error:", error);
@@ -59,8 +63,16 @@ const FindPw = () => {
         <div className="line"></div>
       </form>
       {error && <div className="error-message">{error}</div>}
-      <div className="id-button">
-        <FindPwButton onClick={handleFindPwAuth} />
+      <div
+        className="id-button"
+        onClick={handleFindPwAuth}
+        style={{
+          backgroundColor: username && email && phone ? "#8f0456" : "#dadada",
+          color: "#ffffff",
+          cursor: username && email && phone ? "pointer" : "not-allowed",
+        }}
+      >
+        비밀번호 재설정하기
       </div>
       {showFindModal && <FindPwModal closeModal={handleCloseFindModal} />}
     </div>
