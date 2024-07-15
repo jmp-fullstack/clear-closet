@@ -9,7 +9,7 @@ device = None
 predict_price_model = None
 
 def load_yolov5_model(device):
-    yolov5_best_pt_save_path = './pt_files/yolo.pt'  # pt 파일 경로
+    yolov5_best_pt_save_path = '/clear-closet/apps/predictionapp/load_ai_models/pt_files/yolo.pt'  # pt 파일 경로
     yolov5_model = torch.hub.load('ultralytics/yolov5', 'custom', path=yolov5_best_pt_save_path)
     yolov5_model.to(device)
     yolov5_model.eval()
@@ -20,7 +20,7 @@ def load_efficientnet_model(device):
     num_classes = 35
     in_features = effnet_v2_s_model.classifier[1].in_features
     effnet_v2_s_model.classifier[1] = nn.Linear(in_features, num_classes)
-    eff_pt_name = './pt_files/trained_380_effnet.pt'  # pt 파일 경로
+    eff_pt_name = '/clear-closet/apps/predictionapp/load_ai_models/pt_files/trained_380_effnet.pt'  # pt 파일 경로
     checkpoint = torch.load(eff_pt_name, map_location=device)
     effnet_v2_s_model.load_state_dict(checkpoint['model_state_dict'])
     effnet_v2_s_model.to(device)
@@ -34,7 +34,7 @@ def initialize_models():
         yolov5_model = load_yolov5_model(device)
         effnet_v2_s_model = load_efficientnet_model(device)
 
-        xgb_save_path = './pt_files/xgb_predict_price.json' 
+        xgb_save_path = '/clear-closet/apps/predictionapp/load_ai_models/pt_files/xgb_predict_price.json' 
         predict_price_model = xgb.XGBClassifier()
         predict_price_model.load_model(xgb_save_path)
 
