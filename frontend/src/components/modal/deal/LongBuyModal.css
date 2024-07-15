@@ -1,0 +1,28 @@
+.longBuyModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.longBuyModal .longBuyModal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: white;
+  /* padding: 0 20px; */
+  padding-top: 0.6rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  /* height: 700px; */
+  position: relative;
+}

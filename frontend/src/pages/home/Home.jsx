@@ -14,7 +14,7 @@ import "./Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useUser(); // Context에서 사용자 정보 가져오기
+  const { user, loading } = useUser(); // Context에서 사용자 정보와 로딩 상태 가져오기
   const [topArticles, setTopArticles] = useState([]);
 
   useEffect(() => {
@@ -26,12 +26,15 @@ const Home = () => {
         console.error("Error fetching favorite list:", error);
       }
     };
-
     fetchTopArticles();
   }, []);
 
   const handleSearchClick = (category) => {
     navigate(`/search?category=${category}`);
+  };
+
+  const handleCardSecClick = (article_pk) => {
+    navigate(`/product?detail=${article_pk}`);
   };
 
   const handleSAlarmClick = () => {
@@ -41,59 +44,58 @@ const Home = () => {
   return (
     <div className="Home">
       <div className="header">
-        <div className="left_1">카테고리</div>
+        <div className="left_1">Category</div>
         <div className="right">
           <GoBell size={26} onClick={handleSAlarmClick} />
         </div>
       </div>
 
       <div className="category-sec">
-        <div className="item">
+        <div className="item" onClick={() => handleSearchClick("상의")}>
           <span className="icon-circle">
-            <IoShirtSharp size={28} onClick={() => handleSearchClick("상의")} />
+            <IoShirtSharp size={28} />
           </span>
           <div className="items-text">상의</div>
         </div>
-        <div className="item">
+        <div className="item" onClick={() => handleSearchClick("하의")}>
           <span className="icon-circle">
-            <PiPantsFill size={30} onClick={() => handleSearchClick("하의")} />
+            <PiPantsFill size={30} />
           </span>
           <div className="items-text">하의</div>
         </div>
-        <div className="item">
+        <div className="item" onClick={() => handleSearchClick("아우터")}>
           <span className="icon-circle">
-            <PiHoodieFill
-              size={32}
-              onClick={() => handleSearchClick("아우터")}
-            />
+            <PiHoodieFill size={32} />
           </span>
           <div className="items-text">아우터</div>
         </div>
-        <div className="item">
+        <div className="item" onClick={() => handleSearchClick("원피스")}>
           <span className="icon-circle">
-            <GiLargeDress
-              size={32}
-              onClick={() => handleSearchClick("원피스")}
-            />
+            <GiLargeDress size={32} />
           </span>
           <div className="items-text">원피스</div>
         </div>
-        <div className="item">
+        <div className="item" onClick={() => handleSearchClick("스커트")}>
           <span className="icon-circle">
-            <GiSkirt size={26} onClick={() => handleSearchClick("스커트")} />
+            <GiSkirt size={26} />
           </span>
           <div className="items-text">스커트</div>
         </div>
       </div>
 
-      <div className="welcome">
-        <BsStars />
-        &nbsp;
-        {user.username} 님 환영합니다! &nbsp;
-        <BsStars />
-      </div>
+      {loading ? (
+        <div className="loading">로딩 중...</div> // 로딩 중일 때 표시
+      ) : (
+        <div className="welcome">
+          <BsStars />
+          &nbsp;{user.username} 님 환영합니다!&nbsp;
+          <BsStars />
+        </div>
+      )}
 
-      <div className="left_2">베스트</div>
+      <div className="left_2">
+        <div className="text-1">Best</div>
+      </div>
 
       <div className="Home-cards">
         <div className="cards">
@@ -101,7 +103,7 @@ const Home = () => {
             <div
               key={article.id}
               className="card-sec"
-              onClick={() => handleSearchClick(article.id)}
+              onClick={() => handleCardSecClick(article.id)}
             >
               <img
                 src={article.product.product_images[0].image_url}

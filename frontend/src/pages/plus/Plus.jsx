@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./Plus.css";
 import BottomNav from "../../components/BottomNav/BottomNav";
 import AiSellButton from "../../components/Button/plus/AiSellButton";
 import AiBuyButton from "../../components/Button/plus/AiBuyButton";
 import logo from "../../assets/logo/logo_basic.png";
+
+import "./Plus.css";
 
 const Plus = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Plus = () => {
 
   const handleAiBuyClick = () => {
     setTimeout(() => {
-      navigate("/camera-buy");
+      navigate("/buy");
     }, 200);
   };
 

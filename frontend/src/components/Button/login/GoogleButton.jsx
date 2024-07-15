@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "./Button";
-import logo from "../../assets/logo/Google_logo.png";
+import logo from "../../../assets/logo/Google_logo.png";
+import LoginButton from "./AppButton";
 
 const GoogleButton = ({ onClick }) => {
   return (
-    <Button
+    <LoginButton
       img={logo}
       text="Google로 시작하기"
-      color="#eeeeee"
+      color="#ececec"
       textcolor="#000"
       onClick={onClick}
     />

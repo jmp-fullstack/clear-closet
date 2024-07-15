@@ -4,7 +4,7 @@
   align-items: center;
   /* padding: 1rem; */
   width: 100%;
-  height: 150vh;
+  height: 94vh;
   background-color: #ffffff;
 }
 
@@ -64,19 +64,33 @@
 }
 
 .Home .left_2 {
+  display: flex;
+  align-items: center;
   margin-bottom: 0.7rem;
   width: 100%;
+}
 
+.Home .left_2 .text-1 {
+  margin-right: 0.5rem;
   text-align: left;
   font-size: 24px;
   font-weight: 600;
 }
 
+.Home .left_2 .text-2 {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 500;
+  color: #8f0456;
+}
+
 .Home .Home-cards {
   width: 100%;
+  height: 960px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
 .Home .Home-cards .cards {
@@ -84,6 +98,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 50px;
 }
 
 .Home .Home-cards .card-sec {
@@ -109,9 +124,9 @@
 }
 
 .Home .Home-cards .nickname {
-  color: gray;
+  color: rgb(161, 161, 161);
   margin-top: 2px; 
-  font-size: 14px;
+  font-size: 12px;
 }
 
  

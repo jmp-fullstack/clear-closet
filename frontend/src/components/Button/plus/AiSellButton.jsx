@@ -1,15 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "../Button";
-
-// import "./AiSellButton.css";
+import { BsStars } from "react-icons/bs";
 
 const AiSellButton = ({ onClick }) => {
   return (
     <Button
-      text="AI 추천으로 판매할래요"
+      text={
+        <>
+          AI 추천으로 판매할래요
+          <BsStars style={{ marginLeft: "6px" }} />
+        </>
+      }
       color="#dadada"
-      textcolor="#ffffff"
+      textcolor="#000000"
       onClick={onClick}
     />
   );

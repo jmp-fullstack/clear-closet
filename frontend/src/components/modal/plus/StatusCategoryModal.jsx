@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 
 import CategoryButton from "../../Button/category/CategoryButton";
-import ShortModal from "../my/ShortModal";
+import WideModal from "../WideModal";
 
 import { IoCloseOutline } from "react-icons/io5";
 
 import "./StatusCategoryModal.css";
 
 const StatusCategoryModal = ({ closeModal, setSelectedStatusCategory }) => {
-  // 수정된 부분
   const categories = [
     "새 상품",
-    "거의 새 상품",
+    "거의 새상품",
     "사용감 있는 깨끗한 상품",
     "사용흔적이 많이 있는 상품",
     "새 상품(미개봉)",
@@ -31,7 +30,7 @@ const StatusCategoryModal = ({ closeModal, setSelectedStatusCategory }) => {
   };
 
   return (
-    <ShortModal isOpen={true}>
+    <WideModal isOpen={true}>
       <div className="statusCategory-modal">
         <div className="cancel" onClick={closeModal}>
           <IoCloseOutline size={30} />
@@ -62,7 +61,7 @@ const StatusCategoryModal = ({ closeModal, setSelectedStatusCategory }) => {
           </div>
         </div>
       </div>
-    </ShortModal>
+    </WideModal>
   );
 };
 

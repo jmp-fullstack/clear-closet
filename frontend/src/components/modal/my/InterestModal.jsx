@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { list_favorites } from "../../../api/favorite";
-import LongModal from "./LongModal";
+import WideModal from "../../modal/WideModal";
+
 import "./InterestModal.css";
 
 const InterestModal = ({ closeModal }) => {
@@ -16,7 +17,7 @@ const InterestModal = ({ closeModal }) => {
         setFavorites(data);
       } catch (err) {
         setError(err);
-        console.error("좋아요한 목록을 가져오는 중 오류 발생:", err);
+        console.error("좋아하는 목록을 가져오는 중 오류 발생:", err);
       }
     };
 
@@ -32,7 +33,7 @@ const InterestModal = ({ closeModal }) => {
   }
 
   return (
-    <LongModal isOpen={true} closeModal={closeModal}>
+    <WideModal isOpen={true} closeModal={closeModal}>
       <div className="interest-modal">
         <div className="topline"></div>
         <div className="title">나의 관심 상품</div>
@@ -41,24 +42,24 @@ const InterestModal = ({ closeModal }) => {
         <div className="interest-cards">
           {favorites.map((favorite) => {
             const article = favorite.article;
-            const product = article.product;
+            const product = article?.product;
             const imageUrl =
-              product.product_images[0]?.image_url || "기본이미지경로";
+              product?.product_images[0]?.image_url || "기본이미지경로";
             return (
               <div
                 key={favorite.id}
                 className="card-sec"
-                onClick={() => handleCardSecClick(article.id)}
+                onClick={() => handleCardSecClick(article?.id)}
               >
                 <img src={imageUrl} alt="Card" className="card" />
-                <div className="name">{article.title}</div>
-                <div className="price">{product.price} 원</div>
+                <div className="name">{article?.title}</div>
+                <div className="price">{product?.price} 원</div>
               </div>
             );
           })}
         </div>
       </div>
-    </LongModal>
+    </WideModal>
   );
 };
 

@@ -4,10 +4,8 @@
   align-items: center;
 
   width: 100%;
-  height: 100%;
+  height: 96vh;
   background-color: #ffffff;
-  margin-top: 5px;
-  /* padding: 0 1rem; */
 }
 
 .Find .header-sec {
@@ -20,7 +18,7 @@
 }
 
 .Find .left {
-  padding-left: 1rem;
+  cursor: pointer;
 }
 
 .Find .right {
@@ -32,46 +30,13 @@
   font-weight: 700;
 }
 
-
 .Find .tab-sec {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 100%; /* 전체 너비 사용 */
+  width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-.Find .marketing-sec {
-  display: flex;
-  align-items: center;
-  margin: 0.5rem 0;
-  color: #cbcbcb;
-}
-
-.Find .text {
-  padding-left: 0.3rem;
-  font-size: 13px;
-}
-
-
-.Find .content {
-  margin: 0.5rem 0;
-  font-size: 14px;
-  color: #929292;
-}
-
-.Find .Find-sec {
-  margin: 1rem;
+.Find .content-sec {
+  width: 90%;
 }

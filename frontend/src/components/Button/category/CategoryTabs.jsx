@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { article_list } from "../../../api/articles";
 
@@ -15,7 +15,43 @@ import { IoIosArrowDown } from "react-icons/io";
 import "./CategoryTabs.css";
 
 const categories = {
-  전체: ["반소매티셔츠", "숏팬츠", "코튼팬츠"],
+  전체: [
+    "니트",
+    "후드",
+    "맨투맨",
+    "셔츠블라우스",
+    "긴소매티셔츠",
+    "반소매티셔츠",
+    "민소매티셔츠",
+    "카라티셔츠",
+    "베스트",
+    "데님 팬츠",
+    "슬랙스",
+    "트레이닝조거팬츠",
+    "숏팬츠",
+    "코튼팬츠",
+    "레깅스",
+    "후드집업",
+    "바람막이",
+    "코트",
+    "롱패딩",
+    "숏패딩",
+    "패딩베스트",
+    "블루종",
+    "레더자켓",
+    "무스탕",
+    "트러커자켓",
+    "블레이저",
+    "가디건",
+    "뽀글이후리스",
+    "사파리자켓",
+    "미니원피스",
+    "미디원피스",
+    "롱원피스",
+    "미니스커트",
+    "미디스커트",
+    "롱스커트",
+  ],
   상의: [
     "니트",
     "후드",
@@ -57,6 +93,12 @@ const categories = {
 
 const filters = {
   color: [
+    { name: "기타색상", color: "#8f0456" },
+    { name: "검정", color: "black" },
+    { name: "흰색", color: "white" },
+    { name: "어두운 회색", color: "#3b3b3b" },
+    { name: "회색", color: "gray" },
+    { name: "밝은 회색", color: "#d4d4d4" },
     { name: "어두운 빨강", color: "#8b0000" },
     { name: "빨강", color: "red" },
     { name: "밝은 빨강", color: "#ffa3a3" },
@@ -90,15 +132,9 @@ const filters = {
     { name: "어두운 갈색", color: "#451b06" },
     { name: "갈색", color: "brown" },
     { name: "밝은 갈색", color: "#e49269" },
-    { name: "어두운 회색", color: "#3b3b3b" },
-    { name: "회색", color: "gray" },
-    { name: "밝은 회색", color: "#d4d4d4" },
-    { name: "검정", color: "black" },
-    { name: "흰색", color: "white" },
-    { name: "기타색상", color: "rainbow" },
   ],
   size: ["XS", "S", "M", "L", "XL", "2XL이상", "FREE", "지정안함"],
-  sort: ["최신순", "오래된순", "가격 높은순", "가격 낮은순"],
+  sort: ["date_desc", "date_asc", "price_desc", "price_asc"],
 };
 
 const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
@@ -115,43 +151,22 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
     sort: [],
   });
   const [articles, setArticles] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const loadMoreButtonRef = useRef(null);
+  const didMountRef = useRef(false); // 컴포넌트 마운트 상태 추적
 
-  useEffect(() => {
-    if (defaultCategory) {
-      setCurrentCategory(defaultCategory);
-    }
-    if (defaultSubcategory) {
-      setCurrentSubcategory(defaultSubcategory);
-    }
-  }, [defaultCategory, defaultSubcategory]);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
+  const fetchArticles = useCallback(
+    async (reset = false) => {
       try {
         const access = localStorage.getItem("access");
         if (!access) {
           throw new Error("Access token not found");
         }
-
-        const sort = activeFilters.sort[0] || "최신순";
-        const isSort =
-          sort === "가격 높은순"
-            ? "desc"
-            : sort === "가격 낮은순"
-            ? "asc"
-            : undefined;
-        const isDate = ["최신순", "오래된순"].includes(sort)
-          ? sort === "최신순"
-            ? "desc"
-            : "asc"
-          : undefined;
-
-        console.log(isSort);
-        console.log(isDate);
 
         const articleData = {
           top_category:
@@ -171,19 +186,84 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
             activeFilters.price.length === 2
               ? activeFilters.price[1]
               : undefined,
-          isSort: undefined,
-          isDate: undefined,
+          sort:
+            activeFilters.sort.length === 1 ? activeFilters.sort[0] : undefined,
         };
 
-        const data = await article_list(articleData, access);
-        setArticles(data.results);
+        const data = await article_list(articleData, access, page);
+        console.log("Fetched data:", data);
+        if (data.results.length === 0) {
+          setHasMore(false);
+        } else {
+          setArticles((prevArticles) => {
+            const newArticles = data.results.filter(
+              (newArticle) =>
+                !prevArticles.some((article) => article.id === newArticle.id)
+            );
+            return reset ? [...newArticles] : [...prevArticles, ...newArticles];
+          });
+        }
       } catch (err) {
         console.error("Error fetching article list:", err);
+        setHasMore(false);
+      }
+    },
+    [currentCategory, currentSubcategory, activeFilters, page]
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const initialCategory = params.get("category") || defaultCategory || "전체";
+    const initialSubcategory =
+      params.get("subcategory") || defaultSubcategory || "";
+    setCurrentCategory(initialCategory);
+    setCurrentSubcategory(initialSubcategory);
+  }, [location.search, defaultCategory, defaultSubcategory]);
+
+  useEffect(() => {
+    if (didMountRef.current) {
+      setPage(1);
+      setArticles([]);
+      setHasMore(true);
+      fetchArticles(true);
+    } else {
+      didMountRef.current = true;
+    }
+  }, [currentCategory, currentSubcategory, activeFilters, fetchArticles]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchArticles();
+    }
+  }, [page, fetchArticles]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadMoreButtonRef.current.style.display = "block";
+        } else {
+          loadMoreButtonRef.current.style.display = "none";
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    const loadMoreButton = loadMoreButtonRef.current;
+    if (loadMoreButton) {
+      observer.observe(loadMoreButton);
+    }
+
+    return () => {
+      if (loadMoreButton) {
+        observer.unobserve(loadMoreButton);
       }
     };
+  }, [hasMore]);
 
-    fetchArticles();
-  }, [currentCategory, currentSubcategory, activeFilters]);
+  const fetchMoreArticles = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   const updateURLParams = (params) => {
     const searchParams = new URLSearchParams(location.search);
@@ -199,13 +279,13 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
 
   const handleTabClick = (category) => {
     setCurrentCategory(category);
-    setCurrentSubcategory(""); // 메인 카테고리를 클릭할 때 하위 카테고리를 초기화
+    setCurrentSubcategory("");
     updateURLParams({ category });
   };
 
   const handleSubcategoryClick = (subcategory) => {
     setCurrentSubcategory(subcategory);
-    updateURLParams({ category: currentCategory, subcategory });
+    updateURLParams({ subcategory });
   };
 
   const openModal = (content) => {
@@ -275,30 +355,23 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
       <div className="line"></div>
 
       <div className="filter-buttons">
-        <FilterButton
-          label="색상"
-          isActive={activeFilters.color.length > 0}
-          onClick={() => openModal("color")}
-          Icon={IoIosArrowDown}
-        />
-        <FilterButton
-          label="사이즈"
-          isActive={activeFilters.size.length > 0}
-          onClick={() => openModal("size")}
-          Icon={IoIosArrowDown}
-        />
-        <FilterButton
-          label="가격대"
-          isActive={activeFilters.price.length > 0}
-          onClick={() => openModal("price")}
-          Icon={IoIosArrowDown}
-        />
-        <FilterButton
-          label="정렬 기준"
-          isActive={activeFilters.sort.length > 0}
-          onClick={() => openModal("sort")}
-          Icon={IoIosArrowDown}
-        />
+        {["color", "size", "price", "sort"].map((filterType) => (
+          <FilterButton
+            key={filterType}
+            label={
+              filterType === "color"
+                ? "색상"
+                : filterType === "size"
+                ? "사이즈"
+                : filterType === "price"
+                ? "가격대"
+                : "정렬 기준"
+            }
+            isActive={activeFilters[filterType].length > 0}
+            onClick={() => openModal(filterType)}
+            Icon={IoIosArrowDown}
+          />
+        ))}
       </div>
       <div className="category-content">
         <div className="cards">
@@ -323,10 +396,20 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
               </div>
             ))
           ) : (
-            <p>No articles found</p>
+            <p></p>
           )}
         </div>
+        {hasMore && (
+          <button
+            ref={loadMoreButtonRef}
+            onClick={fetchMoreArticles}
+            className="load-more-button"
+          >
+            더보기
+          </button>
+        )}
       </div>
+
       <ColorFilterModal
         isOpen={isModalOpen && modalContent === "color"}
         onClose={closeModal}
@@ -350,7 +433,7 @@ const CategoryTabs = ({ defaultCategory, defaultSubcategory }) => {
       <SortFilterModal
         isOpen={isModalOpen && modalContent === "sort"}
         onClose={closeModal}
-        sortes={filters.sort}
+        sortOptions={filters.sort} // prop 이름 수정
         activeFilters={activeFilters.sort}
         onApply={handleApplyFilter}
       />

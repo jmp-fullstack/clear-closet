@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-
 import WideModal from "../WideModal";
-
 import { IoCloseOutline } from "react-icons/io5";
-
 import "./SellOptionModal.css";
 
-const SellOptionModal = ({
-  closeModal,
-  setSelectedOption,
-  currentCategory,
-}) => {
+const SellOptionModal = ({ closeModal, setSelectedOption }) => {
   const filters = {
     color: [
+      { name: "기타색상", color: "#8f0456" },
+      { name: "흰색", color: "white" },
+      { name: "검정", color: "black" },
+      { name: "어두운 회색", color: "#3b3b3b" },
+      { name: "회색", color: "gray" },
+      { name: "밝은 회색", color: "#d4d4d4" },
       { name: "어두운 빨강", color: "#8b0000" },
       { name: "빨강", color: "red" },
       { name: "밝은 빨강", color: "#ffa3a3" },
@@ -46,32 +45,31 @@ const SellOptionModal = ({
       { name: "어두운 갈색", color: "#451b06" },
       { name: "갈색", color: "brown" },
       { name: "밝은 갈색", color: "#e49269" },
-      { name: "어두운 회색", color: "#3b3b3b" },
-      { name: "회색", color: "gray" },
-      { name: "밝은 회색", color: "#d4d4d4" },
-      { name: "검정", color: "black" },
-      { name: "흰색", color: "white" },
-      { name: "기타색상", color: "rainbow" },
     ],
     size: ["XS", "S", "M", "L", "XL", "2XL이상", "FREE", "지정안함"],
   };
 
   const [activeFilters, setActiveFilters] = useState({
-    color: [],
+    color: ["기타색상"],
     size: [],
   });
 
   const handleApplyFilter = (type, value) => {
-    setActiveFilters((prev) => ({
-      ...prev,
-      [type]: prev[type].includes(value)
-        ? prev[type].filter((item) => item !== value)
-        : [...prev[type], value],
-    }));
+    if (type === "size") {
+      setActiveFilters((prev) => ({
+        ...prev,
+        size: prev.size.includes(value) ? [] : [value],
+      }));
+    } else {
+      setActiveFilters((prev) => ({
+        ...prev,
+        color: prev.color.includes(value) ? [] : [value],
+      }));
+    }
   };
 
   const handleConfirmClick = () => {
-    if (activeFilters.color.length > 0 || activeFilters.size.length > 0) {
+    if (activeFilters.size.length > 0 && activeFilters.color.length > 0) {
       const selectedOptions = `색상: ${activeFilters.color.join(
         ", "
       )} / 사이즈: ${activeFilters.size.join(", ")}`;
@@ -81,7 +79,7 @@ const SellOptionModal = ({
   };
 
   const isApplyButtonEnabled =
-    activeFilters.color.length > 0 || activeFilters.size.length > 0;
+    activeFilters.color.length > 0 && activeFilters.size.length > 0;
 
   return (
     <WideModal isOpen={true}>
@@ -125,6 +123,7 @@ const SellOptionModal = ({
               backgroundColor: isApplyButtonEnabled ? "#8f0456" : "#dadada",
               color: "#ffffff",
             }}
+            disabled={!isApplyButtonEnabled} // 버튼 비활성화
           >
             확인
           </button>

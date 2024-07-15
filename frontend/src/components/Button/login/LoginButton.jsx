@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "./Button";
+import Button from "../Button";
 
 const LoginButton = ({ onClick }) => {
   //   console.log("LoginButton onClick:", onClick); // 디버깅 추가

@@ -19,7 +19,7 @@ export async function update_user_profile(user_pk, updateData) {
   try {
     const access = localStorage.getItem("access");
     const response = await axios.patch(
-      `/api/profiles/${user_pk}/`,
+      `/api/profiles/modify/${user_pk}/`,
       updateData,
       {
         headers: {

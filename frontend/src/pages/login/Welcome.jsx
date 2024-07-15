@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./Wellcome.css";
+import "./Welcome.css";
 import CheckButton from "../../components/Button/CheckButton";
 
-const Wellcome = () => {
+const Welcome = () => {
   const navigate = useNavigate();
 
   const handleSignupClick = () => {
@@ -24,4 +24,4 @@ const Wellcome = () => {
   );
 };
 
-export default Wellcome;
+export default Welcome;

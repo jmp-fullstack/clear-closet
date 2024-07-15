@@ -1,0 +1,121 @@
+.AiReco-modal {
+  text-align: center;
+  width: 100%;
+}
+
+.AiReco-modal .cancel {
+  display: flex;
+  justify-content: flex-end;
+  color: black;
+  cursor: pointer;
+}
+
+.AiReco-modal .recommened-sec .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.5px solid #dadada;
+}
+
+.AiReco-modal .recommened-sec .result .price {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.AiReco-modal .recommened-sec .result .how {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.AiReco-modal .recommened-sec .buttons {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #dadada;
+
+}
+
+.AiReco-modal .recommened-sec .buttons .button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.AiReco-modal .recommened-sec .buttons .button.enabled {
+  background-color: #8f0456;
+  color: white;
+}
+
+.AiReco-modal .AiReco-cards .show {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  /* margin-bottom: 20px; */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 8px solid #eeeeee;
+  border-bottom: 1px solid #dadada;
+}
+
+.AiReco-modal .AiReco-cards .reco {
+  width: 100%;
+  height: 39vh;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  /* border-top: 8px solid #eeeeee; */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+}
+
+.AiReco-modal .AiReco-cards .reco .reco-1,
+.AiReco-modal .AiReco-cards .reco .reco-2 {
+  width: 48%;
+}
+
+.AiReco-modal .AiReco-cards .reco .info-1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #8f0456;
+}
+
+.AiReco-modal .AiReco-cards .reco .info-2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.AiReco-modal .AiReco-cards .reco .card-sec {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: 32%;
+  margin-bottom: 10px;
+}
+
+.AiReco-modal .AiReco-cards .reco .card-sec .card {
+  width: 100%;
+  height: 18vh;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.AiReco-modal .AiReco-cards .reco .card-sec .name {
+  font-size: 12px;
+  text-align: left;
+}
+
+.AiReco-modal .AiReco-cards .reco .card-sec .price {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}

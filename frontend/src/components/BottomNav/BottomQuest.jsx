@@ -8,6 +8,7 @@ const BottomQuest = ({
   article_id,
   initialFavoriteCount,
   initialIsFavorited,
+  access,
 }) => {
   const navigate = useNavigate();
 
@@ -21,6 +22,7 @@ const BottomQuest = ({
         article_id={article_id}
         initialFavoriteCount={initialFavoriteCount}
         initialIsFavorited={initialIsFavorited}
+        access={access}
       />
       <div className="button">
         <QuestButton onClick={handleQuestClick} />

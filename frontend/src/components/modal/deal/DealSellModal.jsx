@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { article_delete, article_is_sell } from "../../../api/articles";
+import {
+  article_delete,
+  article_is_sell,
+  article_detail,
+} from "../../../api/articles";
 
 import ShortModal from "../../modal/my/ShortModal";
 import DeleteModal from "../../modal/deal/DeleteModal";
@@ -10,9 +14,34 @@ import "./DealSellModal.css";
 const DealSellModal = ({ closeModal, articleId, isSell, onStatusChange }) => {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [articleData, setArticleData] = useState(null);
+
+  useEffect(() => {
+    const fetchArticleData = async () => {
+      try {
+        const access = localStorage.getItem("access");
+        if (!access) {
+          throw new Error("액세스 토큰을 찾을 수 없습니다");
+        }
+        const data = await article_detail(articleId, access);
+        setArticleData(data);
+      } catch (error) {
+        console.error("게시글 데이터를 불러오는 중 오류 발생:", error.message);
+      }
+    };
+
+    fetchArticleData();
+  }, [articleId]);
 
   const handleEditClick = () => {
-    navigate(`/sell`, { state: { articleId } });
+    if (!articleData) {
+      console.error("게시글 데이터를 불러오지 못했습니다.");
+      return;
+    }
+    navigate(`/sell?modify=${articleId}`, {
+      state: { articleData, articleId },
+    });
+    closeModal();
   };
 
   const handleDeleteClick = async () => {
@@ -23,13 +52,9 @@ const DealSellModal = ({ closeModal, articleId, isSell, onStatusChange }) => {
       }
 
       setShowDeleteModal(true); // 삭제 모달 표시
-      // window.location.reload();
-      console.log("Access token found:", access); // 디버그 메시지 추가
-      console.log("Deleting article with ID:", articleId); // 디버그 메시지 추가
       await article_delete(articleId, access);
-      console.log("Article deleted successfully");
     } catch (error) {
-      console.error("게시글 삭제 중 오류 발생:", error);
+      console.error("게시글 삭제 중 오류 발생:", error.message);
     }
   };
 
@@ -42,16 +67,16 @@ const DealSellModal = ({ closeModal, articleId, isSell, onStatusChange }) => {
       await article_is_sell(articleId, access);
       onStatusChange(!isSell);
       navigate("/deal?isSell=true");
-      window.location.reload(); // 페이지 새로고침
+      window.location.reload();
     } catch (error) {
-      console.error("게시글 상태 변경 중 오류 발생:", error);
+      console.error("게시글 상태 변경 중 오류 발생:", error.message);
     }
   };
 
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
     navigate("/deal?isSell=true");
-    window.location.reload(); // 페이지 새로고침
+    window.location.reload();
   };
 
   return (
