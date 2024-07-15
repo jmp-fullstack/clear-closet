@@ -5,7 +5,9 @@ x-project-settings:
 
 services:
   backend:
-    image: sujeong9662/clear-closet:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     env_file: .env.back
     environment:
       PYTHONUNBUFFERED: 1
