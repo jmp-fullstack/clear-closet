@@ -12,8 +12,6 @@ def secondwear_crawling():
     engine = create_engine(f'mysql+pymysql://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}:3306/{os.getenv("DB_DATABASE")}')
     connection = engine.connect()
 
-    korean_tz = timezone(timedelta(hours=9))
-
     categories = {
         '상의' : ['니트', '후드', '맨투맨','셔츠블라우스','긴소매티셔츠','반소매티셔츠','민소매티셔츠','카라티셔츠','베스트'],
         '바지' : ['데님팬츠', '슬랙스','트레이닝조거팬츠','숏팬츠','코튼팬츠','레깅스'],
@@ -22,13 +20,6 @@ def secondwear_crawling():
         '원피스' : ['미니원피스', '미디원피스', '롱원피스', '점프수트'],
         '스커트' : ['미니스커트', '미디스커트', '롱스커트']
         }
-
-    # 날짜 필터
-    today = datetime.today()
-    today_date = today.strftime('%Y%m%d')
-
-    with open('data_crawling/secondwear_max_date.txt', 'r') as file:
-        old_last_date = file.read().strip()
 
     count = 100
 
@@ -72,6 +63,16 @@ def secondwear_crawling():
                     continue
 
                 for product_info in product_info_list :
+
+                    # 오늘 날짜만 수집
+                    timestamp = product_info['timestamp']
+                    utc_time = datetime.datetime.utcfromtimestamp(timestamp / 1000.0)
+                    korean_time = utc_time + datetime.timedelta(hours=9)
+                    timestamp_date = korean_time.date()
+                    today = datetime.date.today()
+                    if not timestamp_date == today:
+                        continue
+                    
                     p_title = product_info['title']
                     p_price = product_info['price']
                     p_connect_url = product_info['linkUrl']
@@ -90,8 +91,6 @@ def secondwear_crawling():
                     except :
                         p_size = 'FREE'
                         
-                    datetimes_kst = datetime.fromtimestamp(product_info['timestamp'] / 1000, korean_tz).date()
-
                     # 상품이미지 url
                     try:
                         p_product_url = product_info['imageUrl']
@@ -127,7 +126,7 @@ def secondwear_crawling():
                 'color' : color,
                 'size' : size,
                 'product_url' : product_url,
-                'date' : datetimes_kst,
+                'date' : timestamp_date,
                 })  
             dataframes.append(df)
 
@@ -137,18 +136,10 @@ def secondwear_crawling():
     df['connect_url'] = [f'https://www.hellomarket.com/item/{connect_url.split("/")[-1]}?viewLocation=search_result' for connect_url in df['connect_url']]
 
 
-    df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
-    old_last_date = pd.to_datetime(old_last_date, format='%Y%m%d')
-    today_date = pd.to_datetime(today_date, format='%Y%m%d')
+    today_date = pd.to_datetime(today, format='%Y%m%d')
+    df['date'] = today_date
 
-
-    df = df[(df['date'] > old_last_date) & (df['date'] <= today_date)]
     df.loc[df['top_category'] == '바지', 'top_category'] = '하의'
-
-    new_max_date = df['date'].max().strftime('%Y%m%d')
-    with open('data_crawling/secondwear_max_date.txt', 'w') as file:
-        file.write(new_max_date)
-
     df = df[['top_category', 'bottom_category', 'title', 'price', 'connect_url', 'product_url', 'type', 'status', 'brand', 'color', 'size', 'date']]
     df = df.drop_duplicates()
     

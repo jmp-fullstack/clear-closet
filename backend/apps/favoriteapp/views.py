@@ -44,6 +44,12 @@ def list_favorites(request):
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def list_top_favorited_articles(request):
-    articles = Article.objects.annotate(num_favorites=Count('favorite')).order_by('-num_favorites')
-    serializer = ArticleListSerializer(articles, many=True)
+    articles_with_favorites = Article.objects.filter(
+        favorite__isnull=False
+    ).annotate(
+        num_favorites=Count('favorite')
+    ).order_by(
+        '-num_favorites'
+    )[:10]
+    serializer = ArticleListSerializer(articles_with_favorites, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
