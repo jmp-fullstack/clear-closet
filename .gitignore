@@ -8,6 +8,8 @@ data/
 *.parquet
 *.hdf5
 *.pt
+*.png
+image/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

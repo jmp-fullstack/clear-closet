@@ -10,7 +10,7 @@ services:
     environment:
       PYTHONUNBUFFERED: 1
     volumes:
-      - ./pt_files:/apps/preditionapp/load_ai_modes/pt_files
+      - ./pt_files:clear-closet/apps/preditionapp/load_ai_modes/pt_files
     depends_on:
       - db
 
