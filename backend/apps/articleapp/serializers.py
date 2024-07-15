@@ -37,7 +37,10 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
         model = Article
         fields = '__all__'
         read_only_fields = ['user','product', 'update_at', 'create_at', 'id', 'is_sell']
-
+    
+    def get_nickname(self, obj):
+        return obj.user.nickname
+    
     def update(self, instance, validated_data):
         product_data = validated_data.pop('product', None)
 
